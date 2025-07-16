@@ -1,0 +1,8 @@
+   body {
+            background-image: url("../images/banner/background_vd.mp4");
+            background-size: cover;          /* Phủ toàn bộ màn hình */
+            background-position: center;     /* Canh giữa ảnh */
+            background-repeat: no-repeat;    /* Không lặp lại */
+            background-attachment: fixed;    /* Cố định ảnh khi cuộn */
+            min-height: 100vh;               /* Đảm bảo chiếm đủ chiều cao */
+        }
