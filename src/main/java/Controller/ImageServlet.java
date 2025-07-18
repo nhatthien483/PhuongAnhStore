@@ -16,7 +16,7 @@ import java.io.OutputStream;
 
 @WebServlet("/Images/*")
 public class ImageServlet extends HttpServlet {
-    private final String BASE_DIR = "D:/Document/PhuongAnhStore/Images"; // đường dẫn thư mục ảnh ngoài
+private final String BASE_DIR = "/var/www/phuonganhstore/Images";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
