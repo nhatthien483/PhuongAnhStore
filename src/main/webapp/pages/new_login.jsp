@@ -69,7 +69,7 @@
 							Mật Khẩu
 						</span>
 
-						<a href="#" class="txt2 bo1 m-l-5">
+						<a href="${pageContext.request.contextPath}/pages/forgot_password.jsp" class="txt2 bo1 m-l-5">
 							Quên mật khẩu?
 						</a>
 					</div>

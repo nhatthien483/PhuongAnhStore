@@ -14,6 +14,8 @@ public class DBContext {
     private Connection conn;
 
     private static final String DB_URL = "jdbc:sqlserver://localhost:1433;databaseName=PhuongAnhStore;encrypt=true;trustServerCertificate=true;";
+    // private static final String DB_USER = "sa";
+    // private static final String DB_PWD = "1234";
     private static final String DB_USER = "SA";
     private static final String DB_PWD = "0968104830pP";
     public DBContext() {

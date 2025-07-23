@@ -1,0 +1,5 @@
+purgecss `
+>>   --css "src/main/webapp/assets/css/style.css" `
+>>   --content "src/main/webapp/assets/components/header.jsp" `
+>>            "src/main/webapp/assets/components/footer.jsp" `
+>>   --output "purged-css"

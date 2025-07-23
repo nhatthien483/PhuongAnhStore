@@ -15,7 +15,7 @@
     
     /* Admin specific variables */
     --admin-sidebar-width: 280px;
-    --admin-sidebar-mini-width: 70px;
+    --admin-sidebar-mini-width: 0px;
     --admin-header-height: 70px;
     --admin-footer-height: 60px;
     --admin-transition: all 0.3s ease-in-out;

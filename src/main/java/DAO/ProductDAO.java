@@ -5,16 +5,19 @@ import Model.Category;
 import Model.CategoryType;
 import Model.Product;
 
+import java.io.File;
 import java.sql.*;
+import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ProductDAO extends DBContext {
-    public static void main(String[] args) {
-        ProductDAO dao = new ProductDAO();
-        int productCount = dao.countAll();
-        System.out.println("Total products: " + productCount);
-    }
+    // public static void main(String[] args) {
+    // ProductDAO dao = new ProductDAO();
+    // int productCount = dao.countAll();
+    // System.out.println("Total products: " + productCount);
+    // }
 
     public int countAll() {
         String sql = "SELECT COUNT(*) FROM product";
@@ -35,7 +38,8 @@ public class ProductDAO extends DBContext {
                 "FROM product p\r\n" + //
                 "LEFT JOIN Category c ON p.category_id = c.category_id\r\n" + //
                 "LEFT JOIN CategoryType ct ON p.category_type_id = ct.category_type_id\r\n" + //
-                "ORDER BY p.product_id\r\n" + //
+                "ORDER BY p.product_id DESC\r\n" + //
+                "\r\n" + //
                 "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY\r\n";
         Connection conn = this.getConnection();
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -66,11 +70,12 @@ public class ProductDAO extends DBContext {
                     category.setCategoryId(rs.getInt("category_id"));
                     category.setCategoryName(rs.getString("category_name"));
                     p.setCategory(category);
-
+                    String categoryName = rs.getString("category_name");
                     // Gán danh mục nhỏ
                     CategoryType categoryType = new CategoryType();
                     categoryType.setCategoryTypeId(rs.getInt("category_type_id"));
                     categoryType.setCategoryTypeName(rs.getString("category_type_name"));
+                    category.setCategoryName(categoryName != null ? categoryName : "N/A");
                     p.setCategoryType(categoryType);
 
                     list.add(p);
@@ -91,9 +96,8 @@ public class ProductDAO extends DBContext {
                 "JOIN Category c ON p.category_id = c.category_id " +
                 "JOIN CategoryType ct ON p.category_type_id = ct.category_type_id " +
                 "ORDER BY NEWID()"; // SQL Server: random rows
-
-        try (Connection con = this.getConnection();
-                PreparedStatement ps = con.prepareStatement(query)) {
+        Connection con = this.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(query)) {
 
             ps.setInt(1, limit);
             ResultSet rs = ps.executeQuery();
@@ -181,7 +185,7 @@ public class ProductDAO extends DBContext {
     }
 
     public Product getProductById(int id) throws SQLException {
-        String query = "SELECT p.*, c.category_type AS category_name, ct.category_type_name " +
+        String query = "SELECT p.*, c.category_name, ct.category_type_name " +
                 "FROM Product p " +
                 "JOIN Category c ON p.category_id = c.category_id " +
                 "JOIN CategoryType ct ON p.category_type_id = ct.category_type_id " +
@@ -225,18 +229,22 @@ public class ProductDAO extends DBContext {
         return null;
     }
 
-    // Các hàm thêm/sửa/xóa dưới đây bạn sẽ cần cập nhật đầy đủ cột, hiện giữ nguyên
-    // để ngắn gọn.
-
     public void updateProduct(Product product) throws SQLException {
-        String query = "UPDATE Product SET product_name = ?, product_price = ?, product_description = ? WHERE product_id = ?";
+        String query = "UPDATE Product SET product_name = ?, product_price = ?, product_stock = ?, product_description = ?, product_brand = ?, product_status = ?, category_id = ?, category_type_id = ?, product_img = ? WHERE product_id = ?";
         Connection con = this.getConnection();
         try (PreparedStatement ps = con.prepareStatement(query)) {
 
             ps.setString(1, product.getName());
             ps.setBigDecimal(2, product.getPrice());
-            ps.setString(3, product.getDescription());
-            ps.setInt(4, product.getProductId());
+            ps.setInt(3, product.getStock());
+            ps.setString(4, product.getDescription());
+            ps.setString(5, product.getBrand());
+            ps.setBoolean(6, product.isStatus());
+            ps.setInt(7, product.getCategory().getCategoryId());
+            ps.setInt(8, product.getCategoryType().getCategoryTypeId());
+            ps.setString(9, product.getImage());
+            ps.setInt(10, product.getProductId());
+
             ps.executeUpdate();
         }
     }
@@ -287,31 +295,59 @@ public class ProductDAO extends DBContext {
     }
 
     public void deleteProduct(int id) throws SQLException {
-        String query = "DELETE FROM Product WHERE product_id = ?";
+        String selectQuery = "SELECT p.product_img, c.category_name, ct.category_type_name\r\n" + //
+                "                    FROM Product p\r\n" + //
+                "                    JOIN Category c ON p.category_id = c.category_id\r\n" + //
+                "                    JOIN CategoryType ct ON p.category_type_id = ct.category_type_id\r\n" + //
+                "                    WHERE p.product_id = ?";
+
+        String deleteQuery = "DELETE FROM Product WHERE product_id = ?";
         Connection con = this.getConnection();
-        try (PreparedStatement ps = con.prepareStatement(query)) {
+
+        String imageFilePath = null;
+
+        try (PreparedStatement ps = con.prepareStatement(selectQuery)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String image = rs.getString("product_img");
+                    String category = rs.getString("category_name");
+                    String categoryType = rs.getString("category_type_name");
+
+                    if (image != null && category != null && categoryType != null) {
+                        String categoryFolder = category.replace(" ", "-");
+                        String categoryTypeFolder = categoryType.replace(" ", "-");
+                        imageFilePath = categoryFolder + "/" + categoryTypeFolder + "/" + image;
+                    }
+                }
+            }
+        }
+
+        try (PreparedStatement ps = con.prepareStatement(deleteQuery)) {
             ps.setInt(1, id);
             ps.executeUpdate();
         }
-    }
 
-    public List<Product> searchProducts(String keyword) throws SQLException {
-        List<Product> list = new ArrayList<>();
-        String query = "SELECT * FROM Product WHERE product_name LIKE ?";
-        Connection con = this.getConnection();
-        try (PreparedStatement ps = con.prepareStatement(query)) {
-
-            ps.setString(1, "%" + keyword + "%");
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                Product p = new Product();
-                p.setProductId(rs.getInt("product_id"));
-                p.setName(rs.getString("product_name"));
-                list.add(p);
+        // Xóa ảnh sau khi xóa product
+        if (imageFilePath != null) {
+            File file = new File("D:/Document/PhuongAnhStore/Images", imageFilePath);
+            if (file.exists()) {
+                boolean deleted = file.delete();
+                if (!deleted) {
+                    System.out.println("Không thể xóa ảnh: " + file.getAbsolutePath());
+                } else {
+                    System.out.println("Đã xóa ảnh: " + file.getAbsolutePath());
+                }
+            } else {
+                System.out.println("Ảnh không tồn tại: " + file.getAbsolutePath());
             }
         }
-        return list;
+    }
+
+    public static String removeDiacritics(String input) {
+        String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
+        return normalized.replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+                .toLowerCase(); // không phân biệt hoa thường
     }
 
     public List<Product> getProductsByCategoryId(int categoryId) throws SQLException {
@@ -350,6 +386,38 @@ public class ProductDAO extends DBContext {
             }
         }
         return list;
+    }
+
+    public static List<String> processSearchKeywords(String keyword) {
+        String normalized = Normalizer.normalize(keyword, Normalizer.Form.NFD)
+                .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+                .toLowerCase();
+
+        String[] words = normalized.split("\\s+");
+        return Arrays.asList(words);
+    }
+
+    public List<Product> searchProductByKeywords(String keyword) throws SQLException {
+        List<Product> allProducts = getAllProducts(); // hoặc cache nếu nhiều
+        List<String> keywords = processSearchKeywords(keyword);
+        List<Product> result = new ArrayList<>();
+
+        for (Product p : allProducts) {
+            String nameNormalized = removeDiacritics(p.getName());
+
+            boolean match = true;
+            for (String k : keywords) {
+                if (!nameNormalized.contains(k)) {
+                    match = false;
+                    break;
+                }
+            }
+
+            if (match)
+                result.add(p);
+        }
+
+        return result;
     }
 
     public List<Product> getProductsByName(String name) throws SQLException {

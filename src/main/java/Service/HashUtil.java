@@ -5,6 +5,9 @@ import java.security.NoSuchAlgorithmException;
 
 public class HashUtil {
     public static String toMD5(String input) {
+        if (input == null) {
+            throw new IllegalArgumentException("Input for MD5 hashing must not be null.");
+        }
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
 

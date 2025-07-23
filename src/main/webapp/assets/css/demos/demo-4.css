@@ -509,15 +509,15 @@ body, html {
     background-color: #666666;
     background-size: cover;
     font-size: 2rem;
-    margin-left: 70px;
+    margin-left: 10px;
     padding-top: 4.9rem;
     padding-bottom: 4.9rem
 }
 
 .cta-border .cta-img {
     position: absolute;
-    left: -70px;
-    top: -5px
+    left: -10%;
+    top: -2%;
 }
 
 .cta-border .cta-text {
@@ -575,7 +575,7 @@ body, html {
 }
 
 .cta .btn:not(.btn-block) {
-    min-width: 178px
+    min-width: 138px
 }
 
 .icon-boxes-container {

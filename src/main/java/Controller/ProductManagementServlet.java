@@ -24,7 +24,8 @@ import java.util.*;
 public class ProductManagementServlet extends HttpServlet {
 
     private final ProductDAO productDAO = new ProductDAO();
-    private final String IMAGE_BASE_PATH = "D:/Document/PhuongAnhStore/Images";
+    //private final String IMAGE_BASE_PATH = "D:/Document/PhuongAnhStore/Images";
+    private final String IMAGE_BASE_PATH = "/var/www/phuonganhstore/Images";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -43,11 +44,39 @@ public class ProductManagementServlet extends HttpServlet {
                 success = true;
             } else if ("add".equals(action)) {
                 request.getRequestDispatcher("/WEB-INF/views/admin/add_product.jsp").forward(request, response);
+
+            } else if ("search".equals(action)) {
+                String keyword = request.getParameter("keyword");
+                List<Product> productList = productDAO.searchProductByKeywords(keyword);
+                request.setAttribute("products", productList);
+                request.setAttribute("keyword", keyword);
+                request.getRequestDispatcher("/WEB-INF/views/admin/new_product_list.jsp").forward(request, response);
             } else {
-                List<Product> list = productDAO.getAllProducts();
-                request.setAttribute("products", list);
-                request.getRequestDispatcher("/WEB-INF/views/admin/product_list.jsp").forward(request, response);
+                ProductDAO productDAO = new ProductDAO();
+                int totalProducts = productDAO.countAll(); // Tổng số sản phẩm
+                int productsPerPage = 60;
+                int totalPages = (int) Math.ceil((double) totalProducts / productsPerPage);
+
+                int productCount = productDAO.countAll();
+                int currentPage = 1;
+                String pageParam = request.getParameter("page");
+                if (pageParam != null && pageParam.matches("\\d+")) {
+                    currentPage = Integer.parseInt(pageParam);
+                }
+                // Truyền dữ liệu cho JSP
+                request.setAttribute("totalPages", totalPages);
+                request.setAttribute("currentPage", currentPage);
+                // Gọi DAO để lấy danh sách tất cả sản phẩm
+                List<Product> productList = productDAO.getProductsByPage(currentPage, 60);
+                // Đưa danh sách sản phẩm lên request
+                request.setAttribute("productCount", productCount);
+                request.setAttribute("products", productList);
+                request.setAttribute("currentPage", currentPage);
+                request.setAttribute("totalPages", totalPages);
+                // Chuyển hướng đến trang hiển thị sản phẩm
+                request.getRequestDispatcher("/WEB-INF/views/admin/new_product_list.jsp").forward(request, response);
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
             response.sendError(500);
@@ -114,7 +143,7 @@ public class ProductManagementServlet extends HttpServlet {
                         }
 
                         // Lưu tên ảnh (relative path) vào danh sách
-                        //String relativePath = subFolder + "/" + originalFileName;
+                        // String relativePath = subFolder + "/" + originalFileName;
                         imageNames.add(originalFileName);
                     }
                 }
@@ -131,6 +160,71 @@ public class ProductManagementServlet extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace();
                 response.sendError(500, "Lỗi khi xử lý sản phẩm: " + e.getMessage());
+            }
+        } else if ("edit".equals(action)) {
+            try {
+                int productId = Integer.parseInt(request.getParameter("id"));
+                Product existingProduct = productDAO.getProductById(productId);
+                existingProduct.setName(request.getParameter("name"));
+                existingProduct.setPrice(new BigDecimal(request.getParameter("price")));
+                existingProduct.setDescription(request.getParameter("description"));
+                existingProduct.setBrand(request.getParameter("brand"));
+                existingProduct.setStock(Integer.parseInt(request.getParameter("stock")));
+                existingProduct.setStatus(Boolean.parseBoolean(request.getParameter("status")));
+
+                // Lấy lại category
+                String categoryName = request.getParameter("categoryName");
+                String categoryTypeName = request.getParameter("categoryTypeName");
+
+                int categoryTypeId = existingProduct.getCategoryType().getCategoryTypeId();
+                int categoryId = existingProduct.getCategory().getCategoryId();
+                Category category = new Category();
+                category.setCategoryId(categoryId);
+                category.setCategoryName(categoryName);
+                existingProduct.setCategory(category);
+
+                CategoryType categoryType = new CategoryType();
+                categoryType.setCategoryTypeId(categoryTypeId);
+                categoryType.setCategoryTypeName(categoryTypeName);
+                existingProduct.setCategoryType(categoryType);
+
+                // Xử lý ảnh nếu có ảnh mới
+                Collection<Part> parts = request.getParts();
+                List<String> imageNames = new ArrayList<>();
+
+                for (Part part : parts) {
+                    if (part.getName().startsWith("image") && part.getSize() > 0) {
+                        String originalFileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+
+                        // Thư mục con theo category
+                        String subFolder = categoryName.toLowerCase() + "/" + categoryTypeName.toLowerCase();
+
+                        File saveDir = new File(IMAGE_BASE_PATH, subFolder);
+                        if (!saveDir.exists()) {
+                            saveDir.mkdirs();
+                        }
+
+                        File outputFile = new File(saveDir, originalFileName);
+                        try (InputStream input = part.getInputStream();
+                                FileOutputStream fos = new FileOutputStream(outputFile)) {
+                            input.transferTo(fos);
+                        }
+
+                        imageNames.add(originalFileName);
+                    }
+                }
+
+                // Nếu có ảnh mới thì cập nhật
+                if (!imageNames.isEmpty()) {
+                    existingProduct.setImage(String.join(",", imageNames));
+                }
+
+                productDAO.updateProduct(existingProduct);
+                response.sendRedirect(request.getContextPath() + "/admin/productManagement");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.sendError(500, "Lỗi khi cập nhật sản phẩm: " + e.getMessage());
             }
         }
     }

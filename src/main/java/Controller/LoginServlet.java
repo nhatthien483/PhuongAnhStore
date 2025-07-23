@@ -6,7 +6,6 @@ package Controller;
 
 import java.io.IOException;
 import java.util.UUID;
-
 import DAO.UserDAO;
 import Model.User;
 import Service.HashUtil;
@@ -59,6 +58,8 @@ public class LoginServlet extends HttpServlet {
 
     private void handleLogin(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
+        jakarta.servlet.http.HttpSession session = request.getSession();
+        session.setMaxInactiveInterval(60 * 60);
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         UserDAO userDAO = new UserDAO();
@@ -66,7 +67,7 @@ public class LoginServlet extends HttpServlet {
 
         if (user != null) {
             request.getSession().setAttribute("user", user);
-            request.getSession().setAttribute("role", user.getRoleId());
+            session.setAttribute("role", user.getRoleId());
             response.sendRedirect("home");
         } else {
             request.setAttribute("error", "Sai tài khoản hoặc mật khẩu!");
@@ -109,7 +110,7 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute("error", "Đã có lỗi xảy ra trong quá trình đăng ký.");
         }
         request.getRequestDispatcher("/pages/new_register.jsp").forward(request, response);
-;
+        ;
     }
 
     private void handleForgotPassword(HttpServletRequest request, HttpServletResponse response)
