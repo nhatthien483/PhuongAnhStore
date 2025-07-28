@@ -255,9 +255,11 @@
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.js"></script>
+
 <script>
-    const contextPath = window.location.origin + '${pageContext.request.contextPath}';
+    const contextPath = window.location.origin + "<c:out value='${pageContext.request.contextPath}'/>";
 </script>
+
 
 <script>
     let cropper;
