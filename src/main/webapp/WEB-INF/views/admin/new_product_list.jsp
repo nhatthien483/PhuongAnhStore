@@ -16,6 +16,24 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
         <style>
         <style>
+        #notification-container {
+                position: relative;
+                width: 100%;
+                text-align: center;
+                z-index: 1000;
+            }
+
+            .notification-box {
+                display: inline-block;
+                margin-top: 0;
+                background-color: #4CAF50;
+                color: white;
+                padding: 12px 24px;
+                font-size: 16px;
+                border-radius: 6px;
+                margin-top: 10px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            }
             .custom-page {
                 background-color: #000 !important;
                 color: #fff !important;
