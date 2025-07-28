@@ -257,7 +257,7 @@
 <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.js"></script>
 
 <script>
-    const contextPath = window.location.origin + "<%= request.getContextPath() %>";
+    const contextPath = "<%= request.getContextPath() %>";
 </script>
 
 <script>
