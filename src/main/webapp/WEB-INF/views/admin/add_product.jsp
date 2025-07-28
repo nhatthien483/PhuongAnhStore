@@ -260,8 +260,6 @@
     const contextPath = "https://" + window.location.host + "<%= request.getContextPath() %>";
 </script>
 
-
-
 <script>
     let cropper;
     let croppedImages = []; // Lưu { blob, filename }
@@ -340,6 +338,8 @@
         croppedImages.forEach((item, i) => {
             formData.append("image" + i, item.blob, item.filename);
         });
+        
+        console.log("Fetch to:", contextPath + "/admin/productManagement");
 
         fetch(contextPath + "/admin/productManagement", {
             method: "POST",
