@@ -101,6 +101,8 @@ public class ProductManagementServlet extends HttpServlet {
                 product.setPrice(new BigDecimal(request.getParameter("price")));
                 product.setDescription(request.getParameter("description"));
                 product.setBrand(request.getParameter("brand"));
+                product.setType(request.getParameter("type"));
+                product.setNote(request.getParameter("note"));
                 product.setStock(Integer.parseInt(request.getParameter("stock")));
                 product.setStatus(Boolean.parseBoolean(request.getParameter("status")));
 
@@ -173,6 +175,7 @@ public class ProductManagementServlet extends HttpServlet {
                 existingProduct.setBrand(request.getParameter("brand"));
                 existingProduct.setStock(Integer.parseInt(request.getParameter("stock")));
                 existingProduct.setStatus(Boolean.parseBoolean(request.getParameter("status")));
+
 
                 // Lấy lại category
                 String categoryName = request.getParameter("categoryName");

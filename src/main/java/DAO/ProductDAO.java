@@ -275,8 +275,8 @@ public class ProductDAO extends DBContext {
 
     public void addProduct(Product product) throws SQLException {
         String query = "INSERT INTO Product (product_name, product_price, product_description, product_img, " +
-                "product_brand, product_stock, product_status, category_id, category_type_id) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "product_brand, product_stock, product_status, category_id, category_type_id, product_type, product_note) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         Connection con = this.getConnection();
         try (PreparedStatement ps = con.prepareStatement(query)) {
 
@@ -289,7 +289,8 @@ public class ProductDAO extends DBContext {
             ps.setBoolean(7, product.isStatus());
             ps.setInt(8, product.getCategory().getCategoryId());
             ps.setInt(9, product.getCategoryType().getCategoryTypeId());
-
+            ps.setString(10, product.getType());
+            ps.setString(11, product.getNote());
             ps.executeUpdate();
         }
     }

@@ -215,9 +215,19 @@
                             </div>
                         </div>
 
+                         <div class="mb-3">
+                            <label class="form-label">Loại Sản Phẩm</label>
+                            <textarea name="type" class="form-control" rows="1"></textarea>
+                        </div>
+
                         <div class="mb-3">
                             <label class="form-label">Mô tả</label>
                             <textarea name="description" class="form-control" rows="3"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Ghi chú</label>
+                            <textarea name="note" class="form-control" rows="1"></textarea>
                         </div>
 
                         <!-- Ảnh sản phẩm -->
@@ -257,6 +267,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.js"></script>
 
+    <!-- IN VPS -->
     <script>
         let cropper;
         let croppedImages = []; // Lưu { blob, filename }
@@ -357,5 +368,5 @@
                         referrerPolicy: "unsafe-url";
                     });
         });
-    </script>
+    </script> 
 </html>
