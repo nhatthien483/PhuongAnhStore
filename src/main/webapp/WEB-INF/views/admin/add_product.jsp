@@ -259,7 +259,7 @@
     const contextPath = window.location.origin + '${pageContext.request.contextPath}';
 </script>
 
-<script><script>
+<script>
     let cropper;
     let croppedImages = []; // Lưu { blob, filename }
 
