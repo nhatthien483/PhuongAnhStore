@@ -41,17 +41,17 @@
 
                         <div class="mb-3">
                             <label class="form-label">Tên sản phẩm</label>
-                            <input type="text" name="name" class="form-control" placeholder="${product.name}">
+                            <input type="text" name="name" class="form-control" value="${product.name}">
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Giá</label>
-                                <input type="number" name="price" class="form-control" placeholder="${product.price}">
+                                <input type="number" name="price" class="form-control" value="${product.price}">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Thương hiệu</label>
-                                <input list="brands" name="brand" id="brand" class="form-select" placeholder="${product.brand}">
+                                <input list="brands" name="brand" id="brand" class="form-select" value="${product.brand}">
                                 <datalist id="brands">
                                 <option value="Kingkong">
                                 <option value="Gor">
@@ -208,30 +208,30 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Kho</label>
-                                <input type="number" name="stock" class="form-control" placeholder="${product.stock}">
+                                <input type="number" name="stock" class="form-control" value="${product.stock}">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Trạng thái</label>
                                 <select name="status" class="form-select">
-                                    <option value="true" ${product.status ? 'selected' : ''}>Hiển thị</option>
-                                    <option value="false" ${!product.status ? 'selected' : ''}>Ẩn</option>
+                                    <option value="true" <c:if test="${product.status}">selected</c:if>>Hiển thị</option>
+                                    <option value="false" <c:if test="${!product.status}">selected</c:if>>Ẩn</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Loại</label>
-                            <textarea name="type" class="form-control" rows="1" placeholder="${product.type}"></textarea>
+                            <textarea name="type" class="form-control" rows="1" value="${product.type}"></textarea>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Mô tả</label>
-                            <textarea name="description" class="form-control" rows="3" placeholder="${product.description}"></textarea>
+                            <textarea name="description" class="form-control" rows="3" value="${product.description}"></textarea>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Ghi chú</label>
-                            <textarea name="note" class="form-control" rows="1" placeholder="${product.note}"></textarea>
+                            <textarea name="note" class="form-control" rows="1" value="${product.note}"></textarea>
                         </div>
 
                         <!-- Ảnh sản phẩm mới -->
