@@ -8,6 +8,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
         <style>
             #imagePreview img {
                 width: 60px;
@@ -353,6 +354,7 @@
                     .catch(err => {
                         console.error("Fetch error:", err);
                         alert("Đã xảy ra lỗi kết nối.");
+                        referrerPolicy: "unsafe-url";
                     });
         });
     </script>
