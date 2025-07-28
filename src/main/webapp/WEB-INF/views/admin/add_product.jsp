@@ -341,13 +341,13 @@
 
         console.log("Fetch to:", contextPath + "/admin/productManagement");
 
-        fetch(contextPath + "/admin/productManagement", {
+        fetch("https://www.phuonganhstore.vn/PhuongAnhStore/admin/productManagement", {
             method: "POST",
             body: formData
         })
         .then(res => {
             if (res.ok) {
-                window.location.href = contextPath + "/admin/productManagement";
+                window.location.href = "https://www.phuonganhstore.vn/PhuongAnhStore/admin/productManagement";
             } else {
                 return res.text().then(text => alert("Lỗi: " + text));
             }
