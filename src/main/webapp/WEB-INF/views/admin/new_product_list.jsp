@@ -179,10 +179,18 @@
                     <div class="alert alert-success">${message}</div>
                 </c:if>
 
+                <div id="notification-container"></div>
+
                 <div class="container mt-3">
                     <div class="row justify-content-center">
                         <div class="col-auto">
-                            <div class="alert alert-success" role="alert" id="notification-container"></div>
+                            <c:if test="${not empty sessionScope.notification}">
+                                <div class="alert alert-success" role="alert">
+                                    ${sessionScope.notification}
+                                </div>
+                                <!-- Xoá message sau khi hiển thị -->
+                                <c:remove var="notification" scope="session"/>
+                            </c:if>
                         </div>
                     </div>
                 </div>

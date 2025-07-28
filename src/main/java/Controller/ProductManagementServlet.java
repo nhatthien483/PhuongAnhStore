@@ -65,12 +65,8 @@ public class ProductManagementServlet extends HttpServlet {
 
                 // Sau khi xóa ảnh → xóa dữ liệu trong DB
                 productDAO.deleteProduct(id);
-                // Gửi thông báo thành công
-                request.getSession().setAttribute("notification", "Cập nhật sản phẩm thành công!");
-
-                // Chuyển hướng (redirect) về trang JSP
-                response.sendRedirect("productManagement.jsp"); // Hoặc URL tùy bạn
-
+                HttpSession session = request.getSession();
+                session.setAttribute("notification", "Xóa sản phẩm thành công!");
                 success = true;
             } else if ("add".equals(action)) {
                 request.getRequestDispatcher("/WEB-INF/views/admin/add_product.jsp").forward(request, response);
