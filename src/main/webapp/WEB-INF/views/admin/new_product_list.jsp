@@ -154,11 +154,11 @@
                         <input type="text" name="keyword" value="${param.keyword}" placeholder="Tìm kiếm sản phẩm..."
                                style="flex:1; padding:12px; border:1px solid #ccc; border-radius:8px;">
                         <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Tìm Kiếm</button>
-                        <a href="${pageContext.request.contextPath}/admin/part" class="btn btn-secondary"><i class="fas fa-sync"></i> Reset</a>
+                        <a href="${pageContext.request.contextPath}/admin/productManagement" class="btn btn-secondary"><i class="fas fa-sync"></i> Reset</a>
                     </div>
                 </form>
                 <c:if test="${not empty message}">
-                    <div class="alert alert-warning">${message}</div>
+                    <div class="alert alert-success">${message}</div>
                 </c:if>
                 <!-- MAIN TABLE -->
                 <div class="card">

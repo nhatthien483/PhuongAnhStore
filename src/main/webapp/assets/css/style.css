@@ -56,15 +56,9 @@ body {
 }
 
 .cta-img {
-    position: absolute;
-    left: -40px;
-    /* lộ ra ngoài bên trái */
-    top: 50%;
-    transform: translateX(-60%);
     transform: translateY(-20%);
-    height: 50%;
-    width: 50%;
-
+    max-height: 321px;
+    max-width: 412px;
     object-fit: contain;
     z-index: 2;
     /* Để ảnh nổi bật hơn, có thể thêm border nếu muốn */

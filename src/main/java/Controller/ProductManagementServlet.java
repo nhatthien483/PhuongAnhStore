@@ -24,9 +24,9 @@ import java.util.*;
 public class ProductManagementServlet extends HttpServlet {
 
     private final ProductDAO productDAO = new ProductDAO();
-    
+
     //private final String IMAGE_BASE_PATH = "D:/Document/PhuongAnhStore/Images";
-    
+
     private final String IMAGE_BASE_PATH = "/var/www/phuonganhstore/Images";
 
     @Override
@@ -42,6 +42,28 @@ public class ProductManagementServlet extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/views/admin/edit_product.jsp").forward(request, response);
             } else if ("delete".equals(action)) {
                 int id = Integer.parseInt(request.getParameter("id"));
+
+                // Lấy sản phẩm để biết đường dẫn ảnh
+                Product product = productDAO.getProductById(id);
+                if (product != null) {
+                    // Xử lý xóa ảnh
+                    String imageString = product.getImage(); // ví dụ: "img1.jpg,img2.jpg"
+                    String categoryName = product.getCategory().getCategoryName();
+                    String categoryTypeName = product.getCategoryType().getCategoryTypeName();
+
+                    if (imageString != null && !imageString.isEmpty()) {
+                        String[] imageNames = imageString.split(",");
+                        for (String imageName : imageNames) {
+                            String subFolder = categoryName + "/" + categoryTypeName;
+                            File imageFile = new File(IMAGE_BASE_PATH + "/" + subFolder, imageName);
+                            if (imageFile.exists()) {
+                                imageFile.delete(); // ❌ Không cần bắt lỗi ở đây
+                            }
+                        }
+                    }
+                }
+
+                // Sau khi xóa ảnh → xóa dữ liệu trong DB
                 productDAO.deleteProduct(id);
                 success = true;
             } else if ("add".equals(action)) {
@@ -131,7 +153,7 @@ public class ProductManagementServlet extends HttpServlet {
                         String originalFileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
 
                         // Đường dẫn thư mục con: categoryName/categoryTypeName
-                        String subFolder = categoryName+ "/" + categoryTypeName;
+                        String subFolder = categoryName + "/" + categoryTypeName;
 
                         // Tạo thư mục nếu chưa có
                         File saveDir = new File(IMAGE_BASE_PATH, subFolder);
@@ -157,9 +179,9 @@ public class ProductManagementServlet extends HttpServlet {
 
                 // Lưu sản phẩm
                 productDAO.addProduct(product);
-
+                request.setAttribute("message", "Thêm sản phẩm thành công!");
                 // Chuyển hướng
-                response.sendRedirect(request.getContextPath() + "/admin/productManagement");
+                request.getRequestDispatcher("/WEB-INF/views/admin/add_product.jsp").forward(request, response);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -177,7 +199,6 @@ public class ProductManagementServlet extends HttpServlet {
                 existingProduct.setStatus(Boolean.parseBoolean(request.getParameter("status")));
                 existingProduct.setType(request.getParameter("type"));
                 existingProduct.setNote(request.getParameter("note"));
-
 
                 // Lấy lại category
                 String categoryName = request.getParameter("categoryName");
@@ -205,7 +226,7 @@ public class ProductManagementServlet extends HttpServlet {
                         String originalFileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
 
                         // Thư mục con theo category
-                        String subFolder = categoryName+ "/" + categoryTypeName;
+                        String subFolder = categoryName + "/" + categoryTypeName;
 
                         File saveDir = new File(IMAGE_BASE_PATH, subFolder);
                         if (!saveDir.exists()) {
@@ -228,7 +249,8 @@ public class ProductManagementServlet extends HttpServlet {
                 }
 
                 productDAO.updateProduct(existingProduct);
-                response.sendRedirect(request.getContextPath() + "/admin/productManagement");
+                request.setAttribute("message", "Cập nhật sản phẩm thành công!");
+                request.getRequestDispatcher("/WEB-INF/views/admin/edit_product.jsp").forward(request, response);
 
             } catch (Exception e) {
                 e.printStackTrace();

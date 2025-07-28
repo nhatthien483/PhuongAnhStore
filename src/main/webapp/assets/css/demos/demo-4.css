@@ -516,8 +516,8 @@ body, html {
 
 .cta-border .cta-img {
     position: absolute;
-    left: -10%;
-    top: -2%;
+    left: -6%;
+    top: 18px;
 }
 
 .cta-border .cta-text {

@@ -10,7 +10,7 @@
                         <div class="col-sm-10 col-md-8 col-lg-6">
                             <div class="cta-heading text-center">
                                 <h3 class="cta-title text-white">Lấy Phiếu Giảm Giá 5%</h3><!-- End .cta-title -->
-							<p class="cta-desc text-white">Và Cơ Hội Nhận Một Ô Tô<span class="font-weight-normal"> Ford Focus </span>Khi Đăng Ký Tài Khoản Tại Website</p><!-- End .cta-desc -->
+							<p class="cta-desc text-white"></span>Khi Đăng Ký Tài Khoản Tại Website</p><!-- End .cta-desc -->
                             </div><!-- End .text-center -->
                         
                             <form action="#">
