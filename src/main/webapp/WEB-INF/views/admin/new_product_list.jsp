@@ -160,6 +160,7 @@
                 <c:if test="${not empty message}">
                     <div class="alert alert-success">${message}</div>
                 </c:if>
+                <div id="notification-container"></div>
                 <!-- MAIN TABLE -->
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
@@ -270,4 +271,24 @@
             }
         };
     </script>
+    <script>
+    function showNotification(message) {
+        const container = document.getElementById("notification-container");
+        const box = document.createElement("div");
+        box.className = "notification-box";
+        box.textContent = message;
+        container.appendChild(box);
+
+        setTimeout(() => {
+            box.remove();
+        }, 3000);
+    }
+
+    // Cách 1: Lấy từ localStorage
+    const localMsg = localStorage.getItem("notification");
+    if (localMsg) {
+        showNotification(localMsg);
+        localStorage.removeItem("notification");
+    }
+</script>
 </html>

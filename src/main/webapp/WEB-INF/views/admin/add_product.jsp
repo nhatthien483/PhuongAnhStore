@@ -361,6 +361,7 @@
                 body: formData
             }).then(res => {
                 if (res.ok) {
+                    localStorage.setItem("notification", "Thêm sản phẩm thành công!");
                     window.location.href = "https://www.phuonganhstore.vn/PhuongAnhStore/admin/productManagement";
                 } else {
                     return res.text().then(text => alert("Lỗi: " + text));
