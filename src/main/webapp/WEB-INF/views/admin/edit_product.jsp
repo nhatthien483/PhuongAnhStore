@@ -41,17 +41,17 @@
 
                         <div class="mb-3">
                             <label class="form-label">Tên sản phẩm</label>
-                            <input type="text" name="name" class="form-control" value="${product.name}">
+                            <input type="text" name="name" class="form-control" placeholder="${product.name}">
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Giá</label>
-                                <input type="number" name="price" class="form-control" value="${product.price}">
+                                <input type="number" name="price" class="form-control" placeholder="${product.price}">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Thương hiệu</label>
-                                <input list="brands" name="brand" id="brand" class="form-select" value="${product.brand}">
+                                <input list="brands" name="brand" id="brand" class="form-select" placeholder="${product.brand}">
                                 <datalist id="brands">
                                 <option value="Kingkong">
                                 <option value="Gor">
@@ -208,30 +208,20 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Kho</label>
-                                <input type="number" name="stock" class="form-control" value="${product.stock}">
+                                <input type="number" name="stock" class="form-control" placeholder="${product.stock}">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Trạng thái</label>
                                 <select name="status" class="form-select">
-                                    <option value="true" <c:if test="${product.status}">selected</c:if>>Hiển thị</option>
-                                    <option value="false" <c:if test="${!product.status}">selected</c:if>>Ẩn</option>
+                                    <option value="true" ${product.status ? 'selected' : ''}>Hiển thị</option>
+                                    <option value="false" ${!product.status ? 'selected' : ''}>Ẩn</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Loại</label>
-                            <textarea name="type" class="form-control" rows="1" value="${product.type}"></textarea>
-                        </div>
-
-                        <div class="mb-3">
                             <label class="form-label">Mô tả</label>
-                            <textarea name="description" class="form-control" rows="3" value="${product.description}"></textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Ghi chú</label>
-                            <textarea name="note" class="form-control" rows="1" value="${product.note}"></textarea>
+                            <textarea name="description" class="form-control" rows="3" placeholder="${product.description}"></textarea>
                         </div>
 
                         <!-- Ảnh sản phẩm mới -->
@@ -273,106 +263,93 @@
     <!-- Scripts -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.js"></script>
+        <script>
+        const contextPath = '${pageContext.request.contextPath}';
+        </script> 
 
         <script>
-        let cropper;
-        let croppedImages = []; // Lưu { blob, filename }
+            let cropper;
+            let croppedImages = []; // Lưu { blob, filename }
 
-        const imageInput = document.getElementById("imageInput");
-        const cropImage = document.getElementById("cropImage");
-        const cropModalEl = document.getElementById("cropModal");
-        const cropModal = new bootstrap.Modal(cropModalEl);
-        const imagePreview = document.getElementById("imagePreview");
+            const imageInput = document.getElementById("imageInput");
+            const cropImage = document.getElementById("cropImage");
+            const cropModal = new bootstrap.Modal(document.getElementById("cropModal"));
+            const imagePreview = document.getElementById("imagePreview");
 
-        imageInput.addEventListener("change", function (event) {
-            const file = event.target.files[0];
-            if (!file)
-                return;
+            imageInput.addEventListener("change", function (event) {
+                const file = event.target.files[0];
+                if (!file)
+                    return;
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    cropImage.src = e.target.result;
+                    cropModal.show();
 
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                cropImage.src = e.target.result;
-                cropModal.show();
-
-                cropModalEl.addEventListener('shown.bs.modal', () => {
-                    if (cropper)
-                        cropper.destroy();
-                    cropper = new Cropper(cropImage, {
-                        aspectRatio: 1,
-                        viewMode: 1,
-                        autoCropArea: 1
+                    cropModal._element.addEventListener('shown.bs.modal', () => {
+                        if (cropper)
+                            cropper.destroy();
+                        cropper = new Cropper(cropImage, {
+                            aspectRatio: 1,
+                            viewMode: 1,
+                            autoCropArea: 1
+                        });
                     });
-                }, {once: true}); // Chỉ gọi một lần sau mỗi show
 
-                cropImage.dataset.filename = file.name;
-            };
-            reader.readAsDataURL(file);
-        });
-
-        document.getElementById("cropAndSave").addEventListener("click", function () {
-            if (!cropper)
-                return;
-
-            const canvas = cropper.getCroppedCanvas({
-                width: 1200,
-                height: 1200
+                    // Lưu tên file gốc
+                    cropImage.dataset.filename = file.name;
+                };
+                reader.readAsDataURL(file);
             });
 
-            canvas.toBlob(blob => {
-                const filename = cropImage.dataset.filename || ("image" + Date.now() + ".png");
+            document.getElementById("cropAndSave").addEventListener("click", function () {
+                if (!cropper)
+                    return;
 
-                // Lưu vào mảng
-                croppedImages.push({
-                    blob: blob,
-                    filename: filename
+                const canvas = cropper.getCroppedCanvas({
+                    width: 1200,
+                    height: 1200
                 });
 
-                // Xem trước ảnh nhỏ
-                const url = URL.createObjectURL(blob);
-                const img = document.createElement("img");
-                img.src = url;
-                imagePreview.appendChild(img);
+                canvas.toBlob(blob => {
+                    const filename = cropImage.dataset.filename || ("image" + Date.now() + ".png");
 
-                // ✅ Xóa focus khỏi nút bên trong modal trước khi ẩn modal
-                document.activeElement.blur();
-
-                // ✅ Đóng modal an toàn
-                cropModal.hide();
-            });
-        });
-
-        document.getElementById("productForm").addEventListener("submit", function (e) {
-            e.preventDefault();
-
-            if (croppedImages.length === 0) {
-                alert("Vui lòng thêm ít nhất một ảnh sản phẩm.");
-                return;
-            }
-
-            const form = e.target;
-            const formData = new FormData(form);
-
-            croppedImages.forEach((item, i) => {
-                formData.append("image" + i, item.blob, item.filename);
-            });
-
-
-            fetch("https://www.phuonganhstore.vn/PhuongAnhStore/admin/productManagement", {
-                method: "POST",
-                body: formData
-            })
-                    .then(res => {
-                        if (res.ok) {
-                            window.location.href = "https://www.phuonganhstore.vn/PhuongAnhStore/admin/productManagement";
-                        } else {
-                            return res.text().then(text => alert("Lỗi: " + text));
-                        }
-                    })
-                    .catch(err => {
-                        console.error("Fetch error:", err);
-                        alert("Đã xảy ra lỗi kết nối.");
-                        referrerPolicy: "unsafe-url";
+                    // Lưu vào mảng
+                    croppedImages.push({
+                        blob: blob,
+                        filename: filename
                     });
-        });
-    </script> 
+
+                    // Xem trước ảnh nhỏ
+                    const url = URL.createObjectURL(blob);
+                    const img = document.createElement("img");
+                    img.src = url;
+                    imagePreview.appendChild(img);
+
+                    cropModal.hide();
+                });
+            });
+
+            document.getElementById("productForm").addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                const form = e.target;
+                const formData = new FormData(form);
+
+                croppedImages.forEach((item, i) => {
+                    // Gửi đúng blob và tên gốc
+                    formData.append("image" + i, item.blob, item.filename);
+                });
+
+                fetch("https://www.phuonganhstore.vn/PhuongAnhStore/admin/productManagement", {
+                    method: "POST",
+                    body: formData
+                }).then(res => {
+                    if (res.ok) {
+                        window.location.href = "https://www.phuonganhstore.vn/PhuongAnhStore/admin/productManagement";
+                    } else {
+                        res.text().then(text => alert("Lỗi: " + text));
+                    }
+                });
+            });
+        </script>
 </html>
