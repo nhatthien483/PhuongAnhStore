@@ -25,7 +25,7 @@ public class ProductManagementServlet extends HttpServlet {
 
     private final ProductDAO productDAO = new ProductDAO();
 
-    //private final String IMAGE_BASE_PATH = "D:/Document/PhuongAnhStore/Images";
+    // private final String IMAGE_BASE_PATH = "D:/Document/PhuongAnhStore/Images";
 
     private final String IMAGE_BASE_PATH = "/var/www/phuonganhstore/Images";
 
@@ -65,6 +65,8 @@ public class ProductManagementServlet extends HttpServlet {
 
                 // Sau khi xóa ảnh → xóa dữ liệu trong DB
                 productDAO.deleteProduct(id);
+                HttpSession session = request.getSession();
+                session.setAttribute("notification", "Xóa sản phẩm thành công!");
                 success = true;
             } else if ("add".equals(action)) {
                 request.getRequestDispatcher("/WEB-INF/views/admin/add_product.jsp").forward(request, response);

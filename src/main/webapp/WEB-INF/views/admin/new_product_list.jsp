@@ -179,6 +179,22 @@
                     <div class="alert alert-success">${message}</div>
                 </c:if>
                 <div id="notification-container"></div>
+                <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+                <div class="container mt-3">
+                    <div class="row justify-content-center">
+                        <div class="col-auto">
+                            <c:if test="${not empty sessionScope.notification}">
+                                <div class="alert alert-success" role="alert">
+                                    ${sessionScope.notification}
+                                </div>
+                                <!-- Xoá message sau khi hiển thị -->
+                                <c:remove var="notification" scope="session"/>
+                            </c:if>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- MAIN TABLE -->
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
