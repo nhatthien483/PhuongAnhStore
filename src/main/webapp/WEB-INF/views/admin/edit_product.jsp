@@ -360,7 +360,7 @@
                     } else {
                         res.text().then(text => alert("Lỗi: " + text));
                     }
-                });
+                })
                 .catch(err => {
                     console.error("Fetch error:", err);
                     alert("Đã xảy ra lỗi kết nối.");
