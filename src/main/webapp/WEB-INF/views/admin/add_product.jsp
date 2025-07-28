@@ -215,7 +215,7 @@
                             </div>
                         </div>
 
-                         <div class="mb-3">
+                        <div class="mb-3">
                             <label class="form-label">Loại Sản Phẩm</label>
                             <textarea name="type" class="form-control" rows="1"></textarea>
                         </div>

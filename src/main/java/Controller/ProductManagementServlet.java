@@ -175,6 +175,8 @@ public class ProductManagementServlet extends HttpServlet {
                 existingProduct.setBrand(request.getParameter("brand"));
                 existingProduct.setStock(Integer.parseInt(request.getParameter("stock")));
                 existingProduct.setStatus(Boolean.parseBoolean(request.getParameter("status")));
+                existingProduct.setType(request.getParameter("type"));
+                existingProduct.setNote(request.getParameter("note"));
 
 
                 // Lấy lại category
@@ -183,6 +185,7 @@ public class ProductManagementServlet extends HttpServlet {
 
                 int categoryTypeId = existingProduct.getCategoryType().getCategoryTypeId();
                 int categoryId = existingProduct.getCategory().getCategoryId();
+
                 Category category = new Category();
                 category.setCategoryId(categoryId);
                 category.setCategoryName(categoryName);
@@ -202,7 +205,7 @@ public class ProductManagementServlet extends HttpServlet {
                         String originalFileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
 
                         // Thư mục con theo category
-                        String subFolder = categoryName.toLowerCase() + "/" + categoryTypeName.toLowerCase();
+                        String subFolder = categoryName+ "/" + categoryTypeName;
 
                         File saveDir = new File(IMAGE_BASE_PATH, subFolder);
                         if (!saveDir.exists()) {

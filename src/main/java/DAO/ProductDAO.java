@@ -230,7 +230,7 @@ public class ProductDAO extends DBContext {
     }
 
     public void updateProduct(Product product) throws SQLException {
-        String query = "UPDATE Product SET product_name = ?, product_price = ?, product_stock = ?, product_description = ?, product_brand = ?, product_status = ?, category_id = ?, category_type_id = ?, product_img = ? WHERE product_id = ?";
+        String query = "UPDATE Product SET product_name = ?, product_price = ?, product_stock = ?, product_description = ?, product_brand = ?, product_status = ?, category_id = ?, category_type_id = ?, product_img = ?, product_note = ?, product_type = ? WHERE product_id = ?";
         Connection con = this.getConnection();
         try (PreparedStatement ps = con.prepareStatement(query)) {
 
@@ -243,7 +243,9 @@ public class ProductDAO extends DBContext {
             ps.setInt(7, product.getCategory().getCategoryId());
             ps.setInt(8, product.getCategoryType().getCategoryTypeId());
             ps.setString(9, product.getImage());
-            ps.setInt(10, product.getProductId());
+            ps.setString(10, product.getNote());
+            ps.setString(11, product.getType());
+            ps.setInt(12, product.getProductId());
 
             ps.executeUpdate();
         }
@@ -275,7 +277,8 @@ public class ProductDAO extends DBContext {
 
     public void addProduct(Product product) throws SQLException {
         String query = "INSERT INTO Product (product_name, product_price, product_description, product_img, " +
-                "product_brand, product_stock, product_status, category_id, category_type_id, product_type, product_note) " +
+                "product_brand, product_stock, product_status, category_id, category_type_id, product_type, product_note) "
+                +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         Connection con = this.getConnection();
         try (PreparedStatement ps = con.prepareStatement(query)) {
