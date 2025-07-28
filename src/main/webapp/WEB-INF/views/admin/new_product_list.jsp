@@ -178,19 +178,11 @@
                 <c:if test="${not empty message}">
                     <div class="alert alert-success">${message}</div>
                 </c:if>
-                <div id="notification-container"></div>
-                <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
                 <div class="container mt-3">
                     <div class="row justify-content-center">
                         <div class="col-auto">
-                            <c:if test="${not empty sessionScope.notification}">
-                                <div class="alert alert-success" role="alert">
-                                    ${sessionScope.notification}
-                                </div>
-                                <!-- Xoá message sau khi hiển thị -->
-                                <c:remove var="notification" scope="session"/>
-                            </c:if>
+                            <div class="alert alert-success" role="alert" id="notification-container"></div>
                         </div>
                     </div>
                 </div>
@@ -306,23 +298,23 @@
         };
     </script>
     <script>
-    function showNotification(message) {
-        const container = document.getElementById("notification-container");
-        const box = document.createElement("div");
-        box.className = "notification-box";
-        box.textContent = message;
-        container.appendChild(box);
+        function showNotification(message) {
+            const container = document.getElementById("notification-container");
+            const box = document.createElement("div");
+            box.className = "notification-box";
+            box.textContent = message;
+            container.appendChild(box);
 
-        setTimeout(() => {
-            box.remove();
-        }, 3000);
-    }
+            setTimeout(() => {
+                box.remove();
+            }, 3000);
+        }
 
-    // Cách 1: Lấy từ localStorage
-    const localMsg = localStorage.getItem("notification");
-    if (localMsg) {
-        showNotification(localMsg);
-        localStorage.removeItem("notification");
-    }
-</script>
+        // Cách 1: Lấy từ localStorage
+        const localMsg = localStorage.getItem("notification");
+        if (localMsg) {
+            showNotification(localMsg);
+            localStorage.removeItem("notification");
+        }
+    </script>
 </html>
