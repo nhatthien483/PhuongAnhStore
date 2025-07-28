@@ -24,6 +24,7 @@ import java.util.*;
 public class ProductManagementServlet extends HttpServlet {
 
     private final ProductDAO productDAO = new ProductDAO();
+    
     //private final String IMAGE_BASE_PATH = "D:/Document/PhuongAnhStore/Images";
     
     private final String IMAGE_BASE_PATH = "/var/www/phuonganhstore/Images";
@@ -128,7 +129,7 @@ public class ProductManagementServlet extends HttpServlet {
                         String originalFileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
 
                         // Đường dẫn thư mục con: categoryName/categoryTypeName
-                        String subFolder = categoryName.toLowerCase() + "/" + categoryTypeName.toLowerCase();
+                        String subFolder = categoryName+ "/" + categoryTypeName;
 
                         // Tạo thư mục nếu chưa có
                         File saveDir = new File(IMAGE_BASE_PATH, subFolder);
