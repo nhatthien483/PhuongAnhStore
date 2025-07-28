@@ -257,7 +257,7 @@
 <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.js"></script>
 
 <script>
-    const contextPath = "https://" + window.location.host + "<%= request.getContextPath() %>";
+    const contextPath = window.location.origin + "<%= request.getContextPath() %>";
 </script>
 
 <script>
@@ -338,7 +338,7 @@
         croppedImages.forEach((item, i) => {
             formData.append("image" + i, item.blob, item.filename);
         });
-        
+
         console.log("Fetch to:", contextPath + "/admin/productManagement");
 
         fetch(contextPath + "/admin/productManagement", {
