@@ -35,7 +35,6 @@
         <div class="card-body">
             <form id="productForm">
                 <input type="hidden" name="action" value="create">
-
                 <div class="mb-3">
                     <label class="form-label">Tên sản phẩm</label>
                     <input type="text" name="name" class="form-control" required>
@@ -252,17 +251,22 @@
                         </div>
                     </div>
                 </div>
-
+</body>
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.js"></script>
 <script>
+    const contextPath = window.location.origin + '${pageContext.request.contextPath}';
+</script>
+
+<script><script>
     let cropper;
     let croppedImages = []; // Lưu { blob, filename }
 
     const imageInput = document.getElementById("imageInput");
     const cropImage = document.getElementById("cropImage");
-    const cropModal = new bootstrap.Modal(document.getElementById("cropModal"));
+    const cropModalEl = document.getElementById("cropModal");
+    const cropModal = new bootstrap.Modal(cropModalEl);
     const imagePreview = document.getElementById("imagePreview");
 
     imageInput.addEventListener("change", function (event) {
@@ -274,16 +278,15 @@
             cropImage.src = e.target.result;
             cropModal.show();
 
-            cropModal._element.addEventListener('shown.bs.modal', () => {
+            cropModalEl.addEventListener('shown.bs.modal', () => {
                 if (cropper) cropper.destroy();
                 cropper = new Cropper(cropImage, {
                     aspectRatio: 1,
                     viewMode: 1,
                     autoCropArea: 1
                 });
-            });
+            }, { once: true }); // Chỉ gọi một lần sau mỗi show
 
-            // Lưu tên file gốc
             cropImage.dataset.filename = file.name;
         };
         reader.readAsDataURL(file);
@@ -312,6 +315,10 @@
             img.src = url;
             imagePreview.appendChild(img);
 
+            // ✅ Xóa focus khỏi nút bên trong modal trước khi ẩn modal
+            document.activeElement.blur();
+
+            // ✅ Đóng modal an toàn
             cropModal.hide();
         });
     });
@@ -328,22 +335,24 @@
         const formData = new FormData(form);
 
         croppedImages.forEach((item, i) => {
-            // Gửi đúng blob và tên gốc
             formData.append("image" + i, item.blob, item.filename);
         });
 
-        fetch("${pageContext.request.contextPath}/admin/productManagement", {
+        fetch(contextPath + "/admin/productManagement", {
             method: "POST",
             body: formData
-        }).then(res => {
+        })
+        .then(res => {
             if (res.ok) {
-                window.location.href = "${pageContext.request.contextPath}/admin/productManagement";
+                window.location.href = contextPath + "/admin/productManagement";
             } else {
-                res.text().then(text => alert("Lỗi: " + text));
+                return res.text().then(text => alert("Lỗi: " + text));
             }
+        })
+        .catch(err => {
+            console.error("Fetch error:", err);
+            alert("Đã xảy ra lỗi kết nối.");
         });
     });
 </script>
-
-</body>
 </html>

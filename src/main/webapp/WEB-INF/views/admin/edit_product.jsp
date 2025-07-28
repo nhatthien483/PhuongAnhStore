@@ -259,10 +259,13 @@
                 </div>
             </div>
         </div>
-
-        <!-- Scripts -->
+    </body>
+    <!-- Scripts -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.js"></script>
+        <script>
+        const contextPath = '${pageContext.request.contextPath}';
+        </script>
         <script>
             let cropper;
             let croppedImages = []; // Lưu { blob, filename }
@@ -342,7 +345,7 @@
                     formData.append("image" + i, item.blob, item.filename);
                 });
 
-                fetch("${pageContext.request.contextPath}/admin/productManagement", {
+                fetch(contextPath + "/admin/productManagement", {
                     method: "POST",
                     body: formData
                 }).then(res => {
@@ -354,6 +357,4 @@
                 });
             });
         </script>
-
-    </body>
 </html>
