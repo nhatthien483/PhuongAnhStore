@@ -287,6 +287,21 @@ public class UserDAO extends DBContext {
         return user;
     }
 
+    public int countAll() {
+        String sql = "SELECT COUNT(*) AS total FROM [User]";
+        int count = 0;
+        Connection con = this.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                count = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
     // Thêm hàm reset password, check email nếu cần
     public void resetPassword(int userId, String newPassword) throws SQLException {
         String query = "UPDATE [User] SET user_password = ? WHERE user_id = ?";

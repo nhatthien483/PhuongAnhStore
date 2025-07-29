@@ -5,6 +5,10 @@
 package Controller;
 
 import java.io.IOException;
+
+import DAO.ProductDAO;
+import DAO.UserDAO;
+import Model.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -31,6 +35,14 @@ public class DashBoardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        ProductDAO productDAO = new ProductDAO();
+        UserDAO userDAO = new UserDAO();
+
+        int userCount = userDAO.countAll();
+        int productCount = productDAO.countAll();
+        
+        request.setAttribute("userCount", userCount);
+        request.setAttribute("productCount", productCount);
         request.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(request, response);
     }
 

@@ -14,11 +14,29 @@
 
         <style>
             #imagePreview img {
-                width: 60px;
-                height: 60px;
+                width: 100px;
+                height: 100px;
                 object-fit: cover;
                 margin-right: 5px;
                 border-radius: 5px;
+            }
+            #imagePreview {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .image-wrapper {
+                position: relative;
+                width: 100px;
+                height: 100px;
+            }
+
+            .preview-img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 5px;
+                border: 1px solid #ccc;
             }
         </style>
     </head>
@@ -227,26 +245,39 @@
 
                             <div class="mb-3">
                                 <label class="form-label">Loại Sản Phẩm</label>
-                                <textarea name="type" class="form-control" rows="3" value="${product.type}"></textarea>
+                                <input name="type" class="form-control" rows="1" value="${product.type}">
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Mô tả</label>
-                                <textarea name="description" class="form-control" rows="3" value="${product.description}"></textarea>
+                                <input name="description" class="form-control" rows="3" value="${product.description}">
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Ghi Chú</label>
-                                <textarea name="note" class="form-control" rows="3" value="${product.note}"></textarea>
+                                <input name="note" class="form-control" rows="1" value="${product.note}">
                             </div>
 
                             <!-- Ảnh sản phẩm mới -->
                             <div class="mb-3">
                                 <label class="form-label">Cập nhật ảnh mới (nếu có)</label>
                                 <input type="file" id="imageInput" accept="image/*" class="form-control">
-                                <div id="imagePreview" class="mt-3 d-flex flex-wrap"></div>
-                            </div>
+                                <div id="imagePreview" class="mt-3 d-flex flex-wrap">
+                                    <c:if test="${not empty product.image}">
+                                        <c:forEach var="imgName" items="${fn:split(product.image, ',')}">
+                                            <div class="image-wrapper position-relative me-2 mb-2">
+                                                <input type="hidden" name="oldSubFolder" value="${product.category.categoryName}/${product.categoryType.categoryTypeName}">
+                                                <img src="${pageContext.request.contextPath}/Images/${product.category.categoryName}/${product.categoryType.categoryTypeName}/${fn:trim(imgName)}"
+                                                     alt="Ảnh cũ"
+                                                     class="img-thumbnail preview-img" />
+                                                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 delete-old-image"
+                                                        data-img="${fn:trim(imgName)}" style="background-color: rgba(255, 255, 255, 0.63);"></button>
+                                            </div>
+                                        </c:forEach>
 
+                                    </c:if>
+                                </div>
+                            </div>
                             <div class="d-flex justify-content-between">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-save me-1"></i> Cập nhật sản phẩm
@@ -280,9 +311,11 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.js"></script>
+
     <script>
-            const contextPath = '${pageContext.request.contextPath}';
-    </script> 
+        const contextPath = '${pageContext.request.contextPath}';
+    </script>
+
 
     <script>
         let cropper;
@@ -316,6 +349,16 @@
                 cropImage.dataset.filename = file.name;
             };
             reader.readAsDataURL(file);
+        });
+
+        const deletedOldImages = new Set();
+
+        document.querySelectorAll(".delete-old-image").forEach(btn => {
+            btn.addEventListener("click", function () {
+                const imgName = this.dataset.img;
+                deletedOldImages.add(imgName);
+                this.parentElement.remove();
+            });
         });
 
         document.getElementById("cropAndSave").addEventListener("click", function () {
@@ -352,17 +395,21 @@
             const form = e.target;
             const formData = new FormData(form);
 
+            if (deletedOldImages.size > 0) {
+                formData.append("deletedImages", Array.from(deletedOldImages).join(","));
+            }
+
             croppedImages.forEach((item, i) => {
                 formData.append("image" + i, item.blob, item.filename);
             });
 
-            fetch("https://www.phuonganhstore.vn/PhuongAnhStore/admin/productManagement", {
+            fetch(contextPath + "/admin/productManagement", {
                 method: "POST",
                 body: formData
             }).then(res => {
                 if (res.ok) {
                     localStorage.setItem("notification", "Cập nhật sản phẩm thành công!");
-                    window.location.href = "https://www.phuonganhstore.vn/PhuongAnhStore/admin/productManagement";
+                    window.location.href = contextPath + "/admin/productManagement";
                 } else {
                     res.text().then(text => alert("Lỗi: " + text));
                 }

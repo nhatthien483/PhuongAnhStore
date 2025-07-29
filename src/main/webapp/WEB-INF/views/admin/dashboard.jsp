@@ -13,7 +13,6 @@
             font-family: 'Roboto', sans-serif;
         }
     </style>
-
     <!-- CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/dashboard.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin_dashboard.css">
@@ -49,7 +48,7 @@
                                 <div class="stats-header">
                                     <h5>Tổng Số Sản Phẩm</h5>
                                     <div class="stats-icon">
-                                        <i class="fas fa-product"></i>
+                                        <i class="fas fa-product">${productCount}</i>
                                     </div>
                                 </div>
                                 <div class="stats-data">
@@ -75,7 +74,7 @@
                                     </div>
                                 </div>
                                 <div class="stats-data">
-                                    <h3>${activeUsers} / ${totalUsers}</h3>
+                                    <h3>${userCount} / ${userCount}</h3>
                                     <div class="stats-trend positive">
                                         <i class="fas fa-arrow-up"></i>
                                         <span>ts%</span>

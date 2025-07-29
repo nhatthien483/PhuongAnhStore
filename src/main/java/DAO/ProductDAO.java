@@ -13,11 +13,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ProductDAO extends DBContext {
-    // public static void main(String[] args) {
-    // ProductDAO dao = new ProductDAO();
-    // int productCount = dao.countAll();
-    // System.out.println("Total products: " + productCount);
-    // }
+    public static void main(String[] args) throws SQLException {
+    ProductDAO dao = new ProductDAO();
+    Product product = dao.getProductById(519);
+    System.out.println("Product img" + product.getImage());
+    }
 
     public int countAll() {
         String sql = "SELECT COUNT(*) FROM product";

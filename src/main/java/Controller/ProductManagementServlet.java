@@ -25,7 +25,7 @@ public class ProductManagementServlet extends HttpServlet {
 
     private final ProductDAO productDAO = new ProductDAO();
 
-    // private final String IMAGE_BASE_PATH = "D:/Document/PhuongAnhStore/Images";
+    //private final String IMAGE_BASE_PATH = "D:/Document/PhuongAnhStore/Images";
 
     private final String IMAGE_BASE_PATH = "/var/www/phuonganhstore/Images";
 
@@ -223,6 +223,30 @@ public class ProductManagementServlet extends HttpServlet {
                 Collection<Part> parts = request.getParts();
                 List<String> imageNames = new ArrayList<>();
 
+                List<String> currentImages = new ArrayList<>();
+                String oldImageString = existingProduct.getImage();
+
+                // Nếu có ảnh cũ thì thêm vào danh sách hiện tại
+                if (oldImageString != null && !oldImageString.trim().isEmpty()) {
+                    currentImages.addAll(Arrays.asList(oldImageString.split(",")));
+                }
+
+                String imageString = request.getParameter("deletedImages");
+                if (imageString != null && !imageString.trim().isEmpty()) {
+                    Set<String> deletedImages = new HashSet<>(Arrays.asList(imageString.split(",")));
+                    currentImages.removeIf(deletedImages::contains);
+                    String subFolder = request.getParameter("oldSubFolder");
+                    String[] imageNamess = imageString.split(",");
+                    for (String imageName : imageNamess) {
+                        File imageFile = new File(IMAGE_BASE_PATH + "/" + subFolder, imageName);
+                        if (imageFile.exists()) {
+                            imageFile.delete(); // Xoá ảnh cũ nếu tồn tại
+                        }
+                    }
+                }
+                
+                // Thêm ảnh mới vào danh sách hiện tại
+                
                 for (Part part : parts) {
                     if (part.getName().startsWith("image") && part.getSize() > 0) {
                         String originalFileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
@@ -247,9 +271,9 @@ public class ProductManagementServlet extends HttpServlet {
 
                 // Nếu có ảnh mới thì cập nhật
                 if (!imageNames.isEmpty()) {
-                    existingProduct.setImage(String.join(",", imageNames));
+                    currentImages.addAll(imageNames);
                 }
-
+                existingProduct.setImage(String.join(",", currentImages));
                 productDAO.updateProduct(existingProduct);
                 request.setAttribute("message", "Cập nhật sản phẩm thành công!");
                 request.getRequestDispatcher("/WEB-INF/views/admin/edit_product.jsp").forward(request, response);

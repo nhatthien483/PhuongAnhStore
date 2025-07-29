@@ -273,6 +273,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.js"></script>
 
+    <script>
+        const contextPath = '${pageContext.request.contextPath}';
+    </script>
     <!-- IN VPS -->
     <script>
         let cropper;
@@ -356,13 +359,13 @@
             });
 
 
-            fetch("https://www.phuonganhstore.vn/PhuongAnhStore/admin/productManagement", {
+            fetch(contextPath + "/admin/productManagement", {
                 method: "POST",
                 body: formData
             }).then(res => {
                 if (res.ok) {
                     localStorage.setItem("notification", "Thêm sản phẩm thành công!");
-                    window.location.href = "https://www.phuonganhstore.vn/PhuongAnhStore/admin/productManagement";
+                    window.location.href = contextPath + "/admin/productManagement";
                 } else {
                     return res.text().then(text => alert("Lỗi: " + text));
                 }
