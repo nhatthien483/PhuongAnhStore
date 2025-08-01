@@ -8342,7 +8342,6 @@ button:focus {
     align-items: center;
     justify-content: center;
     background-color: #fff;
-    border: 1px solid #ddd;
     border-radius: 6px;
     box-sizing: border-box;
     margin: auto;

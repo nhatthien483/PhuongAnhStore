@@ -117,7 +117,7 @@
                                         <div class="product-cat">
                                             <span>Phân Loại Sản Phẩm</span>
                                             <a href="#">${product.getCategory().getCategoryName()}</a>,
-                                            <a href="#">${product.getCategoryType().getCategoryTypeName()}</a>,
+                                            <a href="#">${product.getCategoryType().getCategoryTypeName()}</a>
                                         </div><!-- End .product-cat -->
 
                                         <div class="social-icons social-icons-sm">
