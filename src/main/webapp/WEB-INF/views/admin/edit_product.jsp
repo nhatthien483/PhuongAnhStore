@@ -257,7 +257,7 @@
                                 <label class="form-label">Ghi Chú</label>
                                 <input name="note" class="form-control" rows="1" value="${product.note}">
                             </div>
-                             <input type="hidden" name="oldSubFolder" value="${product.category.categoryName}/${product.categoryType.categoryTypeName}">
+                            <input type="hidden" name="oldSubFolder" value="${product.category.categoryName}/${product.categoryType.categoryTypeName}">
 
                             <!-- Ảnh sản phẩm mới -->
                             <div class="mb-3">

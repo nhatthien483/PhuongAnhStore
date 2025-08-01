@@ -31,7 +31,7 @@ public class Product {
             int stock, boolean restock, String description, String note, Date createAt, Date updateAt,
             boolean status, String type, Category category, CategoryType categoryType) {
         this.productId = productId;
-        this.name = capitalizeFully(name);
+        this.name = name;
         this.price = price;
         this.brand = brand;
         this.image = image;
@@ -48,7 +48,6 @@ public class Product {
         this.categoryType = categoryType;
     }
 
-    // ✅ Tạo đường dẫn ảnh tự động
     public String getImagePath() {
         if (category == null || categoryType == null || image == null)
             return "";
