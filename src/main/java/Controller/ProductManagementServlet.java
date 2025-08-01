@@ -65,8 +65,7 @@ public class ProductManagementServlet extends HttpServlet {
 
                 // Sau khi xóa ảnh → xóa dữ liệu trong DB
                 productDAO.deleteProduct(id);
-                HttpSession session = request.getSession();
-                session.setAttribute("notification", "Xóa sản phẩm thành công!");
+                request.getSession().setAttribute("notification", "Xóa sản phẩm thành công!");
                 success = true;
             } else if ("add".equals(action)) {
                 request.getRequestDispatcher("/WEB-INF/views/admin/add_product.jsp").forward(request, response);
@@ -291,7 +290,7 @@ public class ProductManagementServlet extends HttpServlet {
                 existingProduct.setImage(String.join(",", currentImages));
                 productDAO.updateProduct(existingProduct);
                 request.setAttribute("message", "Cập nhật sản phẩm thành công!");
-                request.getRequestDispatcher("/WEB-INF/views/admin/edit_product.jsp").forward(request, response);
+                //request.getRequestDispatcher("/WEB-INF/views/admin/edit_product.jsp").forward(request, response);
 
             } catch (Exception e) {
                 e.printStackTrace();

@@ -60,8 +60,8 @@
                 <div class="card-body">
                     <c:if test="${empty message}">
                         <form id="productForm">
-                            <input type="hidden" name="action" value="edit">
-                            <input type="hidden" name="id" value="${product.productId}">
+                            <input type="hidden" name="action" value="edit" />
+                            <input type="hidden" name="id" value="${product.productId}" />
 
                             <div class="mb-3">
                                 <label class="form-label">Tên sản phẩm</label>

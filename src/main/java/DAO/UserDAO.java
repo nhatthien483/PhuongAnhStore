@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import DB.DBContext;
@@ -17,6 +19,47 @@ public class UserDAO extends DBContext {
         User user = new User("sonaiper123", "thientom483@gmail.com", "1234", "Nguyễn Huỳnh Nhât Thiện", 1);
         userDAO.register(user);
         System.out.println("User registered successfully!");
+    }
+
+    public void addUser(User user) throws SQLException {
+        String sql = "INSERT INTO [User] (username, user_email, user_password, user_fullname, user_phone, user_address, user_status, create_at, role_id) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+        Connection conn = this.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, HashUtil.toMD5(user.getPassword()));
+            ps.setString(4, user.getFullName());
+            ps.setString(5, user.getPhone());
+            ps.setString(6, user.getAddress());
+            ps.setString(7, user.getStatus());
+            ps.setInt(8, user.getRoleId());
+            ps.executeUpdate();
+        }
+    }
+
+    public List<User> getAllUSers() throws SQLException {
+        List<User> list = new ArrayList<>();
+        String query = "SELECT * FROM [User]";
+        Connection con = this.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(query);
+                ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                User u = new User();
+                u.setUserId(rs.getInt("user_id"));
+                u.setUsername(rs.getString("username"));
+                u.setEmail(rs.getString("user_email"));
+                u.setPassword(rs.getString("user_password"));
+                u.setFullName(rs.getString("user_fullname"));
+                u.setPhone(rs.getString("user_phone"));
+                u.setAddress(rs.getString("user_address"));
+                u.setStatus(rs.getString("user_status"));
+                u.setCreateAt(rs.getDate("create_at"));
+                u.setRoleId(rs.getInt("role_id"));
+                list.add(u);
+            }
+        }
+        return list;
     }
 
     public void clearResetToken(String token) {
@@ -98,28 +141,82 @@ public class UserDAO extends DBContext {
         return null;
     }
 
-    public List<User> getAllUsers() throws SQLException {
-        List<User> list = new ArrayList<>();
-        String query = "SELECT * FROM [User]";
+    public int getTotalUserCount() throws SQLException {
+        String query = "SELECT COUNT(*) FROM [User]";
         Connection con = this.getConnection();
         try (PreparedStatement ps = con.prepareStatement(query);
                 ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                User u = new User();
-                u.setUserId(rs.getInt("user_id"));
-                u.setUsername(rs.getString("username"));
-                u.setEmail(rs.getString("user_email"));
-                u.setPassword(rs.getString("user_password"));
-                u.setFullName(rs.getString("user_fullname"));
-                u.setPhone(rs.getString("user_phone"));
-                u.setAddress(rs.getString("user_address"));
-                u.setStatus(rs.getString("user_status"));
-                u.setCreateAt(rs.getDate("create_at"));
-                u.setRoleId(rs.getInt("role_id"));
-                list.add(u);
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        }
+        return 0;
+    }
+
+    public List<User> getUsersByPage(int page, int pageSize) throws SQLException {
+        List<User> list = new ArrayList<>();
+        String query = "SELECT * FROM [User] ORDER BY user_id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        Connection con = this.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(query)) {
+            int offset = (page - 1) * pageSize;
+            ps.setInt(1, offset);
+            ps.setInt(2, pageSize);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    User u = new User();
+                    u.setUserId(rs.getInt("user_id"));
+                    u.setUsername(rs.getString("username"));
+                    u.setEmail(rs.getString("user_email"));
+                    u.setPassword(rs.getString("user_password"));
+                    u.setFullName(rs.getString("user_fullname"));
+                    u.setPhone(rs.getString("user_phone"));
+                    u.setAddress(rs.getString("user_address"));
+                    u.setStatus(rs.getString("user_status"));
+                    u.setCreateAt(rs.getDate("create_at"));
+                    u.setRoleId(rs.getInt("role_id"));
+                    list.add(u);
+                }
             }
         }
         return list;
+    }
+
+    public static String removeDiacritics(String input) {
+        String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
+        return normalized.replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+                .toLowerCase(); // không phân biệt hoa thường
+    }
+
+    public static List<String> processSearchKeywords(String keyword) {
+        String normalized = Normalizer.normalize(keyword, Normalizer.Form.NFD)
+                .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+                .toLowerCase();
+
+        String[] words = normalized.split("\\s+");
+        return Arrays.asList(words);
+    }
+
+    public List<User> searchProductByKeywords(String keyword) throws SQLException {
+        List<User> allUsers = getAllUSers(); // hoặc cache nếu nhiều
+        List<String> keywords = processSearchKeywords(keyword);
+        List<User> result = new ArrayList<>();
+
+        for (User u : allUsers) {
+            String nameNormalized = removeDiacritics(u.getFullName());
+
+            boolean match = true;
+            for (String k : keywords) {
+                if (!nameNormalized.contains(k)) {
+                    match = false;
+                    break;
+                }
+            }
+
+            if (match)
+                result.add(u);
+        }
+
+        return result;
     }
 
     public void saveResetToken(int userId, String token) {
@@ -135,6 +232,31 @@ public class UserDAO extends DBContext {
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void updateUser(User user) throws SQLException {
+        String sql = "UPDATE [User] SET user_fullname=?, user_phone=?, user_email=?, user_address=?, user_status=?, role_id=?, create_at=? WHERE user_id=?";
+        try (Connection con = getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, user.getFullName());
+            ps.setString(2, user.getPhone());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getAddress());
+            ps.setString(5, user.getStatus());
+            ps.setInt(6, user.getRoleId());
+            ps.setDate(7, user.getCreateAt());
+            ps.setInt(8, user.getUserId());
+            ps.executeUpdate();
+        }
+    }
+
+    public void deleteUser(int userId) throws SQLException {
+        String sql = "DELETE FROM [User] WHERE user_id = ?";
+        try (Connection con = getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ps.executeUpdate();
         }
     }
 

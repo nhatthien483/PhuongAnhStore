@@ -48,11 +48,11 @@
                                 <div class="stats-header">
                                     <h5>Tổng Số Sản Phẩm</h5>
                                     <div class="stats-icon">
-                                        <i class="fas fa-product">${productCount}</i>
+                                        <i class="fas fa-product"></i>
                                     </div>
                                 </div>
                                 <div class="stats-data">
-                                    <h3>${totalCars}</h3>
+                                    <h3>${productCount}</h3>
                                     <div class="stats-trend positive">
                                         <i class="fas fa-arrow-up"></i>
                                         <span>3.48%</span>
@@ -68,13 +68,13 @@
                         <div class="stats-card-content">
                             <div class="stats-info">
                                 <div class="stats-header">
-                                    <h5>Người Dùng Hoạt Động</h5>
+                                    <h5>Người Dùng</h5>
                                     <div class="stats-icon">
                                         <i class="fas fa-users"></i>
                                     </div>
                                 </div>
                                 <div class="stats-data">
-                                    <h3>${userCount} / ${userCount}</h3>
+                                    <h3>${userCount}</h3>
                                     <div class="stats-trend positive">
                                         <i class="fas fa-arrow-up"></i>
                                         <span>ts%</span>
@@ -118,7 +118,7 @@
                                     </div>
                                 </div>
                                 <div class="stats-data">
-                                    <h3>$<c:out value="${totalRevenue}" /></h3>
+                                    <h3><c:out value="${totalRevenue}" />VNĐ</h3>
                                     <div class="stats-trend positive">
                                         <i class="fas fa-arrow-up"></i>
                                         <span>8.32%</span>

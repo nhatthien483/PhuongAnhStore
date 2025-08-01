@@ -158,7 +158,7 @@
                                     <select name="categoryTypeName" class="form-select" required>
                                         <option value="BoSac">Bộ Sạc</option>
                                         <option value="CuSac">Củ Sạc</option>
-                                        <option value="CapSac">Cáo Sạc</option>
+                                        <option value="CapSac">Cáp Sạc</option>
                                         <option value="ODien">Ổ Điện</option>
                                         <option value="SacDuPhong">Sạc Dự Phòng</option>
                                         <option value="Adapter">Adapter</option>

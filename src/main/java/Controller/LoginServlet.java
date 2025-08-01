@@ -110,7 +110,7 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute("error", "Đã có lỗi xảy ra trong quá trình đăng ký.");
         }
         request.getRequestDispatcher("/pages/new_register.jsp").forward(request, response);
-        ;
+        
     }
 
     private void handleForgotPassword(HttpServletRequest request, HttpServletResponse response)
