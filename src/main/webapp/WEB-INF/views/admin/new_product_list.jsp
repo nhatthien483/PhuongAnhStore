@@ -242,7 +242,7 @@
                                             </span>
                                         </td>
                                         <td class="text-center text-nowrap">
-                                            <a href="${pageContext.request.contextPath}/admin/productManagement?action=view&id=${p.productId}" class="btn btn-info btn-sm me-1"><i class="fas fa-eye"></i></a>
+                                            <a href="${pageContext.request.contextPath}/admin/productManagement?action=viewDetail&id=${p.productId}" class="btn btn-info btn-sm me-1"><i class="fas fa-eye"></i></a>
                                             <a href="${pageContext.request.contextPath}/admin/productManagement?action=edit&id=${p.productId}" class="btn btn-warning btn-sm me-1"><i class="fas fa-edit"></i></a>
                                             <a href="${pageContext.request.contextPath}/admin/productManagement?action=delete&id=${p.productId}" class="btn btn-danger btn-sm"
                                                onclick="return confirm('Xác nhận xoá sản phẩm?')"><i class="fas fa-trash-alt"></i></a>

@@ -77,6 +77,21 @@ public class ProductManagementServlet extends HttpServlet {
                 request.setAttribute("products", productList);
                 request.setAttribute("keyword", keyword);
                 request.getRequestDispatcher("/WEB-INF/views/admin/new_product_list.jsp").forward(request, response);
+
+            } else if ("viewDetail".equals(action)) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                // Lấy sản phẩm theo ID
+                List<String> currentImages = new ArrayList<>();
+                Product product = productDAO.getProductById(id);
+                // Chia tách chuỗi ảnh thành danh sách
+                String oldImageString = product.getImage();
+                if (oldImageString != null && !oldImageString.trim().isEmpty()) {
+                    currentImages.addAll(Arrays.asList(oldImageString.split(",")));
+                }
+                request.setAttribute("images", currentImages);
+                request.setAttribute("product", product);
+                request.getRequestDispatcher("/WEB-INF/views/admin/product_detail.jsp").forward(request, response);
+
             } else {
                 ProductDAO productDAO = new ProductDAO();
                 int totalProducts = productDAO.countAll(); // Tổng số sản phẩm
@@ -244,9 +259,9 @@ public class ProductManagementServlet extends HttpServlet {
                         }
                     }
                 }
-                
+
                 // Thêm ảnh mới vào danh sách hiện tại
-                
+
                 for (Part part : parts) {
                     if (part.getName().startsWith("image") && part.getSize() > 0) {
                         String originalFileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
