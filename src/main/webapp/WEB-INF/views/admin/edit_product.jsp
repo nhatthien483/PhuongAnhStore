@@ -257,6 +257,7 @@
                                 <label class="form-label">Ghi Chú</label>
                                 <input name="note" class="form-control" rows="1" value="${product.note}">
                             </div>
+                             <input type="hidden" name="oldSubFolder" value="${product.category.categoryName}/${product.categoryType.categoryTypeName}">
 
                             <!-- Ảnh sản phẩm mới -->
                             <div class="mb-3">
@@ -266,7 +267,6 @@
                                     <c:if test="${not empty product.image}">
                                         <c:forEach var="imgName" items="${fn:split(product.image, ',')}">
                                             <div class="image-wrapper position-relative me-2 mb-2">
-                                                <input type="hidden" name="oldSubFolder" value="${product.category.categoryName}/${product.categoryType.categoryTypeName}">
                                                 <img src="${pageContext.request.contextPath}/Images/${product.category.categoryName}/${product.categoryType.categoryTypeName}/${fn:trim(imgName)}"
                                                      alt="Ảnh cũ"
                                                      class="img-thumbnail preview-img" />
