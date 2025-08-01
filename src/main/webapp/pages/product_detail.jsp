@@ -146,7 +146,9 @@
                             <div class="tab-pane fade show active" id="product-desc-tab" role="tabpanel" aria-labelledby="product-desc-link">
                                 <div class="product-desc-content">
                                     <h3>Thông Tin Chi Tiết</h3>
-                                    <p>${product.description}</p>
+                                    <div class="tab-pane fade show active" id="product-desc-tab" role="tabpanel" aria-labelledby="product-desc-link">
+                                        <p style="white-space: pre-wrap;">${product.description}</p>
+                                    </div>
                                 </div><!-- End .product-desc-content -->
                             </div><!-- .End .tab-pane -->
 

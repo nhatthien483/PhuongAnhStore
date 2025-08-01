@@ -207,6 +207,8 @@ public class ProductManagementServlet extends HttpServlet {
             try {
                 int productId = Integer.parseInt(request.getParameter("id"));
                 Product existingProduct = productDAO.getProductById(productId);
+
+                // Cập nhật thông tin cơ bản
                 existingProduct.setName(request.getParameter("name"));
                 existingProduct.setPrice(new BigDecimal(request.getParameter("price")));
                 existingProduct.setDescription(request.getParameter("description"));
@@ -216,12 +218,12 @@ public class ProductManagementServlet extends HttpServlet {
                 existingProduct.setType(request.getParameter("type"));
                 existingProduct.setNote(request.getParameter("note"));
 
-                // Lấy lại category
+                // Lấy category mới
                 String categoryName = request.getParameter("categoryName");
                 String categoryTypeName = request.getParameter("categoryTypeName");
 
-                int categoryTypeId = existingProduct.getCategoryType().getCategoryTypeId();
-                int categoryId = existingProduct.getCategory().getCategoryId();
+                int categoryId = productDAO.getCategoryIdByName(categoryName);
+                int categoryTypeId = productDAO.getCategoryTypeIdByName(categoryTypeName);
 
                 Category category = new Category();
                 category.setCategoryId(categoryId);
@@ -233,42 +235,42 @@ public class ProductManagementServlet extends HttpServlet {
                 categoryType.setCategoryTypeName(categoryTypeName);
                 existingProduct.setCategoryType(categoryType);
 
-                // Xử lý ảnh nếu có ảnh mới
-                Collection<Part> parts = request.getParts();
-                List<String> imageNames = new ArrayList<>();
+                // Tên thư mục mới theo category
+                String newSubFolder = categoryName + "/" + categoryTypeName;
 
+                // Lấy thư mục cũ từ form
+                String oldSubFolder = request.getParameter("oldSubFolder");
+
+                // Danh sách ảnh hiện tại
                 List<String> currentImages = new ArrayList<>();
                 String oldImageString = existingProduct.getImage();
-
-                // Nếu có ảnh cũ thì thêm vào danh sách hiện tại
                 if (oldImageString != null && !oldImageString.trim().isEmpty()) {
                     currentImages.addAll(Arrays.asList(oldImageString.split(",")));
                 }
 
+                // Xoá ảnh theo yêu cầu (từ danh sách deletedImages)
                 String imageString = request.getParameter("deletedImages");
                 if (imageString != null && !imageString.trim().isEmpty()) {
                     Set<String> deletedImages = new HashSet<>(Arrays.asList(imageString.split(",")));
                     currentImages.removeIf(deletedImages::contains);
-                    String subFolder = request.getParameter("oldSubFolder");
+
                     String[] imageNamess = imageString.split(",");
                     for (String imageName : imageNamess) {
-                        File imageFile = new File(IMAGE_BASE_PATH + "/" + subFolder, imageName);
+                        File imageFile = new File(IMAGE_BASE_PATH + "/" + oldSubFolder, imageName);
                         if (imageFile.exists()) {
-                            imageFile.delete(); // Xoá ảnh cũ nếu tồn tại
+                            imageFile.delete();
                         }
                     }
                 }
 
-                // Thêm ảnh mới vào danh sách hiện tại
+                // Thêm ảnh mới nếu có
+                Collection<Part> parts = request.getParts();
+                List<String> newImageNames = new ArrayList<>();
 
                 for (Part part : parts) {
                     if (part.getName().startsWith("image") && part.getSize() > 0) {
                         String originalFileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
-
-                        // Thư mục con theo category
-                        String subFolder = categoryName + "/" + categoryTypeName;
-
-                        File saveDir = new File(IMAGE_BASE_PATH, subFolder);
+                        File saveDir = new File(IMAGE_BASE_PATH, newSubFolder);
                         if (!saveDir.exists()) {
                             saveDir.mkdirs();
                         }
@@ -279,23 +281,45 @@ public class ProductManagementServlet extends HttpServlet {
                             input.transferTo(fos);
                         }
 
-                        imageNames.add(originalFileName);
+                        newImageNames.add(originalFileName);
                     }
                 }
 
-                // Nếu có ảnh mới thì cập nhật
-                if (!imageNames.isEmpty()) {
-                    currentImages.addAll(imageNames);
+                if (!newImageNames.isEmpty()) {
+                    currentImages.addAll(newImageNames);
                 }
+
+                // Di chuyển ảnh nếu đổi thư mục
+                if (!oldSubFolder.equals(newSubFolder)) {
+                    File oldDir = new File(IMAGE_BASE_PATH, oldSubFolder);
+                    File newDir = new File(IMAGE_BASE_PATH, newSubFolder);
+                    if (!newDir.exists()) {
+                        newDir.mkdirs();
+                    }
+
+                    for (String imageName : currentImages) {
+                        File oldFile = new File(oldDir, imageName);
+                        File newFile = new File(newDir, imageName);
+                        if (oldFile.exists()) {
+                            oldFile.renameTo(newFile); // Di chuyển ảnh
+                        }
+                    }
+                }
+
+                // Cập nhật danh sách ảnh vào DB
                 existingProduct.setImage(String.join(",", currentImages));
                 productDAO.updateProduct(existingProduct);
+
                 request.setAttribute("message", "Cập nhật sản phẩm thành công!");
-                //request.getRequestDispatcher("/WEB-INF/views/admin/edit_product.jsp").forward(request, response);
+                // Bạn có thể redirect hoặc forward lại trang theo nhu cầu
+                // request.getRequestDispatcher("/WEB-INF/views/admin/edit_product.jsp").forward(request,
+                // response);
 
             } catch (Exception e) {
                 e.printStackTrace();
                 response.sendError(500, "Lỗi khi cập nhật sản phẩm: " + e.getMessage());
             }
         }
+
     }
 }

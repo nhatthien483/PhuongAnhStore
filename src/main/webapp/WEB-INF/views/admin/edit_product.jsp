@@ -250,7 +250,7 @@
 
                             <div class="mb-3">
                                 <label class="form-label">Mô tả</label>
-                                <input name="description" class="form-control" rows="3" value="${product.description}">
+                                <textarea name="description" class="form-control" rows="3" value="${product.description}"></textarea>
                             </div>
 
                             <div class="mb-3">
