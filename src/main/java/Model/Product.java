@@ -61,26 +61,6 @@ public class Product {
         return formatter.format(price);
     }
 
-    private String capitalizeFully(String input) {
-        if (input == null || input.isEmpty())
-            return input;
-
-        String[] words = input.trim().split("\\s+");
-        StringBuilder result = new StringBuilder();
-
-        for (String word : words) {
-            if (!word.isEmpty()) {
-                result.append(Character.toUpperCase(word.charAt(0)));
-                if (word.length() > 1) {
-                    result.append(word.substring(1).toLowerCase());
-                }
-                result.append(" ");
-            }
-        }
-
-        return result.toString().trim();
-    }
-
     public int getProductId() {
         return productId;
     }
@@ -90,7 +70,7 @@ public class Product {
     }
 
     public String getName() {
-        return capitalizeFully(name);
+        return name;
     }
 
     public void setName(String name) {
