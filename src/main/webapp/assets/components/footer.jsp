@@ -46,27 +46,10 @@
 	            		<div class="col-sm-6 col-lg-3">
 	            			<div class="widget">
 	            				<h4 class="widget-title">Các Liên Kết Khác</h4><!-- End .widget-title -->
-
 	            				<ul class="widget-list">
 	            					<li><a href="about.html">Về Phương Anh Store</a></li>
                                     <li><a href="#">Chính Sách Bảo Mật</a></li>
 	            					<li><a href="#">Chính Sách Đổi Trả Và Bảo Hành</a></li>
-	            				</ul><!-- End .widget-list -->
-	            			</div><!-- End .widget -->
-	            		</div><!-- End .col-sm-6 col-lg-3 -->
-
-	            		
-
-	            		<div class="col-sm-6 col-lg-3">
-	            			<div class="widget">
-	            				<h4 class="widget-title">Tài Khoản Của Tôi</h4><!-- End .widget-title -->
-
-	            				<ul class="widget-list">
-	            					<li><a href="#">Đăng Ký</a></li>
-	            					<li><a href="cart.html">Xem Giỏ Hàng</a></li>
-	            					<li><a href="#">Wishlist</a></li>
-	            					<li><a href="#">Kiểm Tra Đơn Hàng</a></li>
-	            					<li><a href="#">Help</a></li>
 	            				</ul><!-- End .widget-list -->
 	            			</div><!-- End .widget -->
 	            		</div><!-- End .col-sm-6 col-lg-3 -->

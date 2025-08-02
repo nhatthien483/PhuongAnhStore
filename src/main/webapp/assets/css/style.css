@@ -1322,7 +1322,7 @@ blockquote.text-white cite span {
 }
 
 .header-search form {
-    margin: 0
+    margin-left: 15px
 }
 
 .header-search .select-custom {

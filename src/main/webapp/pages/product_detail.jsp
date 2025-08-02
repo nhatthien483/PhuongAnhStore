@@ -300,8 +300,6 @@
         </div><!-- End .container -->
     </div><!-- End .sticky-bar -->
 
-    <!-- Mobile Menu -->
-
     <!-- Plugins JS File -->
     <script src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/bootstrap.bundle.min.js"></script>

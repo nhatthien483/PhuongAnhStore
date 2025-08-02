@@ -39,11 +39,9 @@
         <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
 
     </head>
-
+    <%@ include file="/assets/components/header.jsp" %>
     <body>
         <div class="page-wrapper">
-            <%@ include file="/assets/components/header.jsp" %>
-
             <!-- Banner Slide -->
             <div class="intro-slider-container mb-5">
                 <div class="intro-slider owl-carousel owl-theme"
@@ -69,7 +67,7 @@
                 <div class="cat-blocks-container">
                     <div class="row">
                         <div class="col-6 col-sm-4 col-lg-2">
-                            <a href="category.html" class="cat-block">
+                            <a href="${pageContext.request.contextPath}/list-all-product?action=sortByCategoryName&type=PhuKienMayTinh" class="cat-block">
                                 <figure>
                                     <span>
                                         <img src="${pageContext.request.contextPath}/assets/images/category-logo/1.png" alt="Category image">
@@ -81,7 +79,7 @@
                         </div><!-- End .col-sm-4 col-lg-2 -->
 
                         <div class="col-6 col-sm-4 col-lg-2">
-                            <a href="category.html" class="cat-block">
+                            <a href="${pageContext.request.contextPath}/list-all-product?action=sortByCategoryName&type=PhuKienLivestream-ChupAnh" class="cat-block">
                                 <figure>
                                     <span>
                                         <img src="${pageContext.request.contextPath}/assets/images/category-logo/2.png" alt="Category image">
@@ -93,7 +91,7 @@
                         </div><!-- End .col-sm-4 col-lg-2 -->
 
                         <div class="col-6 col-sm-4 col-lg-2">
-                            <a href="category.html" class="cat-block">
+                            <a href="${pageContext.request.contextPath}/list-all-product?action=sortByCategoryNameAndCategoryTypeName&categoryName=PhuKienSac&categoryTypeName=CapSac" class="cat-block">
                                 <figure>
                                     <span>
                                         <img src="${pageContext.request.contextPath}/assets/images/category-logo/cap-sac.png" alt="Category image">
@@ -105,7 +103,7 @@
                         </div><!-- End .col-sm-4 col-lg-2 -->
 
                         <div class="col-6 col-sm-4 col-lg-2">
-                            <a href="category.html" class="cat-block">
+                            <a href="${pageContext.request.contextPath}/list-all-product?action=sortByCategoryNameAndCategoryTypeName&categoryName=PhuKienSac&categoryTypeName=CuSac" class="cat-block">
                                 <figure>
                                     <span>
                                         <img src="${pageContext.request.contextPath}/assets/images/category-logo/cu-sac.png" alt="Category image">
@@ -117,7 +115,7 @@
                         </div><!-- End .col-sm-4 col-lg-2 -->
 
                         <div class="col-6 col-sm-4 col-lg-2">
-                            <a href="category.html" class="cat-block">
+                            <a href="${pageContext.request.contextPath}/list-all-product?action=sortByCategoryName&type=ThietBiAmThanh" class="cat-block">
                                 <figure>
                                     <span>
                                         <img src="${pageContext.request.contextPath}/assets/images/category-logo/5.png" alt="Category image">
@@ -129,7 +127,7 @@
                         </div><!-- End .col-sm-4 col-lg-2 -->
 
                         <div class="col-6 col-sm-4 col-lg-2">
-                            <a href="category.html" class="cat-block">
+                            <a href="${pageContext.request.contextPath}/list-all-product?action=sortByCategoryNameAndCategoryTypeName&categoryName=PhuKienSac&categoryTypeName=SacDuPhong" class="cat-block">
                                 <figure>
                                     <span>
                                         <img src="${pageContext.request.contextPath}/assets/images/category-logo/sac-du-phong.png" alt="Category image">
@@ -206,7 +204,7 @@
                                 <div class="cta-text text-right text-white">
                                     <p>Loa Không Dây<br><strong>Nhận Ngay Ưu Đãi Trong Hôm Nay </strong></p>
                                 </div><!-- End .cta-text -->
-                                <a href="#" class="btn btn-primary btn-round"><span>Mua Ngay</span><i class="icon-long-arrow-right"></i></a>
+                                <a href="${pageContext.request.contextPath}/list-all-product?action=sortByCategoryNameAndCategoryTypeName&categoryName=ThietBiAmThanh&categoryTypeName=LoaKhongDay" class="btn btn-primary btn-round"><span>Mua Ngay</span><i class="icon-long-arrow-right"></i></a>
                             </div><!-- End .cta-content -->
                         </div><!-- End .col-md-12 -->
                     </div><!-- End .row -->
@@ -238,28 +236,24 @@
                      }
                      }
                      }'>
-                    <a href="#" class="brand">
+                    <a href="${pageContext.request.contextPath}/list-all-product?action=sortByBrand&brandName=Baseus" class="brand">
                         <img src="${pageContext.request.contextPath}/assets/images/brands/baseus-logo.png" alt="Brand Name">
                     </a>
 
-                    <a href="#" class="brand">
+                    <a href="${pageContext.request.contextPath}/list-all-product?action=sortByBrand&brandName=Wiwu" class="brand">
                         <img src="${pageContext.request.contextPath}/assets/images/brands/wiwu-logo.png" alt="Brand Name">
                     </a>
 
-                    <a href="#" class="brand">
+                    <a href="${pageContext.request.contextPath}/list-all-product?action=sortByBrand&brandName=Hoco" class="brand">
                         <img src="${pageContext.request.contextPath}/assets/images/brands/hoco-logo.png" alt="Brand Name">
                     </a>
 
-                    <a href="#" class="brand">
+                    <a href="${pageContext.request.contextPath}/list-all-product?action=sortByBrand&brandName=Remax" class="brand">
                         <img src="${pageContext.request.contextPath}/assets/images/brands/remax-logo.png" alt="Brand Name">
                     </a>
 
-                    <a href="#" class="brand">
+                    <a href="${pageContext.request.contextPath}/list-all-product?action=sortByBrand&brandName=Anker" class="brand">
                         <img src="${pageContext.request.contextPath}/assets/images/brands/anker-logo.png" alt="Brand Name">
-                    </a>
-
-                    <a href="#" class="brand">
-                        <img src="${pageContext.request.contextPath}/assets/images/brands/6.png" alt="Brand Name">
                     </a>
                 </div><!-- End .owl-carousel -->
             </div><!-- End .container -->
@@ -285,13 +279,10 @@
                                 <div class="product product-2">
                                     <figure class="product-media">
                                         <a href="${pageContext.request.contextPath}/list-all-product?action=viewDetail&id=${p.productId}">
-                                            <img src="${pageContext.request.contextPath}/Images/${p.getImagePath()}" alt="${p.name}" class="product-image">
-                                        </a>
-
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"></a>
-                                        </div>
-
+                                            <c:set var="firstImage" value="${fn:split(p.image, ',')[0]}" />
+                                                <img src="${pageContext.request.contextPath}/Images/${p.category.categoryName}/${p.categoryType.categoryTypeName}/${firstImage}" 
+                                                    alt="Ảnh" class="product-img" />
+                                        </a>                     
                                         <div class="product-action">
                                             <a href="#" class="btn-product btn-cart" title="Add to cart"><span>Thêm vào giỏ</span></a>
                                         </div>
@@ -378,7 +369,6 @@
         </main><!-- End .main -->
     </div><!-- End .page-wrapper -->
     <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
-    <!-- Mobile Menu -->
     
     <%@ include file="/assets/components/footer.jsp" %>
     <!-- Plugins JS File -->

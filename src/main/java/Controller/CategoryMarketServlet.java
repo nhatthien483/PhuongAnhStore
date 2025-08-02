@@ -7,6 +7,7 @@ package Controller;
 import DAO.ProductDAO;
 import Model.Product;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 
 import jakarta.servlet.ServletException;
@@ -57,7 +58,7 @@ public class CategoryMarketServlet extends HttpServlet {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            
+
             String oldImageString = product.getImage();
             if (oldImageString != null && !oldImageString.trim().isEmpty()) {
                 currentImages.addAll(Arrays.asList(oldImageString.split(",")));
@@ -73,6 +74,113 @@ public class CategoryMarketServlet extends HttpServlet {
             request.setAttribute("images", currentImages);
             request.setAttribute("product", product);
             request.getRequestDispatcher("/pages/product_detail.jsp").forward(request, response);
+        } else if ("search".equals(action)) {
+            // Xử lý tìm kiếm sản phẩm theo từ khóa
+            String keyword = request.getParameter("keyword");
+            List<Product> productList = null;
+            try {
+                productList = productDAO.searchProductByKeywords(keyword);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            request.setAttribute("search", "search");
+            request.setAttribute("flag", "flag");
+            request.setAttribute("allProducts", productList);
+            request.setAttribute("productCount", productList.size());
+            request.setAttribute("keyword", keyword);
+            request.getRequestDispatcher("pages/category-markert.jsp").forward(request, response);
+        } else if ("sortByCategoryName".equals(action)) {
+            try {
+                // Xử lý sắp xếp sản phẩm theo tên danh mục
+                String type = request.getParameter("type");
+                int categoryId = productDAO.getCategoryIdByName(type);
+                List<Product> productList;
+                productList = productDAO.getProductsByCategoryId(categoryId);
+                request.setAttribute("search", "search");
+                request.setAttribute("allProducts", productList);
+                request.setAttribute("productCount", productList.size());
+                request.setAttribute("keyword", type);
+                request.getRequestDispatcher("pages/category-markert.jsp").forward(request, response);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else if ("sortByCategoryNameAndCategoryTypeName".equals(action)) {
+            try {
+                // Xử lý sắp xếp sản phẩm theo tên danh mục
+                String category = request.getParameter("categoryName");
+                String categoryType = request.getParameter("categoryTypeName");
+
+                int categoryTypeId = productDAO.getCategoryTypeIdByName(categoryType);
+                int categoryId = productDAO.getCategoryIdByName(category);
+                List<Product> productList;
+                productList = productDAO.getProductsByCategoryAndCategoryTypeId(categoryId, categoryTypeId);
+                request.setAttribute("search", "search");
+                request.setAttribute("allProducts", productList);
+                request.setAttribute("productCount", productList.size());
+                request.setAttribute("keyword", category + " - " + categoryType);
+                request.getRequestDispatcher("pages/category-markert.jsp").forward(request, response);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else if ("sortByPrice".equals(action)) {
+            try {
+                String priceRange = request.getParameter("filter-price");
+                List<Product> products = new ArrayList<>();
+
+                if (priceRange != null && priceRange.contains("-")) {
+                    String[] parts = priceRange.split("-");
+
+                    BigDecimal min = new BigDecimal(parts[0]);
+                    BigDecimal max = new BigDecimal(parts[1]);
+                    products = productDAO.getProductsByPriceRange(min, max);
+
+                } else {
+                    // Không chọn hoặc dữ liệu sai → trả về toàn bộ sản phẩm
+                    products = productDAO.getAllProducts();
+                }
+                request.setAttribute("search", "search");
+                request.setAttribute("flag", "flag");
+                request.setAttribute("productCount", products.size());
+                request.setAttribute("keyword", priceRange + " VNĐ");
+                request.setAttribute("allProducts", products);
+                request.getRequestDispatcher("pages/category-markert.jsp").forward(request, response);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        else if ("sortByBrands".equals(action)) {
+            try {
+                String[] brands = request.getParameterValues("brand");
+                List<Product> productList = new ArrayList<>();
+
+                if (brands != null) {
+                    productList = productDAO.getProductsByBrands(Arrays.asList(brands));
+                } else {
+                    productList = productDAO.getAllProducts();
+                }
+                request.setAttribute("search", "search");
+                request.setAttribute("allProducts", productList);
+                request.setAttribute("productCount", productList.size());
+                request.setAttribute("keyword", String.join(", ", brands));
+                request.getRequestDispatcher("pages/category-markert.jsp").forward(request, response);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else if ("sortByBrand".equals(action)) {
+            try {
+                // Xử lý sắp xếp sản phẩm theo tên danh mục
+                String brand = request.getParameter("brandName");
+                List<Product> productList;
+                productList = productDAO.getProductsByBrand(brand);
+                request.setAttribute("search", "search");
+                request.setAttribute("allProducts", productList);
+                request.setAttribute("productCount", productList.size());
+                request.setAttribute("keyword", brand);
+                request.getRequestDispatcher("pages/category-markert.jsp").forward(request, response);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } else {
             // Truyền dữ liệu cho JSP
             request.setAttribute("totalPages", totalPages);

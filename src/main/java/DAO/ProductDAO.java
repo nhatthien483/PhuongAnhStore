@@ -6,18 +6,22 @@ import Model.CategoryType;
 import Model.Product;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ProductDAO extends DBContext {
-    public static void main(String[] args) throws SQLException {
-    ProductDAO dao = new ProductDAO();
-    Product product = dao.getProductById(519);
-    System.out.println("Product img" + product.getImage());
-    }
+    // public static void main(String[] args) throws SQLException {
+    //     ProductDAO dao = new ProductDAO();
+    //     List<Product> products = dao.getProductsByPriceRange(new BigDecimal("100000"), new BigDecimal("500000"));
+    //     for (Product p : products) {
+    //         System.out.println(p.getName());
+    //     }
+    // }
 
     public int countAll() {
         String sql = "SELECT COUNT(*) FROM product";
@@ -356,16 +360,42 @@ public class ProductDAO extends DBContext {
 
     public List<Product> getProductsByCategoryId(int categoryId) throws SQLException {
         List<Product> list = new ArrayList<>();
-        String query = "SELECT * FROM Product WHERE category_id = ?";
+
+        String query = "SELECT p.*, c.category_name, ct.category_type_name " +
+                "FROM Product p " +
+                "JOIN Category c ON p.category_id = c.category_id " +
+                "JOIN CategoryType ct ON p.category_type_id = ct.category_type_id WHERE p.category_id = ?";
         Connection con = this.getConnection();
         try (PreparedStatement ps = con.prepareStatement(query)) {
-
             ps.setInt(1, categoryId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
+                Category category = new Category(
+                        rs.getInt("category_id"),
+                        rs.getString("category_name"));
+
+                CategoryType categoryType = new CategoryType(
+                        rs.getInt("category_type_id"),
+                        rs.getString("category_type_name"));
+
                 Product p = new Product();
                 p.setProductId(rs.getInt("product_id"));
                 p.setName(rs.getString("product_name"));
+                p.setPrice(rs.getBigDecimal("product_price"));
+                p.setBrand(rs.getString("product_brand"));
+                p.setImage(rs.getString("product_img"));
+                p.setVideo(rs.getString("product_video"));
+                p.setStock(rs.getInt("product_stock"));
+                p.setRestock(rs.getBoolean("product_restock"));
+                p.setDescription(rs.getString("product_description"));
+                p.setNote(rs.getString("product_note"));
+                p.setCreateAt(rs.getDate("product_create_at"));
+                p.setUpdateAt(rs.getDate("product_update_at"));
+                p.setStatus(rs.getBoolean("product_status"));
+                p.setType(rs.getString("product_type"));
+                p.setCategory(category);
+                p.setCategoryType(categoryType);
+
                 list.add(p);
             }
         }
@@ -416,12 +446,200 @@ public class ProductDAO extends DBContext {
                     break;
                 }
             }
-
             if (match)
                 result.add(p);
         }
-
         return result;
+    }
+
+    public List<Product> getProductsByCategoryAndCategoryTypeId(int categoryId, int category_type_id)
+            throws SQLException {
+        List<Product> list = new ArrayList<>();
+
+        String query = "SELECT p.*, c.category_name, ct.category_type_name " +
+                "FROM Product p " +
+                "JOIN Category c ON p.category_id = c.category_id " +
+                "JOIN CategoryType ct ON p.category_type_id = ct.category_type_id WHERE p.category_id = ? AND p.category_type_id = ?";
+        Connection con = this.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, categoryId);
+            ps.setInt(2, category_type_id);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Category category = new Category(
+                        rs.getInt("category_id"),
+                        rs.getString("category_name"));
+
+                CategoryType categoryType = new CategoryType(
+                        rs.getInt("category_type_id"),
+                        rs.getString("category_type_name"));
+
+                Product p = new Product();
+                p.setProductId(rs.getInt("product_id"));
+                p.setName(rs.getString("product_name"));
+                p.setPrice(rs.getBigDecimal("product_price"));
+                p.setBrand(rs.getString("product_brand"));
+                p.setImage(rs.getString("product_img"));
+                p.setVideo(rs.getString("product_video"));
+                p.setStock(rs.getInt("product_stock"));
+                p.setRestock(rs.getBoolean("product_restock"));
+                p.setDescription(rs.getString("product_description"));
+                p.setNote(rs.getString("product_note"));
+                p.setCreateAt(rs.getDate("product_create_at"));
+                p.setUpdateAt(rs.getDate("product_update_at"));
+                p.setStatus(rs.getBoolean("product_status"));
+                p.setType(rs.getString("product_type"));
+                p.setCategory(category);
+                p.setCategoryType(categoryType);
+
+                list.add(p);
+            }
+        }
+        return list;
+    }
+
+    public List<Product> getProductsByBrand(String brand) throws SQLException {
+        List<Product> list = new ArrayList<>();
+        String query = "SELECT p.*, c.category_name, ct.category_type_name " +
+                "FROM Product p " +
+                "JOIN Category c ON p.category_id = c.category_id " +
+                "JOIN CategoryType ct ON p.category_type_id = ct.category_type_id " +
+                "WHERE p.product_brand = ?";
+        Connection con = this.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setString(1, brand);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Category category = new Category(
+                        rs.getInt("category_id"),
+                        rs.getString("category_name"));
+
+                CategoryType categoryType = new CategoryType(
+                        rs.getInt("category_type_id"),
+                        rs.getString("category_type_name"));
+
+                Product p = new Product();
+                p.setProductId(rs.getInt("product_id"));
+                p.setName(rs.getString("product_name"));
+                p.setPrice(rs.getBigDecimal("product_price"));
+                p.setBrand(rs.getString("product_brand"));
+                p.setImage(rs.getString("product_img"));
+                p.setVideo(rs.getString("product_video"));
+                p.setStock(rs.getInt("product_stock"));
+                p.setRestock(rs.getBoolean("product_restock"));
+                p.setDescription(rs.getString("product_description"));
+                p.setNote(rs.getString("product_note"));
+                p.setCreateAt(rs.getDate("product_create_at"));
+                p.setUpdateAt(rs.getDate("product_update_at"));
+                p.setStatus(rs.getBoolean("product_status"));
+                p.setType(rs.getString("product_type"));
+                p.setCategory(category);
+                p.setCategoryType(categoryType);
+
+                list.add(p);
+            }
+        }
+        return list;
+    }
+
+    public List<Product> getProductsByPriceRange(BigDecimal min, BigDecimal max) throws SQLException {
+        List<Product> list = new ArrayList<>();
+        String sql = "SELECT p.*, c.category_name, ct.category_type_name FROM Product p JOIN Category c ON p.category_id = c.category_id JOIN CategoryType ct ON p.category_type_id = ct.category_type_id  WHERE product_price BETWEEN ? AND ?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setBigDecimal(1, min);
+            ps.setBigDecimal(2, max);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Category category = new Category(
+                        rs.getInt("category_id"),
+                        rs.getString("category_name"));
+
+                CategoryType categoryType = new CategoryType(
+                        rs.getInt("category_type_id"),
+                        rs.getString("category_type_name"));
+                Product p = new Product();
+                p.setProductId(rs.getInt("product_id"));
+                p.setName(rs.getString("product_name"));
+                p.setPrice(rs.getBigDecimal("product_price"));
+                p.setBrand(rs.getString("product_brand"));
+                p.setImage(rs.getString("product_img"));
+                p.setVideo(rs.getString("product_video"));
+                p.setStock(rs.getInt("product_stock"));
+                p.setRestock(rs.getBoolean("product_restock"));
+                p.setDescription(rs.getString("product_description"));
+                p.setNote(rs.getString("product_note"));
+                p.setCreateAt(rs.getDate("product_create_at"));
+                p.setUpdateAt(rs.getDate("product_update_at"));
+                p.setStatus(rs.getBoolean("product_status"));
+                p.setType(rs.getString("product_type"));
+                p.setCategory(category);
+                p.setCategoryType(categoryType);
+                list.add(p);
+            }
+        }
+        return list;
+    }
+
+    public List<Product> getProductsByBrands(List<String> brands) throws SQLException {
+        List<Product> list = new ArrayList<>();
+
+        if (brands == null || brands.isEmpty()) {
+            return list; // Trả về rỗng nếu không có brand
+        }
+
+        // Tạo chuỗi dấu hỏi (?, ?, ?, ...) tương ứng với số brand
+        String placeholders = String.join(",", Collections.nCopies(brands.size(), "?"));
+
+        String query = "SELECT p.*, c.category_name, ct.category_type_name " +
+                "FROM Product p " +
+                "JOIN Category c ON p.category_id = c.category_id " +
+                "JOIN CategoryType ct ON p.category_type_id = ct.category_type_id " +
+                "WHERE p.product_brand IN (" + placeholders + ")";
+
+        try (Connection con = this.getConnection();
+                PreparedStatement ps = con.prepareStatement(query)) {
+
+            // Set từng giá trị vào dấu ?
+            for (int i = 0; i < brands.size(); i++) {
+                ps.setString(i + 1, brands.get(i));
+            }
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Category category = new Category(
+                        rs.getInt("category_id"),
+                        rs.getString("category_name"));
+
+                CategoryType categoryType = new CategoryType(
+                        rs.getInt("category_type_id"),
+                        rs.getString("category_type_name"));
+
+                Product p = new Product();
+                p.setProductId(rs.getInt("product_id"));
+                p.setName(rs.getString("product_name"));
+                p.setPrice(rs.getBigDecimal("product_price"));
+                p.setBrand(rs.getString("product_brand"));
+                p.setImage(rs.getString("product_img"));
+                p.setVideo(rs.getString("product_video"));
+                p.setStock(rs.getInt("product_stock"));
+                p.setRestock(rs.getBoolean("product_restock"));
+                p.setDescription(rs.getString("product_description"));
+                p.setNote(rs.getString("product_note"));
+                p.setCreateAt(rs.getDate("product_create_at"));
+                p.setUpdateAt(rs.getDate("product_update_at"));
+                p.setStatus(rs.getBoolean("product_status"));
+                p.setType(rs.getString("product_type"));
+                p.setCategory(category);
+                p.setCategoryType(categoryType);
+
+                list.add(p);
+            }
+        }
+
+        return list;
     }
 
     public List<Product> getProductsByName(String name) throws SQLException {
