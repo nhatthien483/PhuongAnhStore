@@ -4,12 +4,19 @@ public class CartDetail {
     private int cartId;
     private int productId;
     private int quantity;
+    private Product product;
 
     // getters & setters
     public CartDetail(int cartId, int productId, int quantity) {
         this.cartId = cartId;
         this.productId = productId;
         this.quantity = quantity;
+    }
+    public Product getProduct() {
+        return product;
+    }
+    public void setProduct(Product product) {
+        this.product = product;
     }
     public CartDetail() {
     }

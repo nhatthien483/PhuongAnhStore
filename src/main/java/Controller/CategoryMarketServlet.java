@@ -96,6 +96,7 @@ public class CategoryMarketServlet extends HttpServlet {
                 int categoryId = productDAO.getCategoryIdByName(type);
                 List<Product> productList;
                 productList = productDAO.getProductsByCategoryId(categoryId);
+                request.setAttribute("flag", "flag");
                 request.setAttribute("search", "search");
                 request.setAttribute("allProducts", productList);
                 request.setAttribute("productCount", productList.size());
@@ -114,6 +115,7 @@ public class CategoryMarketServlet extends HttpServlet {
                 int categoryId = productDAO.getCategoryIdByName(category);
                 List<Product> productList;
                 productList = productDAO.getProductsByCategoryAndCategoryTypeId(categoryId, categoryTypeId);
+                request.setAttribute("flag", "flag");
                 request.setAttribute("search", "search");
                 request.setAttribute("allProducts", productList);
                 request.setAttribute("productCount", productList.size());
@@ -159,6 +161,7 @@ public class CategoryMarketServlet extends HttpServlet {
                 } else {
                     productList = productDAO.getAllProducts();
                 }
+                request.setAttribute("flag", "flag");
                 request.setAttribute("search", "search");
                 request.setAttribute("allProducts", productList);
                 request.setAttribute("productCount", productList.size());
@@ -173,6 +176,7 @@ public class CategoryMarketServlet extends HttpServlet {
                 String brand = request.getParameter("brandName");
                 List<Product> productList;
                 productList = productDAO.getProductsByBrand(brand);
+                request.setAttribute("flag", "flag");
                 request.setAttribute("search", "search");
                 request.setAttribute("allProducts", productList);
                 request.setAttribute("productCount", productList.size());

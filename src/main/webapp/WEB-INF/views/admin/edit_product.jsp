@@ -261,7 +261,7 @@
 
                             <!-- Ảnh sản phẩm mới -->
                             <div class="mb-3">
-                                <label class="form-label">Cập nhật ảnh mới (nếu có)</label>
+                                <label class="form-label">Cập nhật ảnh mới (nếu có) <em style="color: #eea112"> *Tối đa 4 ảnh </em></label>
                                 <input type="file" id="imageInput" accept="image/*" class="form-control">
                                 <div id="imagePreview" class="mt-3 d-flex flex-wrap">
                                     <c:if test="${not empty product.image}">

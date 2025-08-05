@@ -2693,7 +2693,7 @@ textarea.form-control.is-invalid {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    background-color: transparent;
+    background-color: #39f;
     border: 1px solid transparent;
     padding: .375rem .75rem;
     font-size: 1rem;

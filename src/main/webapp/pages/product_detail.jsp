@@ -109,8 +109,9 @@
                                         </div><!-- End .product-details-quantity -->
                                     </div><!-- End .details-filter-row -->
 
-                                    <div class="product-details-action rounded-3 p-3">
-                                        <a href="#" class="btn-product btn-cart "><span>Thêm Vào Giỏ</span></a>
+                                    <div class="product-details-action rounded-3 p-3 addCard">
+                                        <%-- <a href="#" class="btn-product btn-cart"><span>Thêm Vào Giỏ</span></a> --%>
+                                        <button type="button" data-product-id='${product.productId}' class="btn-product btn-cart add_to_cart"><span>Thêm Vào Giỏ</span></button>
                                     </div><!-- End .product-details-action -->
 
                                     <div class="product-details-footer">
@@ -248,7 +249,7 @@
                                         <img src="${pageContext.request.contextPath}/Images/${recomProduct.category.categoryName}/${recomProduct.categoryType.categoryTypeName}/${firstImage}" alt="Product image">
                                     </a>
                                     <div class="product-action">
-                                        <a href="#" class="btn-product btn-cart"><span>Thêm Vào Giỏ</span></a>
+                                        <button type="button" data-product-id='${product.productId}' class="btn-product btn-cart add_to_cart"><span>Thêm Vào Giỏ</span></button>
                                     </div><!-- End .product-action -->
                                 </figure><!-- End .product-media -->
 
@@ -284,7 +285,7 @@
                     <h4 class="product-title"><a href="#">${product.name}</a></h4><!-- End .product-title -->
                 </div><!-- End .col-6 -->
 
-                <div class="col-6 justify-content-end">
+                <div class="col-6 justify-content-end ">
                     <div class="product-price">
                         ${product.formattedPrice} VNĐ
                     </div><!-- End .product-price -->
@@ -292,8 +293,9 @@
                         <input type="number" id="sticky-cart-qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
                     </div><!-- End .product-details-quantity -->
 
-                    <div class="product-details-action">
-                        <a href="#" class="btn-product btn-cart"><span>Thêm Vào Giỏ</span></a>
+                    <div class="product-details-action addCard">
+                        <%-- <a href="#" class="btn-product btn-cart"><span>Thêm Vào Giỏ</span></a> --%>
+                            <button type="button" data-product-id='${product.productId}' class="btn-product btn-cart add_to_cart"><span>Thêm Vào Giỏ</span></button>
                     </div><!-- End .product-details-action -->
                 </div><!-- End .col-6 -->
             </div><!-- End .row -->
@@ -313,7 +315,7 @@
     <script src="${pageContext.request.contextPath}/assets/js/jquery.magnific-popup.min.js"></script>
     <!-- Main JS File -->
     <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
-</body>
+    </body>
 <%@ include file="/assets/components/footer.jsp" %>
 
 

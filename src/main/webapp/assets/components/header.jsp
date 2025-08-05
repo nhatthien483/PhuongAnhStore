@@ -119,64 +119,25 @@
                         <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                             <div class="icon">
                                 <i class="icon-shopping-cart"></i>
-                                <span class="cart-count">2</span>
+                                <span class="cart-count cart-badge" id="cart-count"></span>
                             </div>
                             <p>Giỏ hàng</p>
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right shadow-lg p-3 mb-5 bg-body rounded">
 
-                            <div class="dropdown-cart-products">
-                                <%-- <div class="product">
-                                    <div class="product-cart-details">
-                                        <h4 class="product-title">
-                                            <a href="product.html">Beige knitted elastic runner shoes</a>
-                                        </h4>
-
-                                            <span class="cart-product-info">
-                                                <span class="cart-product-qty">1</span>
-                                                x $84.00
-                                            </span>
-                                        </div><!-- End .product-cart-details -->
-
-                                        <figure class="product-image-container">
-                                            <a href="product.html" class="product-image">
-                                                <img src="assets/images/products/cart/product-1.jpg" alt="product">
-                                            </a>
-                                        </figure>
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                    </div><!-- End .product -->
-
-                                    <div class="product">
-                                        <div class="product-cart-details">
-                                            <h4 class="product-title">
-                                                <a href="product.html">Blue utility pinafore denim dress</a>
-                                            </h4>
-
-                                            <span class="cart-product-info">
-                                                <span class="cart-product-qty">1</span>
-                                                x $76.00
-                                            </span>
-                                        </div><!-- End .product-cart-details -->
-
-                                        <figure class="product-image-container">
-                                            <a href="product.html" class="product-image">
-                                                <img src="assets/images/products/cart/product-2.jpg" alt="product">
-                                            </a>
-                                        </figure>
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                    </div><!-- End .product --> --%>
-                            </div><!-- End .cart-product -->
+                            <div class="dropdown-cart-products" id="cart-items">
+                                <!-- Nội dung sản phẩm sẽ được JS thêm vào đây -->
+                            </div>
 
                             <div class="dropdown-cart-total">
-                                <span>Total</span>
-
-                                <span class="cart-total-price">$160.00</span>
+                                <span>Tổng Đơn Hàng</span>
+                                <span class="cart-total-price" id="cart-price" style="color: #39f;"></span>
                             </div><!-- End .dropdown-cart-total -->
 
                             <div class="dropdown-cart-action">
-                                <a href="cart.html" class="btn btn-primary">View Cart</a>
-                                <a href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
+                                <a href="#" class="btn btn-primary">Xem Giỏ</a>
+                                <a href="#" class="btn btn-outline-primary-2"><span>Thanh Toán</span><i class="icon-long-arrow-right"></i></a>
                             </div><!-- End .dropdown-cart-total -->
                         </div><!-- End .dropdown-menu -->
                     </div><!-- End .cart-dropdown -->
@@ -219,7 +180,23 @@
                 </div><!-- End .container -->
             </div><!-- End .header-bottom -->
     </header><!-- End .header -->
-
+    <div id="cart-notification"
+        style="display: none;
+        position: fixed;
+        top: 80px; /* bên dưới header */
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 128, 0, 0.9);
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        font-size: 16px;
+        text-align: center;
+        z-index: 1000;
+        min-width: 250px;
+        max-width: 90%;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
+    </div>
     <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
     <div class="mobile-menu-container mobile-menu-light">
         <div class="mobile-menu-wrapper">
@@ -378,3 +355,4 @@
             </div><!-- End .social-icons -->
         </div><!-- End .mobile-menu-wrapper -->
     </div><!-- End .mobile-menu-container -->
+    <script src="${pageContext.request.contextPath}/assets/js/addToCart.js?v=<%= System.currentTimeMillis()%>"></script>

@@ -283,9 +283,6 @@
                                                 <img src="${pageContext.request.contextPath}/Images/${p.category.categoryName}/${p.categoryType.categoryTypeName}/${firstImage}" 
                                                     alt="Ảnh" class="product-img" />
                                         </a>                     
-                                        <div class="product-action">
-                                            <a href="#" class="btn-product btn-cart" title="Add to cart"><span>Thêm vào giỏ</span></a>
-                                        </div>
                                     </figure>
 
                                     <div class="product-body">

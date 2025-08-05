@@ -258,9 +258,9 @@
                                                                 <img src="${pageContext.request.contextPath}/Images/${p.category.categoryName}/${p.categoryType.categoryTypeName}/${firstImage}" 
                                                                     alt="Ảnh" class="product-img" />
                                                             </a>
-                                                            <div class="product-action">
+                                                            <%-- <div class="product-action">
                                                                 <a href="#" class="btn-product btn-cart" title="Add to cart"><span>Thêm Vào Giỏ</span></a>
-                                                            </div><!-- End .product-action -->
+                                                            </div><!-- End .product-action --> --%>
                                                         </figure><!-- End .product-media -->
 
                                                         <div class="product-body">

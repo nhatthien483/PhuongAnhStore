@@ -68,6 +68,7 @@ public class LoginServlet extends HttpServlet {
         if (user != null) {
             request.getSession().setAttribute("user", user);
             session.setAttribute("role", user.getRoleId());
+            session.setAttribute("userId", user.getUserId());
             response.sendRedirect("home");
         } else {
             request.setAttribute("error", "Sai tài khoản hoặc mật khẩu!");
