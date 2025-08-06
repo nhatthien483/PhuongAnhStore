@@ -8,6 +8,13 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta property="og:title" content="Phương Anh Store" />
+        
+        <meta property="og:description" content="Phụ kiện sạc, livestream, máy tính, ô tô, xe máy..." />
+        <meta property="og:image" content="https://www.phuonganhstore.vn/assets/images/logo/main-logo-2.png" />
+        <meta property="og:url" content="https://www.phuonganhstore.vn/" />
+        <meta property="og:type" content="website" />
+
         <title>Phương Anh Store</title>
         <link rel="icon" href="${pageContext.request.contextPath}/assets/images/logo/main-logo-2.png" type="image/x-icon">
         <!-- Plugins CSS File -->
