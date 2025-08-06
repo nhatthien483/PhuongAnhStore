@@ -73,8 +73,8 @@
                         <form action="${pageContext.request.contextPath}/list-all-product" method="get">
                             <input type="hidden" name="action" value="search">
                             <div class="header-search-wrapper search-wrapper-wide">
-                                <label for="q" class="sr-only">Search</label>
-                                <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+                                <%-- <label for="q" class="sr-only">Search</label> --%>
+                                <%-- <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button> --%>
                                 <input type="search" class="form-control" name="keyword" value="${param.keyword}" placeholder="Tìm kiếm sản phẩm ..." required>
                             </div><!-- End .header-search-wrapper -->
                         </form>
@@ -136,7 +136,7 @@
                             </div><!-- End .dropdown-cart-total -->
 
                             <div class="dropdown-cart-action">
-                                <a href="#" class="btn btn-primary">Xem Giỏ</a>
+                                <a href="CartManagementServlet" class="btn btn-primary">Xem Giỏ</a>
                                 <a href="#" class="btn btn-outline-primary-2"><span>Thanh Toán</span><i class="icon-long-arrow-right"></i></a>
                             </div><!-- End .dropdown-cart-total -->
                         </div><!-- End .dropdown-menu -->

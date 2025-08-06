@@ -1,6 +1,8 @@
 package Model;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class Cart {
     private int cartId;
@@ -9,6 +11,10 @@ public class Cart {
     private int cartCount;
 
     public Cart() {
+    }
+      public String getFormattedPrice() {
+        NumberFormat formatter = NumberFormat.getInstance(new Locale("vi", "VN"));
+        return formatter.format(cartPrice);
     }
 
     public int getCartId() {

@@ -113,7 +113,7 @@ function updateCartDropdown() {
         <div class="product">
           <div class="product-cart-details">
             <h4 class="product-title">
-              <a href="/product-detail?id=${item.productId}">${item.name}</a>
+              <a href="list-all-product?action=viewDetail&id=${item.productId}">${item.name}</a>
             </h4>
             <span class="cart-product-info">
               <span class="cart-product-qty">${item.quantity}</span>
@@ -121,7 +121,7 @@ function updateCartDropdown() {
             </span>
           </div>
           <figure class="product-image-container">
-            <a href="/product-detail?id=${item.productId}" class="product-image">
+            <a href="list-all-product?action=viewDetail&id=${item.productId}" class="product-image">
               <img src="Images/${item.categoryName}/${item.categoryTypeName}/${firstImage}" 
                    alt="Ảnh" class="product-img" />
             </a>

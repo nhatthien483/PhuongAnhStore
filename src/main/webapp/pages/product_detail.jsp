@@ -120,7 +120,7 @@
                                             <a href="#">${product.getCategory().getCategoryName()}</a>,
                                             <a href="#">${product.getCategoryType().getCategoryTypeName()}</a>
                                         </div><!-- End .product-cat -->
-
+                                        <br>
                                         <div class="social-icons social-icons-sm">
                                             <span class="social-label">Share:</span>
                                             <a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
@@ -243,21 +243,18 @@
                         <c:forEach var="recomProduct" items="${recomList}">
                             <div class="product product-7 text-center">
                                 <figure class="product-media">
-                                    <span class="product-label label-new">New</span>
+                                    <%-- <span class="product-label label-new">New</span> --%>
                                     <a href="${pageContext.request.contextPath}/list-all-product?action=viewDetail&id=${recomProduct.productId}">
                                         <c:set var="firstImage" value="${fn:split(recomProduct.image, ',')[0]}" />
                                         <img src="${pageContext.request.contextPath}/Images/${recomProduct.category.categoryName}/${recomProduct.categoryType.categoryTypeName}/${firstImage}" alt="Product image">
                                     </a>
-                                    <div class="product-action">
-                                        <button type="button" data-product-id='${product.productId}' class="btn-product btn-cart add_to_cart"><span>Thêm Vào Giỏ</span></button>
-                                    </div><!-- End .product-action -->
                                 </figure><!-- End .product-media -->
 
                                 <div class="product-body">
                                     <div class="product-cat">
                                         <a href="#">${recomProduct.type}</a>
                                     </div><!-- End .product-cat -->
-                                    <h3 class="product-title"><a href="product.html">${recomProduct.name}</a></h3><!-- End .product-title -->
+                                    <h3 class="product-title"><a href="${pageContext.request.contextPath}/list-all-product?action=viewDetail&id=${recomProduct.productId}">${recomProduct.name}</a></h3><!-- End .product-title -->
                                     <div class="product-price">
                                         ${recomProduct.formattedPrice} VNĐ
                                     </div><!-- End .product-price -->                         

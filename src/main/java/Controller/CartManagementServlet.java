@@ -5,13 +5,14 @@
 package Controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.List;
 
 import jakarta.servlet.http.HttpSession;
 
 import DAO.CartDAO;
 import Model.Cart;
+import Model.CartDetail;
 import Model.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -38,6 +39,25 @@ public class CartManagementServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        // String action = request.getParameter("action");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
+        try {
+            int userId = user.getUserId();
+            CartDAO cartDAO = new CartDAO();
+            Cart cart = cartDAO.getCartByUserId(userId);
+            List<CartDetail> carts = cartDAO.getCartDetailByCartId(cart.getCartId());
+            request.setAttribute("cart", cart);
+            request.setAttribute("products", carts);
+            request.getRequestDispatcher("pages/cart.jsp").forward(request, response);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

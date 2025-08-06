@@ -19,7 +19,7 @@ body {
     font-family: 'Agbalumo', cursive;
     font-weight: 500;
     font-style: italic;
-    font-size: 2.5vw;         /* Responsive */
+    font-size: 3vw;         /* Responsive */
     min-inline-size: 1.5rem;
     max-inline-size: 2.8rem;
     color: #222;
@@ -3185,7 +3185,7 @@ blockquote.text-white cite span {
 }
 
 a {
-    font-family: 'Poppins'
+    font-family: 'Roboto'
 }
 
 p {
