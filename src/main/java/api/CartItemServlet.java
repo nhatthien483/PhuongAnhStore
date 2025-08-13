@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller;
+package api;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -29,7 +29,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author thien
  */
-@WebServlet(name = "CartItemServlet", urlPatterns = { "/GetCartItemServlet" })
+@WebServlet(name = "CartItemServlet", urlPatterns = { "/api/GetCartItemServlet" })
 public class CartItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

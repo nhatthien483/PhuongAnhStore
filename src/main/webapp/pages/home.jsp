@@ -3,8 +3,6 @@
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
-
-
     <head>
         <meta property="og:title" content="Phương Anh Store" />
         <meta property="og:description" content="Phụ kiện sạc, livestream, máy tính, ô tô, xe máy..." />

@@ -87,6 +87,12 @@
             <artifactId>json</artifactId>
             <version>20231013</version>
         </dependency>   
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.16.1</version> <!-- hoặc version mới nhất -->
+        </dependency>
+
     </dependencies>
     
     <build>

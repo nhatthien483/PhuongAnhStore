@@ -45,18 +45,26 @@
 
 	            		<div class="col-sm-6 col-lg-3">
 	            			<div class="widget">
-	            				<h4 class="widget-title">Các Liên Kết Khác</h4><!-- End .widget-title -->
+	            				<h4 class="widget-title">Chính Sách Của Cửa Hàng</h4><!-- End .widget-title -->`
 	            				<ul class="widget-list">
-	            					<li><a href="about.html">Về Phương Anh Store</a></li>
                                     <li><a href="#">Chính Sách Bảo Mật</a></li>
 	            					<li><a href="#">Chính Sách Đổi Trả Và Bảo Hành</a></li>
+	            				</ul><!-- End .widget-list -->
+	            			</div><!-- End .widget -->
+	            		</div><!-- End .col-sm-6 col-lg-3 -->
+						<div class="col-sm-6 col-lg-3">
+	            			<div class="widget">
+	            				<h4 class="widget-title">Thông Tin Về Cửa Hàng</h4><!-- End .widget-title -->`
+	            				<ul class="widget-list">
+	            					<li><a href="about.html">Về Phương Anh Store</a></li>
+                                    <li><a href="https://maps.app.goo.gl/GXANcqYTwUDLHpT58">Địa chỉ cửa hàng: <em>163N Đ. Nguyễn Văn Cừ, Phường An Khánh, Ninh Kiều, Cần Thơ</em></a></li>
 	            				</ul><!-- End .widget-list -->
 	            			</div><!-- End .widget -->
 	            		</div><!-- End .col-sm-6 col-lg-3 -->
 	            	</div><!-- End .row -->
 	            </div><!-- End .container -->
 	        </div><!-- End .footer-middle -->
-
+			<div class="bg-dark p-2 justify-conten-center">© 2025 PhuongAnhStore. Mọi quyền được bảo lưu. Powered by <a href="https://zalo.me/0384018690"><em>SonaiperNhatThien</em></a></div>
 	        <%-- <div class="footer-bottom">
 	        	<div class="container">
 	        		<p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p><!-- End .footer-copyright -->

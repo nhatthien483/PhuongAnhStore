@@ -4,6 +4,11 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+	<meta property="og:title" content="Phương Anh Store" />
+	<meta property="og:description" content="Phụ kiện sạc, livestream, máy tính, ô tô, xe máy..." />
+	<meta property="og:image" content="https://www.phuonganhstore.vn/assets/images/logo/main-logo-2.png" />
+	<meta property="og:url" content="https://www.phuonganhstore.vn/" />
+	<meta property="og:type" content="website" />
 	<title>Đăng Ký</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	

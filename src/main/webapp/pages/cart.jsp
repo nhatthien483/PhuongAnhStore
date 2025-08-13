@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -7,6 +8,12 @@
 
 <!-- molla/cart.html  22 Nov 2019 09:55:06 GMT -->
 <head>
+	<meta property="og:title" content="Phương Anh Store" />
+	<meta property="og:description" content="Phụ kiện sạc, livestream, máy tính, ô tô, xe máy..." />
+	<meta property="og:image" content="https://www.phuonganhstore.vn/assets/images/logo/main-logo-2.png" />
+	<meta property="og:url" content="https://www.phuonganhstore.vn/" />
+	<meta property="og:type" content="website" />
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -31,7 +38,8 @@
                 <div class="container">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="home">Trang Chủ</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Trang Sản Phẩm</li>
+						<li class="breadcrumb-item"><a href="javascript:history.back()">Quay lại</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Giỏ hàng</li>
                     </ol>
                 </div><!-- End .container -->
             </nav><!-- End .breadcrumb-nav -->
@@ -44,40 +52,14 @@
 									<thead>
 										<tr>
 											<th>Sản Phẩm</th>
-											<th>Giá</th>
+											<th>Đơn Giá</th>
 											<th>Số lượng</th>
 											<th>Thành tiền</th>
 											<th></th>
 										</tr>
 									</thead>
-									<tbody>
-                                    <c:forEach var="c" items="${products}">
-										<tr>
-											<td class="product-col">
-												<div class="product">
-													<figure class="product-media">      
-														<a href="${pageContext.request.contextPath}/list-all-product?action=viewDetail&id=${c.getProduct().getProductId()}">
-                                                            <c:set var="firstImage" value="${fn:split(c.getProduct().getImage(), ',')[0]}" />
-                                                            <img src="${pageContext.request.contextPath}/Images/${c.getProduct().getCategory().getCategoryName()}/${c.getProduct().getCategoryType().getCategoryTypeName()}/${firstImage}" 
-                                                            alt="Ảnh" class="product-img" />
-														</a>
-													</figure>
-
-													<h3 class="product-title">
-														<a href="${pageContext.request.contextPath}/list-all-product?action=viewDetail&id=${c.getProduct().getProductId()}">${c.getProduct().getName()}</a>
-													</h3><!-- End .product-title -->
-												</div><!-- End .product -->
-											</td>
-											<td class="price-col">${c.getProduct().getFormattedPrice()}đ</td>
-											<td class="quantity-col">
-                                                <div class="cart-product-quantity">
-                                                    <input type="number" class="form-control" value="1" min="1" max="100" step="1" data-decimals="0" required>
-                                                </div><!-- End .cart-product-quantity -->
-                                            </td>
-											<td class="total-col">${c.getProduct().getPrice()}</td>
-											<td class="remove-col"><button class="btn-remove"><i class="icon-close"></i></button></td>
-										</tr>
-                                    </c:forEach>										
+									<tbody id="cart-body">
+                                    										
 									</tbody>
 								</table><!-- End .table table-wishlist -->
 
@@ -93,7 +75,7 @@
 			            				</form>
 			            			</div><!-- End .cart-discount -->
 
-			            			<a href="#" class="btn btn-outline-dark-2"><span>Tải Lại Giỏ</span><i class="icon-refresh"></i></a>
+			            			<a href="CartManagementServlet" class="btn btn-outline-dark-2"><span>Tải Lại Giỏ</span><i class="icon-refresh"></i></a>
 		            			</div><!-- End .cart-bottom -->
 	                		</div><!-- End .col-lg-9 -->
 	                		<aside class="col-lg-3">
@@ -103,60 +85,27 @@
 	                				<table class="table table-summary">
 	                					<tbody>
 	                						<tr class="summary-subtotal">
-	                							<td>Tổng số tiền:</td>
-	                							<td>${cart.getFormattedPrice()}đ</td>
+	                							<td>Tạm tính:</td>
+	                							<td id="cart-cart-price" style="color: #39f;"></td>
 	                						</tr><!-- End .summary-subtotal -->
-	                						<tr class="summary-shipping">
-	                							<td>Phí vận chuyển:</td>
-	                							<td>&nbsp;</td>
-	                						</tr>
-
-	                						<tr class="summary-shipping-row">
-	                							<td>
-													<div class="custom-control custom-radio">
-														<input type="radio" id="free-shipping" name="shipping" class="custom-control-input">
-														<label class="custom-control-label" for="free-shipping">Free Ship</label>
-													</div><!-- End .custom-control -->
-	                							</td>
-	                							<td>0đ</td>
-	                						</tr><!-- End .summary-shipping-row -->
-
-	                						<tr class="summary-shipping-row">
-	                							<td>
-	                								<div class="custom-control custom-radio">
-														<input type="radio" id="standart-shipping" name="shipping" class="custom-control-input">
-														<label class="custom-control-label" for="standart-shipping">Thường: </label>
-													</div><!-- End .custom-control -->
-	                							</td>
-	                							<td>30.000đ</td>
-	                						</tr><!-- End .summary-shipping-row -->
-
-	                						<tr class="summary-shipping-row">
-	                							<td>
-	                								<div class="custom-control custom-radio">
-														<input type="radio" id="express-shipping" name="shipping" class="custom-control-input">
-														<label class="custom-control-label" for="express-shipping">Nhanh:</label>
-													</div><!-- End .custom-control -->
-	                							</td>
-	                							<td>40.000đ</td>
-	                						</tr><!-- End .summary-shipping-row -->
-
-	                						<tr class="summary-shipping-estimate">
-	                							<td><strong>Địa Chỉ Giao Hàng:</strong><br> <em>${user.getAddress()}</em><br> <a href="#">Đổi địa chỉ</a></td>
+           						
+											<tr class="summary-shipping-estimate">
+	                							<td><strong>Giảm giá:</strong><br></td>
 	                							<td>&nbsp;</td>
 	                						</tr><!-- End .summary-shipping-estimate -->
-
+	                						
+											
 	                						<tr class="summary-total">
 	                							<td><strong>Tổng đơn hàng:</strong></td>
-	                							<td>$160.00</td>
+	                							<td><span class="cart-total-price" id="cart-price" style="color: #39f;"></span></td>
 	                						</tr><!-- End .summary-total -->
 	                					</tbody>
 	                				</table><!-- End .table table-summary -->
 
-	                				<a href="checkout.html" class="btn btn-outline-primary-2 btn-order btn-block">THANH TOÁN</a>
+	                				<a href="${pageContext.request.contextPath}/checkout" class="btn btn-outline-primary-2 btn-order btn-block">THANH TOÁN</a>
 	                			</div><!-- End .summary -->
 
-		            			<a href="category.html" class="btn btn-outline-dark-2 btn-block mb-3"><span>TIẾP TỤC MUA SẮM</span><i class="icon-refresh"></i></a>
+		            			<a href="list-all-product" class="btn btn-outline-dark-2 btn-block mb-3"><span>TIẾP TỤC MUA SẮM</span><i class="icon-refresh"></i></a>
 	                		</aside><!-- End .col-lg-3 -->
 	                	</div><!-- End .row -->
 	                </div><!-- End .container -->
@@ -176,9 +125,10 @@
     <script src="assets/js/jquery.waypoints.min.js"></script>
     <script src="assets/js/superfish.min.js"></script>
     <script src="assets/js/owl.carousel.min.js"></script>
-    <script src="assets/js/bootstrap-input-spinner.js"></script>
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/cart.js?v=<%= System.currentTimeMillis()%>"></script>
+	
 </body>
 
 

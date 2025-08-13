@@ -5,6 +5,12 @@
 <html lang="vi">
 
 <head>
+    <meta property="og:title" content="Phương Anh Store" />
+    <meta property="og:description" content="Phụ kiện sạc, livestream, máy tính, ô tô, xe máy..." />
+    <meta property="og:image" content="https://www.phuonganhstore.vn/assets/images/logo/main-logo-2.png" />
+    <meta property="og:url" content="https://www.phuonganhstore.vn/" />
+    <meta property="og:type" content="website" />
+    
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -105,10 +111,10 @@
                                     <div class="details-filter-row details-row-size">
                                         <label for="qty">Số lượng:</label>
                                         <div class="product-details-quantity">
-                                            <input type="number" id="qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
+                                            <input type="number" id="qty" class="form-control" value="1" min="1" max="20" step="1" data-decimals="0" required>
                                         </div><!-- End .product-details-quantity -->
                                     </div><!-- End .details-filter-row -->
-
+                                    <a><em>*Khách hàng mua số lượng lớn vui lòng liên hệ qua hotline: 0901050697</em></a>
                                     <div class="product-details-action rounded-3 p-3 addCard">
                                         <%-- <a href="#" class="btn-product btn-cart"><span>Thêm Vào Giỏ</span></a> --%>
                                         <button type="button" data-product-id='${product.productId}' class="btn-product btn-cart add_to_cart"><span>Thêm Vào Giỏ</span></button>

@@ -20,7 +20,7 @@
                 <span class="nav-section-text">Thống Kê</span>
             </li>           
             <li class="nav-item">
-                <a href="#" class="nav-link active">
+                <a href="${pageContext.request.contextPath}/admin/dashboard" class="nav-link active">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Thống Kê Chính</span>
                 </a>

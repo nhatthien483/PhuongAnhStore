@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Controller;
+package api;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -30,7 +30,7 @@ import java.sql.SQLException;
  *
  * @author ALIENWARE
  */
-@WebServlet("/AddToCartServlet")
+@WebServlet("/api/AddToCartServlet")
 public class AddToCartServlet extends HttpServlet {
 
     @Override
@@ -41,6 +41,13 @@ public class AddToCartServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
 
         String partIdStr = request.getParameter("id");
+        int quantity = 1;
+        try {
+            quantity = Integer.parseInt(request.getParameter("quantity"));
+        } catch (NumberFormatException e) {
+            quantity = 1; // fallback nếu không gửi quantity hoặc lỗi định dạng
+        }
+
         if (partIdStr == null || !partIdStr.matches("\\d+")) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product id incorrect.");
             return;
@@ -56,7 +63,7 @@ public class AddToCartServlet extends HttpServlet {
         int userId = user.getUserId();
         try {
             // Đã login → xử lý giỏ hàng DB
-            boolean success = cartDAO.addToCart(userId, partId);
+            boolean success = cartDAO.addToCart(userId, partId, quantity);
             if (success) {
                 CartDAO cDAO = new CartDAO();
                 int cartCount = 0;

@@ -8,6 +8,8 @@
     <head>
         <meta charset="UTF-8">
         <title>Quản Lý Sản Phẩm</title>
+        <link rel="icon" href="${pageContext.request.contextPath}/assets/images/logo/main-logo-2.png" type="image/x-icon">
+
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/dashboard.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin_dashboard.css">

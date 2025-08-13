@@ -2,11 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller;
+package api;
 
 import DAO.CartDAO;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.sql.SQLException;
 
 import jakarta.servlet.ServletException;
@@ -20,8 +19,8 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author thien
  */
-@WebServlet("/GetCartPriceServlet")
-public class CartPriceServlet extends HttpServlet {
+@WebServlet("/api/GetCartCountServlet")
+public class CartCountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -29,25 +28,19 @@ public class CartPriceServlet extends HttpServlet {
         HttpSession session = request.getSession(false); // false: không tạo session nếu chưa có
         Integer userId = (session != null) ? (Integer) session.getAttribute("userId") : null;
 
-        BigDecimal cartPrice = BigDecimal.ZERO;
-
-        if (userId != null) {
-            try {
+        int cartCount = 0;
+        try {
+            if (userId != null) {
                 CartDAO cartDAO = new CartDAO();
-                Model.Cart cart = cartDAO.getCartByUserId(userId);
-                if (cart != null && cart.getCartPrice() != null) {
-                    cartPrice = cart.getCartPrice();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                response.getWriter().write("{\"error\":\"Lỗi khi truy vấn dữ liệu giỏ hàng\"}");
-                return;
+                Model.Cart cart;
+                cart = cartDAO.getCartByUserId(userId);
+                cartCount = (cart != null) ? cart.getCartCount() : 0;
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write("{\"cartPrice\":" + cartPrice + "}");
+        response.getWriter().write("{\"cartCount\":" + cartCount + "}");
     }
 }

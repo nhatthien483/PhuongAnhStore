@@ -42,7 +42,14 @@ public class ProductManagementServlet extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/views/admin/edit_product.jsp").forward(request, response);
             } else if ("delete".equals(action)) {
                 int id = Integer.parseInt(request.getParameter("id"));
-
+                try {
+                    productDAO.deleteProduct(id);
+                    request.getSession().setAttribute("notification", "Xóa sản phẩm thành công!");
+                } catch (Exception e) {
+                    request.getSession().setAttribute("notification", "Không thể xóa sản phẩm! Có thể sản phẩm đang nằm trong giỏ hàng hoặc đơn hàng.");
+                    response.sendRedirect(request.getContextPath() + "/admin/productManagement");
+                    return;
+                }
                 // Lấy sản phẩm để biết đường dẫn ảnh
                 Product product = productDAO.getProductById(id);
                 if (product != null) {
@@ -62,10 +69,7 @@ public class ProductManagementServlet extends HttpServlet {
                         }
                     }
                 }
-
                 // Sau khi xóa ảnh → xóa dữ liệu trong DB
-                productDAO.deleteProduct(id);
-                request.getSession().setAttribute("notification", "Xóa sản phẩm thành công!");
                 success = true;
             } else if ("add".equals(action)) {
                 request.getRequestDispatcher("/WEB-INF/views/admin/add_product.jsp").forward(request, response);

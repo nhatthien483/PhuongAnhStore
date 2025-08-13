@@ -6,7 +6,9 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Thêm sản phẩm</title>
+        <title>Sửa tài khoản</title>
+        <link rel="icon" href="${pageContext.request.contextPath}/assets/images/logo/main-logo-2.png" type="image/x-icon">
+
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -55,7 +57,7 @@
 
             <div class="card shadow">
                 <div class="card-header bg-dark text-white d-flex justify-content-center">
-                    <h4>Sửa sản phẩm</h4>
+                    <h4>Sửa tài khoản</h4>
                 </div>
                 <div class="card-body">
                     <c:if test="${empty success}">

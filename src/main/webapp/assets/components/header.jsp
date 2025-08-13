@@ -3,6 +3,11 @@
 <!DOCTYPE html>
 <html lang="vi">
     <head>
+        <meta property="og:title" content="Phương Anh Store" />
+        <meta property="og:description" content="Phụ kiện sạc, livestream, máy tính, ô tô, xe máy..." />
+        <meta property="og:image" content="https://www.phuonganhstore.vn/assets/images/logo/main-logo-2.png" />
+        <meta property="og:url" content="https://www.phuonganhstore.vn/" />
+        <meta property="og:type" content="website" />
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
         <style>
             .dropdown-menu.custom-dropdown {
@@ -127,14 +132,12 @@
                         <div class="dropdown-menu dropdown-menu-right shadow-lg p-3 mb-5 bg-body rounded">
 
                             <div class="dropdown-cart-products" id="cart-items">
-                                <!-- Nội dung sản phẩm sẽ được JS thêm vào đây -->
+                                <!-- JS -->
                             </div>
-
                             <div class="dropdown-cart-total">
                                 <span>Tổng Đơn Hàng</span>
                                 <span class="cart-total-price" id="cart-price" style="color: #39f;"></span>
                             </div><!-- End .dropdown-cart-total -->
-
                             <div class="dropdown-cart-action">
                                 <a href="CartManagementServlet" class="btn btn-primary">Xem Giỏ</a>
                                 <a href="#" class="btn btn-outline-primary-2"><span>Thanh Toán</span><i class="icon-long-arrow-right"></i></a>

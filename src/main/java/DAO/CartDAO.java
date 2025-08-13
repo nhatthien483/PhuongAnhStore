@@ -18,11 +18,22 @@ import Model.Product;
 public class CartDAO extends DBContext {
     public static void main(String[] args) throws SQLException {
         CartDAO cDAO = new CartDAO();
-        boolean success = cDAO.removeCartItem(16, 157);
-        if (success){
+        boolean success = cDAO.addToCart(16, 473, 5);
+        if (success) {
             System.out.println("Successfull");
-        }else{
+        } else {
             System.out.println("Error");
+        }
+    }
+
+    public void updateCartItemQuantity(int cartId, int productId, int quantity) throws SQLException {
+        String sql = "UPDATE CartDetail SET quantity = ? WHERE cart_id = ? AND product_id = ?";
+        Connection conn = this.getConnection();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, quantity);
+            stmt.setInt(2, cartId);
+            stmt.setInt(3, productId);
+            stmt.executeUpdate();
         }
     }
 
@@ -220,11 +231,33 @@ public class CartDAO extends DBContext {
         return BigDecimal.ZERO;
     }
 
-    public boolean addToCart(int userId, int productId) {
+    public void updateCartSummary(int cartId) throws SQLException {
+        String sql = " UPDATE Cart\r\n" + //
+                "                    SET cart_count = (\r\n" + //
+                "                        SELECT SUM(quantity) FROM CartDetail WHERE cart_id = ?\r\n" + //
+                "                    ),\r\n" + //
+                "                    cart_price = (\r\n" + //
+                "                        SELECT SUM(p.product_price * cd.quantity)\r\n" + //
+                "                        FROM CartDetail cd\r\n" + //
+                "                        JOIN Product p ON cd.product_id = p.product_id\r\n" + //
+                "                        WHERE cd.cart_id = ?\r\n" + //
+                "                    )\r\n" + //
+                "                    WHERE cart_id = ?";
+
+        Connection conn = this.getConnection();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, cartId);
+            stmt.setInt(2, cartId);
+            stmt.setInt(3, cartId);
+            stmt.executeUpdate();
+        }
+    }
+
+    public boolean addToCart(int userId, int productId, int quantity) {
         String getCartSql = "SELECT cart_id FROM Cart WHERE user_id = ?";
         String createCartSql = "INSERT INTO Cart (user_id, cart_price, cart_count) OUTPUT INSERTED.cart_id VALUES (?, 0, 0)";
         String checkCartDetailSql = "SELECT quantity FROM CartDetail WHERE cart_id = ? AND product_id = ?";
-        String insertCartDetailSql = "INSERT INTO CartDetail (cart_id, product_id, quantity) VALUES (?, ?, 1)";
+        String insertCartDetailSql = "INSERT INTO CartDetail (cart_id, product_id, quantity) VALUES (?, ?, ?)";
         String updateCartDetailSql = "UPDATE CartDetail SET quantity = quantity + 1 WHERE cart_id = ? AND product_id = ?";
         String getTotalQuantitySql = "SELECT SUM(quantity) AS total_quantity FROM CartDetail WHERE cart_id = ?";
         String getTotalPriceSql = "SELECT SUM(cd.quantity * p.product_price) AS total_price FROM CartDetail cd JOIN Product p ON cd.product_id = p.product_id WHERE cd.cart_id = ?";
@@ -280,6 +313,7 @@ public class CartDAO extends DBContext {
                 try (PreparedStatement stmt = conn.prepareStatement(insertCartDetailSql)) {
                     stmt.setInt(1, cartId);
                     stmt.setInt(2, productId);
+                    stmt.setInt(3, quantity);
                     stmt.executeUpdate();
                 }
             }
