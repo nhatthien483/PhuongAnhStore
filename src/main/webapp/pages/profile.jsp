@@ -35,6 +35,9 @@
 <%@ include file="/assets/components/header.jsp" %>
 <body>
     <div class="page-wrapper">
+		<c:if test="${not empty message}">
+    		<div class="alert alert-info d-flex justify-content-center">${message}</div>
+		</c:if>
         <main class="main">
         	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
         		<div class="container">
@@ -73,7 +76,7 @@
 								        <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">Đổi mật khẩu</a>
 								    </li>
 								    <li class="nav-item">
-								        <a class="nav-link" href="#">Đăng xuất</a>
+								        <a class="nav-link" href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
 								    </li>
 								</ul>
 	                		</aside><!-- End .col-lg-3 -->
@@ -88,7 +91,7 @@
 
 								    <div class="tab-pane fade show active" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
 								    	<p>Không có đơn hàng nào!</p>
-								    	<a href="category.html" class="btn btn-outline-primary-2"><span>Đi đến cửa hàng</span><i class="icon-long-arrow-right"></i></a>
+								    	<a href="${pageContext.request.contextPath}/list-all-product" class="btn btn-outline-primary-2"><span>Đi đến cửa hàng</span><i class="icon-long-arrow-right"></i></a>
 								    </div><!-- .End .tab-pane -->
 
 								    <%-- <div class="tab-pane fade" id="tab-downloads" role="tabpanel" aria-labelledby="tab-downloads-link">
@@ -101,63 +104,65 @@
 
 								    	<div class="row">
 								    		<div class="col-lg-6">
-								    			<div class="card card-dashboard">
-								    				<div class="card-body">
-								    					<h3 class="card-title">Thông tin người nhận</h3><!-- End .card-title -->
-														<p>Username: ${user.username}<br>
-                                                        Họ và Tên: ${user.fullName}<br>
-														Địa chỉ: ${user.address}<br>
-                                                        SĐT: ${user.phone}<br>
-                                                        Email: ${user.email}<br>
-														<%-- John str<br>
-														New York, NY 10001<br>
-														1-234-987-6543<br>
-														yourmail@mail.com<br> --%>
-														<a href="#">Edit <i class="icon-edit"></i></a></p>
-								    				</div><!-- End .card-body -->
-								    			</div><!-- End .card-dashboard -->
-								    		</div><!-- End .col-lg-6 -->
+												<div class="card card-dashboard">
+													<div class="card-body">
+														<h3 class="card-title">Chỉnh sửa thông tin cá nhân</h3>
+														<form action="${pageContext.request.contextPath}/profile" method="post">
+															<input type="hidden" name="action" value="updateProfile">
+															<div class="form-group">
+																<label for="fullName">Họ và Tên</label>
+																<input type="text" id="fullName" name="fullName" value="${user.getFullName()}" class="form-control" required>
+															</div>
+															<div class="form-group">
+																<label for="email">Email</label>
+																<input type="email" id="email" name="email" value="${user.email}" class="form-control" required>
+															</div>
+															<div class="form-group">
+																<label for="phone">Số điện thoại</label>
+																<input type="text" id="phone" name="phone" value="${user.phone}" class="form-control" required>
+															</div>
+															<button type="submit" class="btn btn-primary">Cập nhật</button>
+														</form>
+													</div>
+												</div>
+											</div>
 
 								    		<div class="col-lg-6">
-								    			<div class="card card-dashboard">
-								    				<div class="card-body">
-								    					<h3 class="card-title">Địa chỉ giao hàng</h3><!-- End .card-title -->
+												<div class="card card-dashboard">
+													<div class="card-body">
+														<h3 class="card-title">Địa chỉ giao hàng</h3><!-- End .card-title -->
 														<p>${user.address}<br>
-														<a href="#">Edit <i class="icon-edit"></i></a></p>
-								    				</div><!-- End .card-body -->
-								    			</div><!-- End .card-dashboard -->
-								    		</div><!-- End .col-lg-6 -->
+															<a href="#" id="edit-address-btn">Chỉnh sửa <i class="icon-edit"></i></a>
+														</p>
+														<form id="edit-address-form" action="${pageContext.request.contextPath}/profile" method="doget" style="display: none;">
+															<input type="hidden" name="action" value="address">
+															<input type="text" name="newAddress" placeholder="Nhập địa chỉ mới" class="form-control mb-2" required>
+															<button type="submit" class="btn btn-primary">Cập nhật</button>
+														</form>
+													</div><!-- End .card-body -->
+												</div><!-- End .card-dashboard -->
+											</div><!-- End .col-lg-6 -->
 								    	</div><!-- End .row -->
 								    </div><!-- .End .tab-pane -->
 
 								    <div class="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
-								    	<form action="${pageContext.request.contextPath}/profile" method="post">
-                                            <a type="hidden" action="changePass">
-			                				<div class="row">
-			                					<div class="col-sm-6">
-			                						<label>Họ Tên *</label>
-			                						<input type="text" class="form-control" value="${user.fullName}" required>
-			                					</div><!-- End .col-sm-6 -->
-			                				</div><!-- End .row -->
-
-		                					<label>Địa chỉ Email *</label>
-		        							<input type="email" class="form-control" value="${user.email}" required>
-
-		            						<label>Mật khẩu hiện tại</label>
-		            						<input type="password" class="form-control">
-
-		            						<label>Mật khẩu mới</label>
-		            						<input type="password" class="form-control">
-
-		            						<label>Xác nhận mật khẩu mới</label>
-		            						<input type="password" class="form-control mb-2">
-
-		                					<button type="submit" class="btn btn-outline-primary-2">
-			                					<span>Lưu Thay Đổi</span>
-			            						<i class="icon-long-arrow-right"></i>
-			                				</button>
-			                			</form>
-								    </div><!-- .End .tab-pane -->
+										<form action="${pageContext.request.contextPath}/profile" method="post">
+											<input type="hidden" name="action" value="changePassword">
+											<div class="form-group">
+												<label for="currentPassword">Mật khẩu hiện tại</label>
+												<input type="password" id="currentPassword" name="currentPassword" class="form-control" required>
+											</div>
+											<div class="form-group">
+												<label for="newPassword">Mật khẩu mới</label>
+												<input type="password" id="newPassword" name="newPassword" class="form-control" required>
+											</div>
+											<div class="form-group">
+												<label for="confirmPassword">Xác nhận mật khẩu mới</label>
+												<input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
+											</div>
+											<button type="submit" class="btn btn-primary">Cập nhật mật khẩu</button>
+										</form>
+									</div>
 								</div>
 	                		</div><!-- End .col-lg-9 -->
 	                	</div><!-- End .row -->
@@ -179,6 +184,13 @@
     <script src="assets/js/owl.carousel.min.js"></script>
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
+	<script>
+		document.getElementById('edit-address-btn').addEventListener('click', function (e) {
+			e.preventDefault();
+			document.getElementById('edit-address-form').style.display = 'block';
+			this.style.display = 'none';
+		});
+	</script>
 </body>
 
 

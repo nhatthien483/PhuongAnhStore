@@ -14,11 +14,9 @@ import Model.User;
 import Service.HashUtil;
 
 public class UserDAO extends DBContext {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         UserDAO userDAO = new UserDAO();
-        User user = new User("sonaiper123", "thientom483@gmail.com", "1234", "Nguyễn Huỳnh Nhât Thiện", 1);
-        userDAO.register(user);
-        System.out.println("User registered successfully!");
+        userDAO.updateAddress("Ninh Kieu, Can Tho", 16);
     }
 
     public void addUser(User user) throws SQLException {
@@ -60,6 +58,20 @@ public class UserDAO extends DBContext {
             }
         }
         return list;
+    }
+
+    public boolean updateAddress(String address, int userId) throws SQLException {
+        String sql = "UPDATE [User] SET user_address = ? WHERE user_id = ?";
+        Connection conn = this.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, address);
+            ps.setInt(2, userId);
+            int rowsUpdated = ps.executeUpdate();
+            return rowsUpdated > 0; // Return true if at least one row was updated
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e; // Rethrow the exception to let the caller handle it
+        }
     }
 
     public void clearResetToken(String token) {
@@ -234,6 +246,7 @@ public class UserDAO extends DBContext {
             e.printStackTrace();
         }
     }
+
 
     public void updateUser(User user) throws SQLException {
         String sql = "UPDATE [User] SET user_fullname=?, user_phone=?, user_email=?, user_address=?, user_status=?, role_id=?, create_at=? WHERE user_id=?";

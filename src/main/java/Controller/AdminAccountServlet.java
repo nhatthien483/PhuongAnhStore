@@ -40,7 +40,6 @@ public class AdminAccountServlet extends HttpServlet {
         if (pageParam != null && pageParam.matches("\\d+")) {
             currentPage = Integer.parseInt(pageParam);
         }
-
         String action = request.getParameter("action");
         if ("search".equals(action)) {
             String searchQuery = request.getParameter("keyword");

@@ -79,7 +79,7 @@ function updateCartPriceFromServer() {
                     style: 'currency',
                     currency: 'VND'
                 });
-            }if (cartPriceElems) {
+            } if (cartPriceElems) {
                 const price = data.cartPrice || 0;
                 cartPriceElems.innerText = price.toLocaleString('vi-VN', {
                     style: 'currency',

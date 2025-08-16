@@ -65,14 +65,17 @@
 
 	                			<div class="cart-bottom">
 			            			<div class="cart-discount">
-			            				<form action="#">
-			            					<div class="input-group">
-				        						<input type="text" class="form-control" required placeholder="Phiếu giảm giá">
-				        						<div class="input-group-append">
-													<button class="btn btn-outline-primary-2" type="submit"><i class="icon-long-arrow-right"></i></button>
-												</div><!-- .End .input-group-append -->
-			        						</div><!-- End .input-group -->
-			            				</form>
+			            				<form id="voucher-form">
+											<div class="input-group">
+												<input type="text" name="voucher" id="voucher" class="form-control" required placeholder="Phiếu giảm giá">
+												<div class="input-group-append">
+													<button class="btn btn-outline-primary-2" type="submit">
+														<i class="icon-long-arrow-right"></i>
+													</button>
+												</div>
+											</div>
+										</form>
+
 			            			</div><!-- End .cart-discount -->
 
 			            			<a href="CartManagementServlet" class="btn btn-outline-dark-2"><span>Tải Lại Giỏ</span><i class="icon-refresh"></i></a>
@@ -90,15 +93,13 @@
 	                						</tr><!-- End .summary-subtotal -->
            						
 											<tr class="summary-shipping-estimate">
-	                							<td><strong>Giảm giá:</strong><br></td>
-	                							<td>&nbsp;</td>
-	                						</tr><!-- End .summary-shipping-estimate -->
-	                						
-											
+												<td><strong>Giảm giá (nếu có):</strong></td>
+												<td id="discount-info" style="color:red;"></td>
+											</tr>	                											
 	                						<tr class="summary-total">
-	                							<td><strong>Tổng đơn hàng:</strong></td>
-	                							<td><span class="cart-total-price" id="cart-price" style="color: #39f;"></span></td>
-	                						</tr><!-- End .summary-total -->
+												<td><strong>Tổng sau giảm (nếu có):</strong></td>
+												<td><span id="cart-total-after-discount"></span></td>
+											</tr>
 	                					</tbody>
 	                				</table><!-- End .table table-summary -->
 
@@ -128,9 +129,47 @@
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/cart.js?v=<%= System.currentTimeMillis()%>"></script>
-	
+	<script>
+		document.querySelector("#voucher-form").addEventListener("submit", function(e) {
+			e.preventDefault();
+			const code = document.querySelector("#voucher").value;
+
+			fetch("voucher?action=check&code=" + encodeURIComponent(code))
+				.then(res => res.json())
+				.then(data => {
+					console.log(data); // debug
+					const discountInfoEl = document.getElementById("discount-info");
+					const cartCartPriceEl = document.getElementById("cart-cart-price");
+					const totalAfterDiscountEl = document.getElementById("cart-total-after-discount");
+					console.log("discountPercent:", data.discountPercent);
+					console.log("discountAmount:", data.discountAmount);
+					console.log("discountInfoEl:", discountInfoEl);
+					console.log("totalAfterDiscountEl:", totalAfterDiscountEl);
+					if (data.valid) {
+						alert(`Áp dụng thành công! Giảm: ` + data.discountPercent + "% (" + data.discountAmount + "đ)");
+						// Hiển thị thông tin giảm giá
+						if (discountInfoEl) {
+							discountInfoEl.innerText = data.discountPercent + "% (" + data.discountAmount + "đ)";
+						}
+
+						// Hiển thị tổng sau giảm
+						if (totalAfterDiscountEl) {
+							totalAfterDiscountEl.innerText = data.totalFormatted + " đ";
+						}
+					} else {
+						alert(data.message || "Mã giảm giá không hợp lệ hoặc đã hết hạn.");
+
+						// Không có giảm giá → lấy giá tạm tính làm tổng sau giảm
+						if (discountInfoEl) {
+							discountInfoEl.innerText = "";
+						}
+						if (totalAfterDiscountEl && cartCartPriceEl) {
+							totalAfterDiscountEl.innerText = cartCartPriceEl.innerText;
+						}
+					}
+				})
+				.catch(err => console.error(err));
+		});
+	</script>
 </body>
-
-
-<!-- molla/cart.html  22 Nov 2019 09:55:06 GMT -->
 </html>

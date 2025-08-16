@@ -1,32 +1,52 @@
 package Model;
 
+import java.sql.Date;
+
 public class Voucher {
-    private int voucherId;
-    private String voucherText;
+    private int id;
+    private String code;
+    private double discount;
+    private int quantity;
+    private Date expiryDate;
 
-    // getters & setters
-
-    public Voucher() {
+    // Getters và Setters
+    public int getId() {
+        return id;
     }
 
-    public Voucher(int voucherId, String voucherText) {
-        this.voucherId = voucherId;
-        this.voucherText = voucherText;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getVoucherId() {
-        return voucherId;
+    public String getCode() {
+        return code;
     }
 
-    public void setVoucherId(int voucherId) {
-        this.voucherId = voucherId;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getVoucherText() {
-        return voucherText;
+    public double getDiscount() {
+        return discount;
     }
 
-    public void setVoucherText(String voucherText) {
-        this.voucherText = voucherText;
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(Date expiryDate) {
+        this.expiryDate = expiryDate;
     }
 }

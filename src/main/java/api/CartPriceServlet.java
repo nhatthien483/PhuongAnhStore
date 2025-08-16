@@ -45,7 +45,7 @@ public class CartPriceServlet extends HttpServlet {
                 return;
             }
         }
-
+        session.setAttribute("totalPrice", cartPrice);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write("{\"cartPrice\":" + cartPrice + "}");

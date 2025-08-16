@@ -12,7 +12,8 @@ public class Cart {
 
     public Cart() {
     }
-      public String getFormattedPrice() {
+
+    public String getFormattedPrice() {
         NumberFormat formatter = NumberFormat.getInstance(new Locale("vi", "VN"));
         return formatter.format(cartPrice);
     }
@@ -48,6 +49,5 @@ public class Cart {
     public void setCartCount(int cartCount) {
         this.cartCount = cartCount;
     }
-    
-}
 
+}

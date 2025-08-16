@@ -2,6 +2,8 @@ package Model;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class Order {
     private int orderId;
@@ -10,6 +12,7 @@ public class Order {
     private String status;
     private Date orderDate;
     private int voucherId;
+    private User user;
 
     // getters & setters
     public Order(int orderId, int userId, BigDecimal price, String status, Date orderDate, int voucherId) {
@@ -20,7 +23,16 @@ public class Order {
         this.orderDate = orderDate;
         this.voucherId = voucherId;
     }
+
     public Order() {
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getOrderId() {
@@ -37,6 +49,11 @@ public class Order {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public String getFormattedPrice() {
+        NumberFormat formatter = NumberFormat.getInstance(new Locale("vi", "VN"));
+        return formatter.format(price);
     }
 
     public BigDecimal getPrice() {

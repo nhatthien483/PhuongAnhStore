@@ -1,5 +1,6 @@
 package Model;
 
+
 public class CartDetail {
     private int cartId;
     private int productId;
@@ -12,12 +13,15 @@ public class CartDetail {
         this.productId = productId;
         this.quantity = quantity;
     }
+
     public Product getProduct() {
         return product;
     }
+
     public void setProduct(Product product) {
         this.product = product;
     }
+
     public CartDetail() {
     }
 

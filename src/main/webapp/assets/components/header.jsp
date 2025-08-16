@@ -140,7 +140,7 @@
                             </div><!-- End .dropdown-cart-total -->
                             <div class="dropdown-cart-action">
                                 <a href="CartManagementServlet" class="btn btn-primary">Xem Giỏ</a>
-                                <a href="#" class="btn btn-outline-primary-2"><span>Thanh Toán</span><i class="icon-long-arrow-right"></i></a>
+                                <a href="${pageContext.request.contextPath}/checkout" class="btn btn-outline-primary-2"><span>Thanh Toán</span><i class="icon-long-arrow-right"></i></a>
                             </div><!-- End .dropdown-cart-total -->
                         </div><!-- End .dropdown-menu -->
                     </div><!-- End .cart-dropdown -->

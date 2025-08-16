@@ -44,7 +44,7 @@ public class CartManagementServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
         try {
@@ -76,7 +76,7 @@ public class CartManagementServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
 
         if (user == null) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
 
