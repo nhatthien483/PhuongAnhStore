@@ -18,8 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/apexcharts@3.45.1/dist/apexcharts.min.css" rel="stylesheet">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
         <style>
-        <style>
-        #notification-container {
+             #notification-container {
                 position: relative;
                 width: 100%;
                 text-align: center;
@@ -145,7 +144,6 @@
         <jsp:include page="/WEB-INF/views/components/adminSidebar.jsp" />
         <div class="main-content">
             <jsp:include page="/WEB-INF/views/components/dashboardHeader.jsp" />
-
             <div class="container-fluid">
                 <div class="alert-container">
                     <!-- ALERT MESSAGES -->

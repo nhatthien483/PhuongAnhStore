@@ -7,13 +7,8 @@ package Controller;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.util.List;
-
-import DAO.CartDAO;
 import DAO.OrderDAO;
 import DAO.PaymentDAO;
-import Model.Cart;
-import Model.CartDetail;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

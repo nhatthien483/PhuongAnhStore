@@ -45,11 +45,8 @@
                 <a href="${pageContext.request.contextPath}/admin/order" class="nav-link">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Đơn Hàng</span>
-                    <%-- <span class="badge badge-danger">3</span> --%>
                 </a>
             </li>
         </ul>
-
-        
     </div>
 </div> 
