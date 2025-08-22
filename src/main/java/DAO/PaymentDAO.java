@@ -2,6 +2,7 @@ package DAO;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,16 +33,17 @@ public class PaymentDAO extends DBContext {
         return null;
     }
 
-    public void createPayment(int orderId, String method, String status, String transactionId, long totalPrice) throws SQLException {
+    public void createPayment(int orderId, String method, String status, String transactionId, long totalPrice, Date paymentDateTime) throws SQLException {
         String sql = "INSERT INTO Payment (payment_method, payment_date, payment_amount, transaction_id, payment_status, order_id) "
-                + "VALUES (?, GETDATE(), ?, ?, ?, ?)";
+                + "VALUES (?, ?, ?, ?, ?, ?)";
         Connection conn = this.getConnection();
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, method);
-            ps.setLong(2, totalPrice); 
-            ps.setString(3, transactionId); 
-            ps.setString(4, status);
-            ps.setInt(5, orderId);
+            ps.setDate(2, paymentDateTime);
+            ps.setLong(3, totalPrice); 
+            ps.setString(4, transactionId); 
+            ps.setString(5, status);
+            ps.setInt(6, orderId);
             ps.executeUpdate();
         }
     }

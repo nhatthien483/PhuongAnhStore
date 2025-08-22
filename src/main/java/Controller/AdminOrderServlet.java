@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 import DAO.OrderDAO;
 import Model.Order;
+import Model.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -35,24 +36,56 @@ public class AdminOrderServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String action = request.getParameter("action");
+        if ("delete".equals(action)) {
+            deleteOrder(request, response);
+            return;
+        } else if ("detail".equals(action)) {
+            viewDetail(request, response);
+            return;
+        }
+        // Default: list orders
         OrderDAO oDAO = new OrderDAO();
-        int totalUsers = oDAO.countAll();
-        int usersPerPage = 20;
-        int totalPages = (int) Math.ceil((double) totalUsers / usersPerPage);
+        int totalOrders = oDAO.countAll(); // Renamed to totalOrders for clarity
+        int ordersPerPage = 20;
+        int totalPages = (int) Math.ceil((double) totalOrders / ordersPerPage);
         int currentPage = 1;
         String pageParam = request.getParameter("page");
         if (pageParam != null && pageParam.matches("\\d+")) {
             currentPage = Integer.parseInt(pageParam);
         }
         try {
-            List<Order> orders = oDAO.getOrderByPage(currentPage, usersPerPage);
+            List<Order> orders = oDAO.getOrderByPage(currentPage, ordersPerPage);
             request.setAttribute("totalPages", totalPages);
             request.setAttribute("currentPage", currentPage);
             request.setAttribute("orders", orders);
             request.getRequestDispatcher("/WEB-INF/views/admin/order.jsp").forward(request, response);
-
         } catch (SQLException e) {
             e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database error");
+        }
+    }
+
+    private void deleteOrder(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String idStr = request.getParameter("id");
+        if (idStr == null || idStr.isEmpty()) {
+            response.sendRedirect(request.getContextPath() + "/admin/order?error=Missing order ID");
+            return;
+        }
+        OrderDAO oDAO = new OrderDAO();
+        try {
+            int orderId = Integer.parseInt(idStr);
+            boolean deleted = oDAO.deleteOrder(orderId); // Assume OrderDAO has deleteOrder method
+            if (deleted) {
+                response.sendRedirect(request.getContextPath() + "/admin/order?msg=deleted");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/admin/order?error=Failed to delete order");
+            }
+        } catch (NumberFormatException e) {
+            response.sendRedirect(request.getContextPath() + "/admin/order?error=Invalid order ID");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            response.sendRedirect(request.getContextPath() + "/admin/order?error=Database error during deletion");
         }
     }
 
@@ -67,24 +100,20 @@ public class AdminOrderServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String orderIdStr = request.getParameter("orderId");
+        String orderIdStr = request.getParameter("serviceAppointmentId");
         String status = request.getParameter("status");
-
         System.out.println("Order Id: " + orderIdStr);
-
-        response.setContentType("application/json");
         try {
             int orderId = Integer.parseInt(orderIdStr);
             OrderDAO oDAO = new OrderDAO();
             boolean updated = oDAO.updateOrderStatus(orderId, status);
             if (updated) {
-                response.getWriter().write("{\"success\":true, \"status\":\"" + status + "\"}");
+                response.sendRedirect(request.getContextPath() + "/admin/order?msg=updated");
             } else {
-                response.getWriter().write("{\"success\":false}");
+                response.sendRedirect(request.getContextPath() + "/admin/order?error=Failed to update order status");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.getWriter().write("{\"success\":false}");
+        } catch (NumberFormatException e) {
+            response.sendRedirect(request.getContextPath() + "/admin/order?error=Invalid order ID");
         }
     }
 
@@ -98,4 +127,30 @@ public class AdminOrderServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private void viewDetail(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        OrderDAO orderDAO = new OrderDAO();
+
+        String idStr = request.getParameter("id");
+        if (idStr == null || idStr.isEmpty()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing order ID");
+            return;
+        }
+
+        try {
+            int orderId = Integer.parseInt(idStr);
+            Order order = orderDAO.getOrderById(orderId);
+            if (order == null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Order not found");
+                return;
+            }
+            request.setAttribute("order", order);
+            request.getRequestDispatcher("/WEB-INF/views/admin/order_detail.jsp").forward(request, response);
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid order ID");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database error");
+        }
+    }
 }

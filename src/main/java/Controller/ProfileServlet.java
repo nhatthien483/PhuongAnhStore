@@ -7,6 +7,8 @@ package Controller;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import org.w3c.dom.UserDataHandler;
+
 import DAO.UserDAO;
 import Model.User;
 import Service.HashUtil;
@@ -46,7 +48,10 @@ public class ProfileServlet extends HttpServlet {
             if ("address".equals(action)) {
                 String newAddress = request.getParameter("newAddress");
                 boolean success = uDAO.updateAddress(newAddress, userId);
+                UserDAO userDAO = new UserDAO();
+                User user = userDAO.getUserById(userId);
                 if (success) {
+                    session.setAttribute("user", user);
                     request.setAttribute("message", "Cập nhật địa chỉ thành công.");
                 } else {
                     request.setAttribute("message", "Cập nhật địa chỉ không thành công.");

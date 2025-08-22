@@ -5,9 +5,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
-
-
-    <!-- molla/checkout.html  22 Nov 2019 09:55:06 GMT -->
     <head>
         <meta property="og:title" content="Phương Anh Store" />
         <meta property="og:description" content="Phụ kiện sạc, livestream, máy tính, ô tô, xe máy..." />
@@ -34,7 +31,6 @@
 
     </head>
     <%@ include file="/assets/components/header.jsp" %>
-
     <body>
         <div class="page-wrapper">
             <main class="main">
@@ -199,10 +195,10 @@
                                                         document.getElementById("qr-image").src = "<%=request.getContextPath()%>/qr-gen?t=" + new Date().getTime();
                                                         // show modal
                                                         $('#qrModal').modal('show');
-                                                        // auto close after 60s
+                                                        // auto close after 15m
                                                         setTimeout(function () {
                                                             $('#qrModal').modal('hide');
-                                                        }, 60000);
+                                                        }, 900000);
                                                     });
                                                     document.getElementById("confirm-payment").addEventListener("click", function () {
                                                         // Đóng modal trước
@@ -215,8 +211,8 @@
                                                 </script>							
                                             </div><!-- End .accordion -->
                                             <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
-                                                <span class="btn-text">Thanh Toán</span>
-                                                <span class="btn-hover-text">Tiến Hành Thanh Toán</span>
+                                                <a href="${pageContext.request.contextPath}/checkout?action=confirm" style="color: white" class="btn-text">Thanh Toán</a>
+                                                <a href="${pageContext.request.contextPath}/checkout?action=confirm"style="color: white" class="btn-hover-text">Tiến Hành Thanh Toán</a>
                                             </button>
                                         </div><!-- End .summary -->
                                     </aside><!-- End .col-lg-3 -->

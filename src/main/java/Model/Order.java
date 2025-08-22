@@ -1,9 +1,8 @@
 package Model;
 
 import java.math.BigDecimal;
-import java.sql.Date;
-import java.text.NumberFormat;
-import java.util.Locale;
+import java.util.Date;
+import java.util.List;
 
 public class Order {
     private int orderId;
@@ -13,27 +12,10 @@ public class Order {
     private Date orderDate;
     private int voucherId;
     private User user;
+    private Payment payment;
+    private List<OrderDetail> orderDetails;
 
-    // getters & setters
-    public Order(int orderId, int userId, BigDecimal price, String status, Date orderDate, int voucherId) {
-        this.orderId = orderId;
-        this.userId = userId;
-        this.price = price;
-        this.status = status;
-        this.orderDate = orderDate;
-        this.voucherId = voucherId;
-    }
-
-    public Order() {
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+    // Getters and setters
 
     public int getOrderId() {
         return orderId;
@@ -49,11 +31,6 @@ public class Order {
 
     public void setUserId(int userId) {
         this.userId = userId;
-    }
-
-    public String getFormattedPrice() {
-        NumberFormat formatter = NumberFormat.getInstance(new Locale("vi", "VN"));
-        return formatter.format(price);
     }
 
     public BigDecimal getPrice() {
@@ -86,5 +63,35 @@ public class Order {
 
     public void setVoucherId(int voucherId) {
         this.voucherId = voucherId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+
+    public List<OrderDetail> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(List<OrderDetail> orderDetails) {
+        this.orderDetails = orderDetails;
+    }
+
+    // Optional: formatted price method if needed
+    public String getFormattedPrice() {
+        // Implement formatting if required
+        return price.toString();
     }
 }

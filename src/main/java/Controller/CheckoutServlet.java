@@ -7,6 +7,8 @@ package Controller;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.Date;
+
 import DAO.OrderDAO;
 import DAO.PaymentDAO;
 import jakarta.servlet.ServletException;
@@ -66,22 +68,24 @@ public class CheckoutServlet extends HttpServlet {
                         amount = ((Number) totalPrice).longValue();
                     }
                 }
+
                 String qrBankingFlag = (String) session.getAttribute("qrBankingFlag");
                 String paymentMethod;
                 String paymentStatus;
-
+                java.sql.Date paymentDateTime;
                 if (qrBankingFlag != null && !qrBankingFlag.isEmpty()) {
                     paymentMethod = "ChuyenKhoan";
-                    paymentStatus = "Chờ xác nhận";
-                    session.removeAttribute("qrBankingFlag"); // xoá cờ sau khi xử lý
+                    paymentStatus = "Chờ Xác Nhận";
+                    paymentDateTime = null;
+                    session.removeAttribute("qrBankingFlag");
                 } else {
                     paymentMethod = "COD";
-                    paymentStatus = "Chờ thanh toán";
+                    paymentStatus = "Chờ Thanh Toán";
+                    paymentDateTime = null;
                 }
-
                 // Thêm payment vào DB
                 PaymentDAO pDAO = new PaymentDAO();
-                pDAO.createPayment(orderId, paymentMethod, paymentStatus, transactionId, amount);
+                pDAO.createPayment(orderId, paymentMethod, paymentStatus, transactionId, amount, paymentDateTime);
                 response.sendRedirect(request.getContextPath() + "/home");
             } catch (SQLException e) {
                 e.printStackTrace();
