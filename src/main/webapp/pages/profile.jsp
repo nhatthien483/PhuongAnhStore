@@ -4,9 +4,6 @@
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
-
-
-<!-- molla/dashboard.html  22 Nov 2019 10:03:13 GMT -->
 <head>
     <meta property="og:title" content="Phương Anh Store" />
     <meta property="og:description" content="Phụ kiện sạc, livestream, máy tính, ô tô, xe máy..." />
@@ -60,15 +57,6 @@
 	                	<div class="row">
 	                		<aside class="col-md-4 col-lg-3">
 	                			<ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
-								    <%-- <li class="nav-item">
-								        <a class="nav-link active" id="tab-dashboard-link" data-toggle="tab" href="#tab-dashboard" role="tab" aria-controls="tab-dashboard" aria-selected="true">Dashboard</a>
-								    </li> --%>
-								    <li class="nav-item">
-								        <a class="nav-link active" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="true">Đơn hàng của tôi</a>
-								    </li>
-								    <%-- <li class="nav-item">
-								        <a class="nav-link" id="tab-downloads-link" data-toggle="tab" href="#tab-downloads" role="tab" aria-controls="tab-downloads" aria-selected="false">Downloads</a>
-								    </li> --%>
 								    <li class="nav-item">
 								        <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address" role="tab" aria-controls="tab-address" aria-selected="false">Thông tin đặt hàng</a>
 								    </li>
@@ -83,17 +71,6 @@
 
 	                		<div class="col-md-8 col-lg-9">
 	                			<div class="tab-content">
-								    <%-- <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link">
-								    	<p>Hello <span class="font-weight-normal text-dark">User</span> (not <span class="font-weight-normal text-dark">User</span>? <a href="#">Log out</a>) 
-								    	<br>
-								    	From your account dashboard you can view your <a href="#tab-orders" class="tab-trigger-link link-underline">recent orders</a>, manage your <a href="#tab-address" class="tab-trigger-link">shipping and billing addresses</a>, and <a href="#tab-account" class="tab-trigger-link">edit your password and account details</a>.</p>
-								    </div><!-- .End .tab-pane --> --%>
-
-								    <div class="tab-pane fade show active" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
-								    	<p>Không có đơn hàng nào!</p>
-								    	<a href="${pageContext.request.contextPath}/list-all-product" class="btn btn-outline-primary-2"><span>Đi đến cửa hàng</span><i class="icon-long-arrow-right"></i></a>
-								    </div><!-- .End .tab-pane -->
-
 								    <%-- <div class="tab-pane fade" id="tab-downloads" role="tabpanel" aria-labelledby="tab-downloads-link">
 								    	<p>No downloads available yet.</p>
 								    	<a href="category.html" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
@@ -101,7 +78,6 @@
 
 								    <div class="tab-pane fade" id="tab-address" role="tabpanel" aria-labelledby="tab-address-link">
 								    	<p>Thông tin tài khoản</p>
-
 								    	<div class="row">
 								    		<div class="col-lg-6">
 												<div class="card card-dashboard">
@@ -183,7 +159,7 @@
     <script src="assets/js/superfish.min.js"></script>
     <script src="assets/js/owl.carousel.min.js"></script>
     <!-- Main JS File -->
-    <script src="assets/js/main.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
 	<script>
 		document.getElementById('edit-address-btn').addEventListener('click', function (e) {
 			e.preventDefault();

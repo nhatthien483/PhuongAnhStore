@@ -4,6 +4,8 @@
  */
 package Controller;
 
+import DAO.CommentDAO;
+import DAO.OrderDAO;
 import DAO.ProductDAO;
 import Model.Product;
 import java.io.IOException;
@@ -30,6 +32,11 @@ public class CategoryMarketServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Lấy userId từ session nếu có
+        Integer userId = null;
+        if (request.getSession().getAttribute("user") != null) {
+            userId = (Integer) request.getSession().getAttribute("userId");
+        }
         ProductDAO productDAO = new ProductDAO();
 
         // Lấy tổng số sản phẩm để tính số trang
@@ -52,10 +59,12 @@ public class CategoryMarketServlet extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("id"));
             List<String> currentImages = new ArrayList<>();
             Product product = null;
+            List comments = null;
             try {
+                CommentDAO commentDAO = new CommentDAO();
+                comments = commentDAO.getCommentsByProductId(id);
                 product = productDAO.getProductById(id);
             } catch (SQLException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
@@ -70,9 +79,20 @@ public class CategoryMarketServlet extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            OrderDAO orderDAO = new OrderDAO();
+            boolean hasUserPurchasedProduct = false;
+            if (request.getSession().getAttribute("user") != null) {
+                try {
+                    hasUserPurchasedProduct = orderDAO.hasUserPurchasedProduct(userId, id);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            request.setAttribute("hasUserPurchasedProduct", hasUserPurchasedProduct);
             request.setAttribute("recomList", recomList);
             request.setAttribute("images", currentImages);
             request.setAttribute("product", product);
+            request.setAttribute("comments", comments);
             request.getRequestDispatcher("/pages/product_detail.jsp").forward(request, response);
         } else if ("search".equals(action)) {
             // Xử lý tìm kiếm sản phẩm theo từ khóa

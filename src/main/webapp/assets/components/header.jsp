@@ -66,10 +66,10 @@
                         <span class="sr-only">Toggle mobile menu</span>
                         <i class="icon-bars"></i>
                     </button>
-                    <a href="home" class="logo">
+                    <a href="${pageContext.request.contextPath}/home" class="logo">
                         <img src="${pageContext.request.contextPath}/assets/images/logo/main-logo.jpg" alt="PhuongAnhStore" width="50" height="50">
                     </a>
-                    <a href = "home"><span class="store-name">Phương Anh Store</span></a>
+                    <a href = "${pageContext.request.contextPath}/home"><span class="store-name">Phương Anh Store</span></a>
                 </div><!-- End .header-left -->
 
                 <div class="header-center">
@@ -316,7 +316,6 @@
 
                             <li>
                                 <a href="${pageContext.request.contextPath}/list-all-product?action=sortByCategoryName&type=PhuKienChoiGame" class="sf-with-ul">Phụ kiện chơi game</a>
-
                             </li>
 
                             <li>

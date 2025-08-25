@@ -161,58 +161,44 @@
 
                             <div class="tab-pane fade" id="product-review-tab" role="tabpanel" aria-labelledby="product-review-link">
                                 <div class="reviews">
-                                    <h3>Đánh Giá</h3>
-                                    <div class="review">
-                                        <div class="row no-gutters">
-                                            <div class="col-auto">
-                                                <h4><a href="#">Samanta J.</a></h4>
-                                                <div class="ratings-container">
-                                                    <div class="ratings">
-                                                        <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
-                                                    </div><!-- End .ratings -->
-                                                </div><!-- End .rating-container -->
-                                                <span class="review-date">6 days ago</span>
-                                            </div><!-- End .col -->
-                                            <div class="col">
-                                                <h4>Good, perfect size</h4>
-
-                                                <div class="review-content">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus cum dolores assumenda asperiores facilis porro reprehenderit animi culpa atque blanditiis commodi perspiciatis doloremque, possimus, explicabo, autem fugit beatae quae voluptas!</p>
-                                                </div><!-- End .review-content -->
-
-                                                <div class="review-action">
-                                                    <a href="#"><i class="icon-thumbs-up"></i>Helpful (2)</a>
-                                                    <a href="#"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
-                                                </div><!-- End .review-action -->
-                                            </div><!-- End .col-auto -->
-                                        </div><!-- End .row -->
-                                    </div><!-- End .review -->
-
-                                    <div class="review">
-                                        <div class="row no-gutters">
-                                            <div class="col-auto">
-                                                <h4><a href="#">John Doe</a></h4>
-                                                <div class="ratings-container">
-                                                    <div class="ratings">
-                                                        <div class="ratings-val" style="width: 100%;"></div><!-- End .ratings-val -->
-                                                    </div><!-- End .ratings -->
-                                                </div><!-- End .rating-container -->
-                                                <span class="review-date">5 days ago</span>
-                                            </div><!-- End .col -->
-                                            <div class="col">
-                                                <h4>Very good</h4>
-
-                                                <div class="review-content">
-                                                    <p>Sed, molestias, tempore? Ex dolor esse iure hic veniam laborum blanditiis laudantium iste amet. Cum non voluptate eos enim, ab cumque nam, modi, quas iure illum repellendus, blanditiis perspiciatis beatae!</p>
-                                                </div><!-- End .review-content -->
-
-                                                <div class="review-action">
-                                                    <a href="#"><i class="icon-thumbs-up"></i>Helpful (0)</a>
-                                                    <a href="#"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
-                                                </div><!-- End .review-action -->
-                                            </div><!-- End .col-auto -->
-                                        </div><!-- End .row -->
-                                    </div><!-- End .review -->
+                                    <c:if test="${hasUserPurchasedProduct}">
+                                        <div class="comment-section" style="margin-top: 20px;">
+                                            <h3 style="margin-bottom: 10px;">Viết đánh giá của bạn</h3>
+                                            <form action="${pageContext.request.contextPath}/comment" method="post" style="max-width: 500px;">
+                                                <input type="hidden" name="productId" value="${product.productId}" />
+                                                
+                                                <textarea name="commentText" rows="2" 
+                                                        style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; resize: none; font-size: 14px;" 
+                                                        placeholder="Chia sẻ cảm nhận của bạn..." required></textarea>
+                                                
+                                                <br>
+                                                <button type="submit" 
+                                                        style="background-color: #39f; color: white; padding: 8px 16px; border: none; border-radius: 8px; margin-top: 8px; cursor: pointer; font-size: 14px;">
+                                                    Gửi bình luận
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </c:if>
+                                    <div>
+                                        <h2 class="p-3">Đánh Giá</h2>
+                                        <c:forEach var="cmt" items="${comments}">
+                                            <div class="review">
+                                                <div class="row no-gutters">
+                                                    <div class="col-auto">
+                                                        <h4><a href="#">${cmt.userFullname}</a></h4>
+                                                        <span class="review-date">
+                                                            <fmt:formatDate value="${cmt.commentDate}" pattern="dd/MM/yyyy"/>
+                                                        </span>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="review-content">
+                                                            <p>${cmt.commentText}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
                                 </div><!-- End .reviews -->
                             </div><!-- .End .tab-pane -->
                         </div><!-- End .tab-content -->

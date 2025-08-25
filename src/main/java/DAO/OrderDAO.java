@@ -90,17 +90,23 @@ public class OrderDAO extends DBContext {
             }
 
             if (paymentId != -1) {
-                String sqlUpdatePayment = "UPDATE Payment SET payment_status = ? WHERE payment_id = ?";
-                try (PreparedStatement ps = con.prepareStatement(sqlUpdatePayment)) {
-                    if ("ChuyenKhoan".equalsIgnoreCase(paymentMethod) && "DaXacNhan".equals(newStatus)) {
+                if ("ChuyenKhoan".equalsIgnoreCase(paymentMethod) && "DaXacNhan".equals(newStatus)) {
+                    String sqlUpdatePayment = "UPDATE Payment SET payment_status = ? WHERE payment_id = ?";
+                    try (PreparedStatement ps = con.prepareStatement(sqlUpdatePayment)) {
                         ps.setString(1, "Đã Xác Nhận");
                         ps.setInt(2, paymentId);
                         ps.executeUpdate();
-                    } else if ("COD".equalsIgnoreCase(paymentMethod) && "HoanThanh".equals(newStatus)) {
+                    }
+                } else if ("COD".equalsIgnoreCase(paymentMethod) && "HoanThanh".equals(newStatus)) {
+                    String sqlUpdatePayment = "UPDATE Payment SET payment_status = ? , payment_date = GETDATE() WHERE payment_id = ?";
+                    try (PreparedStatement ps = con.prepareStatement(sqlUpdatePayment)) {
                         ps.setString(1, "Đã Thanh Toán");
                         ps.setInt(2, paymentId);
                         ps.executeUpdate();
-                    } else if ("ChuyenKhoan".equalsIgnoreCase(paymentMethod) && "DaHuy".equals(newStatus)) {
+                    }
+                } else if ("ChuyenKhoan".equalsIgnoreCase(paymentMethod) && "DaHuy".equals(newStatus)) {
+                    String sqlUpdatePayment = "UPDATE Payment SET payment_status = ? WHERE payment_id = ?";
+                    try (PreparedStatement ps = con.prepareStatement(sqlUpdatePayment)) {
                         ps.setString(1, "Hoàn Tiền");
                         ps.setInt(2, paymentId);
                         ps.executeUpdate();
@@ -127,6 +133,28 @@ public class OrderDAO extends DBContext {
                 e.printStackTrace();
             }
         }
+    }
+
+    public boolean hasUserPurchasedProduct(int userId, int productId) throws SQLException {
+        String sql = "SELECT COUNT(*) AS cnt " +
+                "FROM [Order] o " +
+                "JOIN OrderDetail od ON o.order_id = od.order_id " +
+                "WHERE o.user_id = ? AND od.product_id = ? " +
+                "AND o.order_status IN ('HoanThanh')";
+        // tùy hệ thống bạn có thể chỉ để 'HoanThanh'
+
+        try (Connection con = this.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+            ps.setInt(2, productId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("cnt") > 0;
+                }
+            }
+        }
+        return false;
     }
 
     public List<Order> getOrdersByUserId(int userId) throws SQLException {

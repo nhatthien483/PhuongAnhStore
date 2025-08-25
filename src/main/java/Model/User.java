@@ -13,7 +13,6 @@ public class User {
     private String status;
     private Date createAt;
     private int roleId;
-
     // getters & setters
     public User() {
 

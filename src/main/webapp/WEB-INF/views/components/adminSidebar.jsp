@@ -47,6 +47,12 @@
                     <span>Đơn Hàng</span>
                 </a>
             </li>
+             <li class="nav-item">
+                <a href="${pageContext.request.contextPath}/admin/comment" class="nav-link">
+                    <i class="fas fa-comment"></i>
+                    <span>Đánh Giá</span>
+                </a>
+            </li>
         </ul>
     </div>
 </div> 

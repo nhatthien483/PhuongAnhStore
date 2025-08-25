@@ -25,7 +25,7 @@ public class ProductManagementServlet extends HttpServlet {
 
     private final ProductDAO productDAO = new ProductDAO();
 
-    //private final String IMAGE_BASE_PATH = "D:/Document/PhuongAnhStore/Images";
+    // private final String IMAGE_BASE_PATH = "D:/Document/PhuongAnhStore/Images";
 
     private final String IMAGE_BASE_PATH = "/var/www/phuonganhstore/Images";
 

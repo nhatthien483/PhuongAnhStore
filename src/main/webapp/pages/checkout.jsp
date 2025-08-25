@@ -54,74 +54,29 @@
                         <div class="container">
                             <div class="checkout-discount">
                             </div><!-- End .checkout-discount -->
-                            <form action="${pageContext.request.contextPath}/profile" method="post">
                                 <div class="row">
                                     <div class="col-lg-9">
                                         <h2 class="checkout-title">Chi Tiết Hóa Đơn</h2><!-- End .checkout-title -->
+                                        <p>Nếu quý khách muốn thay đổi thông tin nhận hàng vui lòng vào <a href="${pageContext.request.contextPath}/profile">Trang cá nhân</a></p>
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <label>Họ và Tên</label>
-                                                <input type="text" class="form-control" value="${user.fullName}" required>
+                                                <input type="text" class="form-control" value="${user.fullName}" readonly>
                                             </div><!-- End .col-sm-6 -->
                                         </div><!-- End .row -->
 
                                         <label>Số Điện Thoại</label>
-                                        <input type="text" class="form-control" name="phone" value="${user.phone}" required>
+                                        <input type="text" class="form-control" name="phone" value="${user.phone}" readonly>
 
                                         <label>Địa chỉ email *</label>
-                                        <input type="email" class="form-control" name="email" value="${user.email}" required>
+                                        <input type="email" class="form-control" name="email" value="${user.email}" readonly>
 
                                         <label>Địa chỉ nhận hàng</label>
                                         <input type="text" class="form-control" name="" value="${user.address}" readonly>
 
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="checkout-diff-address">
-                                            <label class="custom-control-label" for="checkout-diff-address">Địa chỉ nhận hàng khác?</label>
-                                        </div><!-- End .custom-checkbox -->
-
-                                        <div id="address-selection" style="display: none;">
-                                            <label>Tỉnh / Thành phố *</label>
-                                            <select id="province" class="form-control" required>
-                                                <option value="">Chọn tỉnh / thành phố</option>
-                                            </select>
-
-                                            <label>Quận / Huyện *</label>
-                                            <select id="district" class="form-control" required>
-                                                <option value="">Chọn quận / huyện</option>
-                                            </select>
-
-                                            <label>Phường / Xã *</label>
-                                            <select id="ward" class="form-control" required>
-                                                <option value="">Chọn phường / xã</option>
-                                            </select>
-
-                                            <label>Số nhà, tên đường, số lô - block, ...</label>
-                                            <input type="text" id="street" class="form-control" required>
-
-                                            <button id="save-address-btn" class="btn btn-primary mt-3">Lưu địa chỉ</button>
-                                        </div>
-
                                         <label>Ghi chú</label>
                                         <textarea class="form-control" cols="30" rows="4" placeholder="Ghi chú về các yêu cầu của bạn đối với đơn hàng"></textarea>
-                                    </div><!-- End .col-lg-9 -->
-
-                                    <script>
-                                        document.getElementById('checkout-diff-address').addEventListener('change', function () {
-                                            const addressSelection = document.getElementById('address-selection');
-                                            addressSelection.style.display = this.checked ? 'block' : 'none';
-                                        });
-
-                                        document.getElementById('save-address-btn').addEventListener('click', function () {
-                                            const province = document.getElementById('province').options[document.getElementById('province').selectedIndex].text;
-                                            const district = document.getElementById('district').options[document.getElementById('district').selectedIndex].text;
-                                            const ward = document.getElementById('ward').options[document.getElementById('ward').selectedIndex].text;
-                                            const street = document.getElementById('street').value;
-
-                                            const fullAddress = `${street}, ${ward}, ${district}, ${province}`;
-                                                    alert(`Địa chỉ mới: ${fullAddress}`);
-                                                    // Gửi địa chỉ đến server qua AJAX hoặc form
-                                                });
-                                    </script>
+                                    </div><!-- End .col-lg-9 -->                                  
                                     <aside class="col-lg-3">
                                         <div class="summary">
                                             <h3 class="summary-title">Hóa Đơn Của Bạn</h3><!-- End .summary-title -->
@@ -170,7 +125,7 @@
                                                                         </button>
                                                                     </div>
                                                                     <div class="modal-body text-center">
-                                                                        <p>Quý khách vui lòng chuyển khoản trong vòng 1 phút.<br>
+                                                                        <p><strong>Quý khách chuyển khoản xong vui lòng bấm xác nhận.</strong><br>
                                                                             Nếu có sự cố vui lòng liên hệ hotline: 0901050697</p>
                                                                         <img id="qr-image" src="" alt="QR Code" style="max-width:200px; margin:10px auto; display:block;">
                                                                         <button id="confirm-payment" class="btn btn-success mt-3">Xác nhận đã thanh toán</button>
@@ -217,7 +172,6 @@
                                         </div><!-- End .summary -->
                                     </aside><!-- End .col-lg-3 -->
                                 </div><!-- End .row -->
-                            </form>
                         </div><!-- End .container -->
                     </div><!-- End .checkout -->
                 </div><!-- End .page-content -->
@@ -234,6 +188,34 @@
             <script src="assets/js/owl.carousel.min.js"></script>
             <!-- Main JS File -->
             <script src="assets/js/main.js"></script>
+            <script>
+                document.getElementById('checkout-diff-address').addEventListener('change', function () {
+                    const addressSelection = document.getElementById('address-selection');
+                    addressSelection.style.display = this.checked ? 'block' : 'none';
+                });
+
+                document.getElementById('save-address-btn').addEventListener('click', function (e) {
+                    e.preventDefault(); // tránh reload form chính
+                    
+                    const province = document.getElementById('province').options[document.getElementById('province').selectedIndex].text;
+                    const district = document.getElementById('district').options[document.getElementById('district').selectedIndex].text;
+                    const ward = document.getElementById('ward').options[document.getElementById('ward').selectedIndex].text;
+                    const street = document.getElementById('street').value.trim();
+
+                    if (!province || !district || !ward || !street) {
+                        alert("Vui lòng chọn đầy đủ thông tin địa chỉ.");
+                        return;
+                    }
+
+                    const fullAddress = `${street}, ${ward}, ${district}, ${province}`;
+
+                    // Gán vào input hidden
+                    document.getElementById("newAddress").value = fullAddress;
+
+                    // Submit form ẩn
+                    document.getElementById("edit-address-form").submit();
+                });
+            </script>
             <script>
                 document.addEventListener("DOMContentLoaded", function () {
                     const provinceSelect = document.getElementById("province");

@@ -8,6 +8,9 @@ public class Comment {
     private Date commentDate;
     private int userId;
     private String commentText;
+    private User user;
+    private Product product;
+    private String userFullname; // thêm thuộc tính username
 
     // getters & setters
 
@@ -18,6 +21,7 @@ public class Comment {
         this.userId = userId;
         this.commentText = commentText;
     }
+    
 
     public Comment() {
     }
@@ -60,5 +64,35 @@ public class Comment {
 
     public void setCommentText(String commentText) {
         this.commentText = commentText;
+    }
+
+
+    public User getUser() {
+        return user;
+    }
+
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
+    public String getUserFullname() {
+        return userFullname;
+    }
+
+
+    public void setUserFullname(String userFullname) {
+        this.userFullname = userFullname;
+    }
+
+
+    public Product getProduct() {
+        return product;
+    }
+
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

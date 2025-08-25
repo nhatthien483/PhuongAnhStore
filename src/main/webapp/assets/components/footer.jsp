@@ -47,8 +47,11 @@
 	            			<div class="widget">
 	            				<h4 class="widget-title">Chính Sách Của Cửa Hàng</h4><!-- End .widget-title -->`
 	            				<ul class="widget-list">
-                                    <li><a href="#">Chính Sách Bảo Mật</a></li>
-	            					<li><a href="#">Chính Sách Đổi Trả Và Bảo Hành</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/pages/about.jsp#bao-mat">Chính Sách Bảo Mật</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/pages/about.jsp#kiem-hang">Chính Sách Kiểm Hàng</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/pages/about.jsp#van-chuyen">Chính Sách Vận Chuyển</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/pages/about.jsp#thanh-toan">Chính Sách Và HD Thanh Toán</a></li>
+	            					<li><a href="${pageContext.request.contextPath}/pages/about.jsp#bao-hanh">Chính Sách Đổi Trả Và Bảo Hành</a></li>
 	            				</ul><!-- End .widget-list -->
 	            			</div><!-- End .widget -->
 	            		</div><!-- End .col-sm-6 col-lg-3 -->
@@ -56,7 +59,8 @@
 	            			<div class="widget">
 	            				<h4 class="widget-title">Thông Tin Về Cửa Hàng</h4><!-- End .widget-title -->`
 	            				<ul class="widget-list">
-	            					<li><a href="about.html">Về Phương Anh Store</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/pages/about.jsp#gioi-thieu">Về Phương Anh Store</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/pages/about.jsp#lien-he">Thông Tin Liên Hệ</a></li>
                                     <li><a href="https://maps.app.goo.gl/GXANcqYTwUDLHpT58">Địa chỉ cửa hàng: <em>163N Đ. Nguyễn Văn Cừ, Phường An Khánh, Ninh Kiều, Cần Thơ</em></a></li>
 	            				</ul><!-- End .widget-list -->
 	            			</div><!-- End .widget -->
