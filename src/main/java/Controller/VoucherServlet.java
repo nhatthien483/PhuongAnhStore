@@ -1,16 +1,20 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Controller;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Date;
 
 import DAO.CartDAO;
-import DAO.CartDetailDAO;
 import DAO.VoucherDAO;
 import Model.Cart;
-import Model.CartDetail;
 import Model.Voucher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,20 +23,28 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet(name = "VoucherServlet", urlPatterns = { "/voucher" })
+@WebServlet(name = "VoucherServlet", urlPatterns = { "/admin/voucher" })
 public class VoucherServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        HttpSession session = request.getSession();
+        Object roleObj = session.getAttribute("role");
+        if (roleObj instanceof Integer) {
+            int role = (Integer) roleObj;
+            if (role != 1) {
+                request.getRequestDispatcher("/pages/not_admin.jsp").forward(request, response);
+                return;
+            }
+        }
         String action = request.getParameter("action");
         VoucherDAO voucherDAO = new VoucherDAO();
 
         try {
             if ("check".equals(action)) {
                 String code = request.getParameter("code");
-                HttpSession session = request.getSession();
+                session = request.getSession();
                 int userId = (int) session.getAttribute("userId");
                 CartDAO cDAO = new CartDAO();
                 Cart cart = cDAO.getCartByUserId(userId);
@@ -45,12 +57,11 @@ public class VoucherServlet extends HttpServlet {
                 BigDecimal subtotal = cart.getCartPrice();
 
                 // Kiểm tra voucher
-                // Kiểm tra voucher
                 Voucher voucher = voucherDAO.getVoucherByCode(code);
                 if (voucher != null && voucher.getQuantity() > 0) {
                     // Lấy ngày hôm nay (chỉ phần ngày)
-                    java.time.LocalDate today = java.time.LocalDate.now();
-                    java.time.LocalDate expiry = voucher.getExpiryDate().toLocalDate();
+                    LocalDate today = LocalDate.of(2025, 8, 29);
+                    LocalDate expiry = voucher.getExpiryDate().toLocalDate();
 
                     // Còn hạn nếu expiry >= today
                     if (!expiry.isBefore(today)) {
@@ -84,17 +95,41 @@ public class VoucherServlet extends HttpServlet {
                             "{\"valid\":false, \"message\":\"Mã giảm giá không hợp lệ hoặc đã hết hạn\"}");
                 }
 
-            } else if ("list".equals(action)) {
-                List<Voucher> vouchers = voucherDAO.getAllVouchers();
-                request.setAttribute("vouchers", vouchers);
-                request.getRequestDispatcher("pages/voucher.jsp").forward(request, response);
+            } else if ("add".equals(action)) {
+                request.getRequestDispatcher("/WEB-INF/views/admin/add_voucher.jsp").forward(request, response);
             } else if ("edit".equals(action)) {
                 int id = Integer.parseInt(request.getParameter("id"));
                 Voucher voucher = voucherDAO.getVoucherById(id);
                 request.setAttribute("voucher", voucher);
-                request.getRequestDispatcher("pages/edit-voucher.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/admin/add_voucher.jsp").forward(request, response);
+            } else if ("delete".equals(action)) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                voucherDAO.deleteVoucher(id);
+                response.sendRedirect(request.getContextPath() + "/admin/voucher");
+            } else {
+                // Default: list vouchers with pagination
+                int totalVouchers = voucherDAO.countAll();
+                int vouchersPerPage = 10;
+                int totalPages = (int) Math.ceil((double) totalVouchers / vouchersPerPage);
+                int currentPage = 1;
+                String pageParam = request.getParameter("page");
+                if (pageParam != null && pageParam.matches("\\d+")) {
+                    currentPage = Integer.parseInt(pageParam);
+                }
+                List<Voucher> vouchers = voucherDAO.getVouchersByPage(currentPage, vouchersPerPage);
+                String today = "2025-08-29";
+                request.setAttribute("today", today);
+                request.setAttribute("totalPages", totalPages);
+                request.setAttribute("currentPage", currentPage);
+                request.setAttribute("vouchers", vouchers);
+                request.getRequestDispatcher("/WEB-INF/views/admin/voucher.jsp").forward(request, response);
             }
 
+        } catch (NumberFormatException e) {
+            response.sendRedirect(request.getContextPath() + "/voucher?error=Invalid ID");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database error");
         } catch (Exception e) {
             e.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi khi xử lý yêu cầu.");
@@ -121,7 +156,7 @@ public class VoucherServlet extends HttpServlet {
                 voucher.setExpiryDate(java.sql.Date.valueOf(expiryDate));
 
                 voucherDAO.addVoucher(voucher);
-                response.sendRedirect("voucher?action=list");
+                response.sendRedirect(request.getContextPath() + "/admin/voucher?msg=created");
             } else if ("update".equals(action)) {
                 int id = Integer.parseInt(request.getParameter("id"));
                 String code = request.getParameter("code");
@@ -137,12 +172,10 @@ public class VoucherServlet extends HttpServlet {
                 voucher.setExpiryDate(java.sql.Date.valueOf(expiryDate));
 
                 voucherDAO.updateVoucher(voucher);
-                response.sendRedirect("voucher?action=list");
-            } else if ("delete".equals(action)) {
-                int id = Integer.parseInt(request.getParameter("id"));
-                voucherDAO.deleteVoucher(id);
-                response.sendRedirect("voucher?action=list");
+                response.sendRedirect(request.getContextPath() + "/admin/voucher?msg=updated");
             }
+        } catch (NumberFormatException e) {
+            response.sendRedirect(request.getContextPath() + "/admin/voucher?error=Invalid input");
         } catch (Exception e) {
             e.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi khi xử lý yêu cầu.");

@@ -85,7 +85,7 @@ public class CheckoutServlet extends HttpServlet {
                 // Thêm payment vào DB
                 PaymentDAO pDAO = new PaymentDAO();
                 pDAO.createPayment(orderId, paymentMethod, paymentStatus, transactionId, amount, paymentDateTime);
-                response.sendRedirect(request.getContextPath() + "/home");
+                response.sendRedirect(request.getContextPath() + "/orders");
             } catch (SQLException e) {
                 e.printStackTrace();
             }

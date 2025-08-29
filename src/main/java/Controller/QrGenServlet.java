@@ -16,9 +16,9 @@ import java.net.URL;
 
 @WebServlet("/qr-gen")
 public class QrGenServlet extends HttpServlet {
-    private static final String BANK_BIN = "970415";
-    private static final String ACCOUNT_NUMBER = "0384018690";
-    private static final String ACCOUNT_NAME = "NGUYEN HUYNH NHAT THIEN";
+    private static final String BANK_BIN = "970422";
+    private static final String ACCOUNT_NUMBER = "098513955555";
+    private static final String ACCOUNT_NAME = "NGUYEN VAN TOI";
         
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

@@ -1,8 +1,10 @@
 package Model;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Order {
     private int orderId;
@@ -90,8 +92,8 @@ public class Order {
     }
 
     // Optional: formatted price method if needed
-    public String getFormattedPrice() {
-        // Implement formatting if required
-        return price.toString();
+   public String getFormattedPrice() {
+        NumberFormat formatter = NumberFormat.getInstance(new Locale("vi", "VN"));
+        return formatter.format(price);
     }
 }

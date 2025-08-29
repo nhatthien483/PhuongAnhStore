@@ -226,7 +226,7 @@
                         <tbody id="orderTableBody">
                             <c:if test="${empty orders}">
                                 <tr>
-                                    <td colspan="6">
+                                    <td colspan="8">
                                         <div class="alert alert-warning">Không có đơn hàng nào</div>
                                     </td>
                                 </tr>
@@ -299,6 +299,8 @@
                 </div>
             </div>
             <script>
+                const contextPath = "${pageContext.request.contextPath}";
+                let currentPage = ${currentPage};
                 let currentStatus = "";
                 let currentMethod = "";
                 function filterOrders(status) {
@@ -331,9 +333,85 @@
                     const successMsg = document.getElementById('successMessage');
                     if (successMsg) setTimeout(() => successMsg.style.display = 'none', 3000);
                 };
-            </script>
-            <script>
-                document.addEventListener("DOMContentLoaded", function () {
+                function fetchOrders() {
+                    fetch(`${contextPath}/admin/order?format=json&page=${currentPage}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            rebuildTable(data.orders);
+                            updatePagination(data);
+                            applyFilters();
+                        })
+                        .catch(error => console.error('Error fetching orders:', error));
+                }
+                function rebuildTable(orders) {
+                    const tbody = document.getElementById('orderTableBody');
+                    tbody.innerHTML = '';
+                    if (orders.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="8"><div class="alert alert-warning">Không có đơn hàng nào</div></td></tr>';
+                        return;
+                    }
+                    orders.forEach(o => {
+                        let statusBadge = '';
+                        switch (o.status) {
+                            case 'DaXacNhan':
+                                statusBadge = '<span class="badge bg-primary">Đã Xác Nhận</span>';
+                                break;
+                            case 'ChoXacNhan':
+                                statusBadge = '<span class="badge bg-warning text-dark">Chờ Xác Nhận</span>';
+                                break;
+                            case 'HoanThanh':
+                                statusBadge = '<span class="badge bg-success">Hoàn Thành</span>';
+                                break;
+                            case 'DaHuy':
+                                statusBadge = '<span class="badge bg-danger">Đã Hủy</span>';
+                                break;
+                            case 'DangVanChuyen':
+                                statusBadge = '<span class="badge bg-secondary">Đang Vận Chuyển</span>';
+                                break;
+                            default:
+                                statusBadge = `<span class="badge bg-secondary">${o.status}</span>`;
+                        }
+                        const tr = `
+                            <tr data-status="${o.status}" data-method="${o.payment.method}">
+                                <td>${o.orderId}</td>
+                                <td>${o.user.fullName}</td>
+                                <td>${o.user.phone}</td>
+                                <td class="text-nowrap">${o.formattedPrice} ₫</td>
+                                <td class="text-nowrap">${o.orderDate}</td>
+                                <td>${statusBadge}</td>
+                                <td>${o.payment.method}</td>
+                                <td>
+                                    <a href="${contextPath}/admin/order?action=detail&id=${o.orderId}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                    <a class="btn btn-warning btn-sm edit-service-btn" data-id="${o.orderId}" data-status="${o.status}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="${contextPath}/admin/order?action=delete&id=${o.orderId}&userId=${o.user.userId}" class="btn btn-danger btn-sm" onclick="return confirm('Xác nhận xoá đơn hàng?')">
+                                        <i class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>`;
+                        tbody.innerHTML += tr;
+                    });
+                    attachEditListeners();
+                }
+                function updatePagination(data) {
+                    const pagination = document.querySelector('.pagination');
+                    pagination.innerHTML = '';
+                    const prevDisabled = data.currentPage === 1 ? 'disabled' : '';
+                    pagination.innerHTML += `<li class="page-item ${prevDisabled}">
+                        <a class="page-link" href="?page=${data.currentPage - 1}"><i class="fas fa-angle-left"></i></a>
+                    </li>`;
+                    for (let i = 1; i <= data.totalPages; i++) {
+                        const active = i === data.currentPage ? 'active' : '';
+                        pagination.innerHTML += `<li class="page-item ${active}">
+                            <a class="page-link custom-page" href="?page=${i}">${i}</a>
+                        </li>`;
+                    }
+                    const nextDisabled = data.currentPage === data.totalPages ? 'disabled' : '';
+                    pagination.innerHTML += `<li class="page-item ${nextDisabled}">
+                        <a class="page-link" href="?page=${data.currentPage + 1}"><i class="fas fa-angle-right"></i></a>
+                    </li>`;
+                }
+                function attachEditListeners() {
                     document.querySelectorAll('.edit-service-btn').forEach(btn => {
                         btn.addEventListener('click', function (e) {
                             e.preventDefault();
@@ -344,6 +422,9 @@
                             document.getElementById('editServiceModal').style.display = 'flex';
                         });
                     });
+                }
+                document.addEventListener("DOMContentLoaded", function () {
+                    attachEditListeners();
                     // Đóng modal
                     document.querySelectorAll('.close-btn').forEach(btn => {
                         btn.addEventListener('click', () => {
@@ -357,6 +438,17 @@
                         }
                     });
                 });
+                setInterval(fetchOrders, 60000);
             </script>
+            <script>
+                const ws = new WebSocket("ws://" + window.location.host + "${pageContext.request.contextPath}/orderSocket");
+                ws.onmessage = function(event) {
+                    if (event.data.startsWith("newOrder")) {
+                        alert("🔔 Có đơn hàng mới!");
+                        fetchOrders(); // load lại danh sách
+                    }
+                };
+            </script>
+
     </body>
 </html>

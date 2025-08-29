@@ -3402,7 +3402,7 @@ p {
     font-weight: 300;
     font-size: 1.4rem;
     color: #777;
-    background-color: #fff
+    background-color: #af3434
 }
 
 .footer a {
@@ -3435,7 +3435,8 @@ p {
 .footer-logo {
     margin-bottom: 2rem;
     margin-top: -.8rem;
-    border-radius: 100%
+    border-radius: 100%;
+    margin-left: 75px
 }
 .footer-logo img{
     border-radius: 100%

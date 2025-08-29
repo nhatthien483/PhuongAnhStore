@@ -4,25 +4,9 @@
 <!DOCTYPE html>
 <html lang="vi">
 <footer class="footer">
-            <div class="cta bg-image bg-dark pt-4 pb-5 mb-0" style="background-image: url(../assets/images/demos/demo-4/bg-5.jpg);">
+            <div class="bg-dark p-1">
                 <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-sm-10 col-md-8 col-lg-6">
-                            <div class="cta-heading text-center">
-                                <h3 class="cta-title text-white">Lấy Phiếu Giảm Giá 5%</h3><!-- End .cta-title -->
-							<p class="cta-desc text-white"></span>Khi Đăng Ký Tài Khoản Tại Website</p><!-- End .cta-desc -->
-                            </div><!-- End .text-center -->
-                        
-                            <form action="#">
-                                <div class="input-group input-group-round">
-                                    <input type="email" class="form-control form-control-white" placeholder="Nhập địa chỉ Email tại đây" aria-label="Địa chỉ Email" required>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="submit"><span>Đăng Ký Ngay</span><i class="icon-long-arrow-right"></i></button>
-                                    </div><!-- .End .input-group-append -->
-                                </div><!-- .End .input-group -->
-                            </form>
-                        </div><!-- End .col-sm-10 col-md-8 col-lg-6 -->
-                    </div><!-- End .row -->
+                    <a href ="${pageContext.request.contextPath}/home"><span class="store-name text-white">Phương Anh Store</span></a>
                 </div><!-- End .container -->
             </div><!-- End .cta -->
         	<div class="footer-middle">
@@ -55,6 +39,7 @@
 	            				</ul><!-- End .widget-list -->
 	            			</div><!-- End .widget -->
 	            		</div><!-- End .col-sm-6 col-lg-3 -->
+						
 						<div class="col-sm-6 col-lg-3">
 	            			<div class="widget">
 	            				<h4 class="widget-title">Thông Tin Về Cửa Hàng</h4><!-- End .widget-title -->`
@@ -62,6 +47,16 @@
                                     <li><a href="${pageContext.request.contextPath}/pages/about.jsp#gioi-thieu">Về Phương Anh Store</a></li>
                                     <li><a href="${pageContext.request.contextPath}/pages/about.jsp#lien-he">Thông Tin Liên Hệ</a></li>
                                     <li><a href="https://maps.app.goo.gl/GXANcqYTwUDLHpT58">Địa chỉ cửa hàng: <em>163N Đ. Nguyễn Văn Cừ, Phường An Khánh, Ninh Kiều, Cần Thơ</em></a></li>
+	            				</ul><!-- End .widget-list -->
+	            			</div><!-- End .widget -->
+	            		</div><!-- End .col-sm-6 col-lg-3 -->
+
+						<div class="col-sm-6 col-lg-3">
+	            			<div class="widget">
+	            				<h4 class="widget-title">Phương Thức Thanh Toán</h4><!-- End .widget-title -->`
+	            				<ul class="widget-list">
+                                    <li><a href="">Tiền Mặt</a></li>
+                                    <li><a href="">Chuyển Khoản Ngân Hàng</a></li>
 	            				</ul><!-- End .widget-list -->
 	            			</div><!-- End .widget -->
 	            		</div><!-- End .col-sm-6 col-lg-3 -->

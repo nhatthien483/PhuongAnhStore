@@ -53,6 +53,12 @@
                     <span>Đánh Giá</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="${pageContext.request.contextPath}/admin/voucher" class="nav-link">
+                    <i class="fas fa-ticket-alt"></i>
+                    <span>Voucher</span>
+                </a>
+            </li>
         </ul>
     </div>
 </div> 

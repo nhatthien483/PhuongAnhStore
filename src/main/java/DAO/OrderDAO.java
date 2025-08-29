@@ -362,7 +362,19 @@ public class OrderDAO extends DBContext {
                 }
             }
 
-            // 4. Xóa Cart sau khi đặt hàng (tuỳ nhu cầu)
+            // 4. Trừ số lượng voucher (nếu có)
+            if (voucherId != null) {
+                String updateVoucher = "UPDATE Voucher SET quantity = quantity - 1 WHERE voucher_id = ? AND quantity > 0";
+                try (PreparedStatement ps = conn.prepareStatement(updateVoucher)) {
+                    ps.setInt(1, voucherId);
+                    int affected = ps.executeUpdate();
+                    if (affected == 0) {
+                        throw new SQLException("Voucher is invalid or out of stock, voucherId: " + voucherId);
+                    }
+                }
+            }
+
+            // 5. Xóa Cart sau khi đặt hàng
             String deleteDetail = "DELETE FROM CartDetail WHERE cart_id = ?";
             try (PreparedStatement ps = conn.prepareStatement(deleteDetail)) {
                 ps.setInt(1, cartId);

@@ -7,9 +7,11 @@ package Controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import com.google.gson.Gson;
 import DAO.OrderDAO;
 import Model.Order;
-import Model.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -56,10 +58,23 @@ public class AdminOrderServlet extends HttpServlet {
         }
         try {
             List<Order> orders = oDAO.getOrderByPage(currentPage, ordersPerPage);
-            request.setAttribute("totalPages", totalPages);
-            request.setAttribute("currentPage", currentPage);
-            request.setAttribute("orders", orders);
-            request.getRequestDispatcher("/WEB-INF/views/admin/order.jsp").forward(request, response);
+            String format = request.getParameter("format");
+            if ("json".equals(format)) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("orders", orders);
+                data.put("totalPages", totalPages);
+                data.put("currentPage", currentPage);
+                Gson gson = new Gson();
+                String json = gson.toJson(data);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().print(json);
+            } else {
+                request.setAttribute("totalPages", totalPages);
+                request.setAttribute("currentPage", currentPage);
+                request.setAttribute("orders", orders);
+                request.getRequestDispatcher("/WEB-INF/views/admin/order.jsp").forward(request, response);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database error");
@@ -108,6 +123,7 @@ public class AdminOrderServlet extends HttpServlet {
             OrderDAO oDAO = new OrderDAO();
             boolean updated = oDAO.updateOrderStatus(orderId, status);
             if (updated) {
+                OrderSocket.notifyNewOrder(orderId);
                 response.sendRedirect(request.getContextPath() + "/admin/order?msg=updated");
             } else {
                 response.sendRedirect(request.getContextPath() + "/admin/order?error=Failed to update order status");
