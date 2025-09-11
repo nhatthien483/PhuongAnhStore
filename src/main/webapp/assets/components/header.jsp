@@ -132,13 +132,12 @@
                         <div class="dropdown-menu dropdown-menu-right shadow-lg p-3 mb-5 bg-body rounded">
 
                             <div class="dropdown-cart-products" id="cart-items">
-                                <!-- JS -->
                             </div>
                             <div class="dropdown-cart-total">
                                 <span>Tổng Đơn Hàng</span>
                                 <span class="cart-total-price" id="cart-price" style="color: #39f;"></span>
                             </div><!-- End .dropdown-cart-total -->
-                            <div class="dropdown-cart-action">
+                            <div class="dropdown-cart-action" id="cart-action">
                                 <a href="CartManagementServlet" class="btn btn-primary">Xem Giỏ</a>
                             </div><!-- End .dropdown-cart-total -->
                         </div><!-- End .dropdown-menu -->
@@ -151,7 +150,7 @@
             <div class="container">
                 <div class="header-left">
                     <div class="dropdown category-dropdown">
-                        <a href="#" class="dropdown-toggle rounded" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Danh Mục Sản Ph">
+                        <a href="#" class="dropdown-toggle rounded" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Danh Mục Sản Phẩm">
                             Sản phẩm <i class="icon-angle-down"></i>
                         </a>
                         <div class="dropdown-menu rounded">
@@ -357,3 +356,38 @@
         </div><!-- End .mobile-menu-wrapper -->
     </div><!-- End .mobile-menu-container -->
     <script src="${pageContext.request.contextPath}/assets/js/addToCart.js?v=<%= System.currentTimeMillis()%>"></script>
+    <script>
+        function updateCartDisplay() {
+            var cartCountElement = document.getElementById('cart-count');
+            var cartCount = cartCountElement ? (parseInt(cartCountElement.textContent.trim()) || 0) : 0;
+            var cartAction = document.getElementById('cart-action');
+            var cartItems = document.getElementById('cart-items');
+            var cartPrice = document.getElementById('cart-price');
+
+            if (cartCount === 0) {
+                if (cartAction) cartAction.style.display = 'none';
+                if (cartItems && cartItems.innerHTML.trim() === '') {
+                    cartItems.innerHTML = '<p style="text-align: center; color: #777;">Giỏ hàng trống</p>';
+                }
+                if (cartPrice) cartPrice.textContent = '0 VNĐ';
+            } else {
+                if (cartAction) cartAction.style.display = 'block';
+            }
+        }
+
+        // Gọi khi trang tải xong
+        document.addEventListener('DOMContentLoaded', updateCartDisplay);
+
+        // Gọi khi dropdown giỏ hàng được mở (sử dụng sự kiện Bootstrap)
+        var cartDropdown = document.querySelector('.cart-dropdown .dropdown-menu');
+        if (cartDropdown) {
+            cartDropdown.addEventListener('shown.bs.dropdown', updateCartDisplay);
+        }
+
+        // Theo dõi thay đổi trên #cart-count (nếu addToCart.js cập nhật động)
+        var observer = new MutationObserver(updateCartDisplay);
+        var cartCountElement = document.getElementById('cart-count');
+        if (cartCountElement) {
+            observer.observe(cartCountElement, { childList: true, subtree: true });
+        }
+    </script>
