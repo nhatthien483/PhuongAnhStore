@@ -92,7 +92,7 @@ public class ProfileServlet extends HttpServlet {
                 user.setEmail(email);
                 user.setPhone(phone);
                 uDAO.updateUser(user);
-
+                session.setAttribute("user", user);
                 request.setAttribute("message", "Cập nhật thông tin cá nhân thành công.");
             } catch (SQLException e) {
                 e.printStackTrace();

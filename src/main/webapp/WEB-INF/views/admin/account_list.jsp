@@ -244,7 +244,7 @@
                                         </td>
 
                                         <td class="text-center text-nowrap">
-                                            <a href="${pageContext.request.contextPath}/admin/users?action=viewDetail&id=${user.userId}" class="btn btn-info btn-sm me-1"><i class="fas fa-eye"></i></a>
+                                            <%-- <a href="${pageContext.request.contextPath}/admin/users?action=viewDetail&id=${user.userId}" class="btn btn-info btn-sm me-1"><i class="fas fa-eye"></i></a> --%>
                                             <a href="${pageContext.request.contextPath}/admin/users?action=edit&id=${user.userId}" class="btn btn-warning btn-sm me-1"><i class="fas fa-edit"></i></a>
                                             <a href="${pageContext.request.contextPath}/admin/users?action=delete&id=${user.userId}" class="btn btn-danger btn-sm"
                                                onclick="return confirm('Xác nhận xoá người dùng?')"><i class="fas fa-trash-alt"></i></a>

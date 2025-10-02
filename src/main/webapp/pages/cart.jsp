@@ -134,7 +134,7 @@
 			e.preventDefault();
 			const code = document.querySelector("#voucher").value;
 
-			fetch("admin/voucher?action=check&code=" + encodeURIComponent(code))
+			fetch("/voucher?action=check&code=" + encodeURIComponent(code))
 				.then(res => res.json())
 				.then(data => {
 					console.log(data); // debug
