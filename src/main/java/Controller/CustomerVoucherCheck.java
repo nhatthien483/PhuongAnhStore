@@ -23,7 +23,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet(name = "VoucherServlet", urlPatterns = { "/customer/voucher" })
+@WebServlet(name = "VoucherServlet", urlPatterns = { "/voucherCustomer" })
 public class CustomerVoucherCheck extends HttpServlet {
 
     @Override

@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 })
                 .catch(error => {
                     console.error("Fetch Error:", error);
-                    showCartNotification("Lỗi kết nối!", "red");
+                    showCartNotification("Vui lòng đăng nhập hoặc đăng ký nếu chưa có tài khoản!", "red");
                 });
         });
     });
