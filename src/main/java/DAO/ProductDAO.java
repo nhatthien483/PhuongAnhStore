@@ -674,7 +674,11 @@ public class ProductDAO extends DBContext {
 
     public List<Product> getProductsByPriceRange(BigDecimal min, BigDecimal max) throws SQLException {
         List<Product> list = new ArrayList<>();
-        String sql = "SELECT p.*, c.category_name, ct.category_type_name FROM Product p JOIN Category c ON p.category_id = c.category_id JOIN CategoryType ct ON p.category_type_id = ct.category_type_id  WHERE product_price BETWEEN ? AND ? WHERE p.product_status = 1";
+        String sql = "SELECT p.*, c.category_name, ct.category_type_name " +
+                "FROM Product p " +
+                "JOIN Category c ON p.category_id = c.category_id " +
+                "JOIN CategoryType ct ON p.category_type_id = ct.category_type_id " +
+                "WHERE product_price BETWEEN ? AND ? AND p.product_status = 1";
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setBigDecimal(1, min);
             ps.setBigDecimal(2, max);
@@ -683,7 +687,6 @@ public class ProductDAO extends DBContext {
                 Category category = new Category(
                         rs.getInt("category_id"),
                         rs.getString("category_name"));
-
                 CategoryType categoryType = new CategoryType(
                         rs.getInt("category_type_id"),
                         rs.getString("category_type_name"));
