@@ -67,6 +67,7 @@
                         </p>
                         <p><strong>Tổng Tiền:</strong> <fmt:formatNumber value="${order.price}" type="currency" currencySymbol="₫" groupingUsed="true"/></p>
                         <p><strong>Mã Giảm Giá:</strong> ${order.voucherId > 0 ? order.voucherId : 'Không'}</p>
+                        <p><strong>Số Tiền Cần Thanh Toán:</strong> <fmt:formatNumber value="${order.payment.amount}" type="currency" currencySymbol="₫" groupingUsed="true"/></p>
                     </div>
                 </div>
                 
