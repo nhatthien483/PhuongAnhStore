@@ -76,7 +76,7 @@ public class ProductManagementServlet extends HttpServlet {
 
             } else if ("search".equals(action)) {
                 String keyword = request.getParameter("keyword");
-                List<Product> productList = productDAO.searchProductByKeywords(keyword);
+                List<Product> productList = productDAO.searchProductByKeywordsAdmin(keyword);
                 request.setAttribute("products", productList);
                 request.setAttribute("keyword", keyword);
                 request.getRequestDispatcher("/WEB-INF/views/admin/new_product_list.jsp").forward(request, response);
@@ -111,7 +111,7 @@ public class ProductManagementServlet extends HttpServlet {
                 request.setAttribute("totalPages", totalPages);
                 request.setAttribute("currentPage", currentPage);
                 // Gọi DAO để lấy danh sách tất cả sản phẩm
-                List<Product> productList = productDAO.getProductsByPage(currentPage, 60);
+                List<Product> productList = productDAO.getProductsByPageAdmin(currentPage, 60);
                 // Đưa danh sách sản phẩm lên request
                 request.setAttribute("productCount", productCount);
                 request.setAttribute("products", productList);
