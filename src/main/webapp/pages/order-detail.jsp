@@ -67,6 +67,8 @@
                         </p>
                         <p><strong>Tổng Tiền:</strong> <fmt:formatNumber value="${order.price}" type="currency" currencySymbol="₫" groupingUsed="true"/></p>
                         <p><strong>Mã Giảm Giá:</strong> ${order.voucherId > 0 ? order.voucherId : 'Không'}</p>
+                        <p><strong>Số Tiền Cần Thanh Toán:</strong> <fmt:formatNumber value="${order.payment.amount}" type="currency" currencySymbol="₫" groupingUsed="true"/></p>
+
                     </div>
                 </div>
                 
@@ -79,7 +81,7 @@
                         <c:if test="${not empty order.payment}">
                             <p><strong>Phương Thức:</strong> ${order.payment.method}</p>
                             <p><strong>Trạng Thái:</strong> ${order.payment.status}</p>
-                            <p><strong>Số Tiền:</strong> <fmt:formatNumber value="${order.payment.amount}" type="currency" currencySymbol="₫" groupingUsed="true"/></p>
+                            <p><strong>Số Tiền Thanh Toan:</strong> <fmt:formatNumber value="${order.payment.amount}" type="currency" currencySymbol="₫" groupingUsed="true"/></p>
                             <p><strong>Ngày Thanh Toán:</strong> <fmt:formatDate value="${order.payment.date}" pattern="dd/MM/yyyy HH:mm"/></p>
                             <p><strong>Mã Giao Dịch:</strong> ${order.payment.transactionId}</p>
                         </c:if>

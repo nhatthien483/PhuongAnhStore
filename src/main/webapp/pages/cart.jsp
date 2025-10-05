@@ -130,46 +130,46 @@
     <script src="assets/js/main.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/cart.js?v=<%= System.currentTimeMillis()%>"></script>
 	<script>
-		document.querySelector("#voucher-form").addEventListener("submit", function(e) {
-			e.preventDefault();
-			const code = document.querySelector("#voucher").value;
+document.querySelector("#voucher-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const code = document.querySelector("#voucher").value;
 
-			fetch("/voucherCustomer?action=check&code=" + encodeURIComponent(code))
-				.then(res => res.json())
-				.then(data => {
-					console.log(data); // debug
-					const discountInfoEl = document.getElementById("discount-info");
-					const cartCartPriceEl = document.getElementById("cart-cart-price");
-					const totalAfterDiscountEl = document.getElementById("cart-total-after-discount");
-					console.log("discountPercent:", data.discountPercent);
-					console.log("discountAmount:", data.discountAmount);
-					console.log("discountInfoEl:", discountInfoEl);
-					console.log("totalAfterDiscountEl:", totalAfterDiscountEl);
-					if (data.valid) {
-						alert(`Áp dụng thành công! Giảm: ` + data.discountPercent + "% (" + data.discountAmount + "đ)");
-						// Hiển thị thông tin giảm giá
-						if (discountInfoEl) {
-							discountInfoEl.innerText = data.discountPercent + "% (" + data.discountAmount + "đ)";
-						}
+    fetch("${pageContext.request.contextPath}/check-voucher?code=" + encodeURIComponent(code))
+        .then(res => res.json())
+        .then(data => {
+            console.log(data); // debug
+            const discountInfoEl = document.getElementById("discount-info");
+            const cartCartPriceEl = document.getElementById("cart-cart-price");
+            const totalAfterDiscountEl = document.getElementById("cart-total-after-discount");
+            console.log("discountPercent:", data.discountPercent);
+            console.log("discountAmount:", data.discountAmount);
+            console.log("discountInfoEl:", discountInfoEl);
+            console.log("totalAfterDiscountEl:", totalAfterDiscountEl);
+            if (data.valid) {
+                alert(`Áp dụng thành công! Giảm: ` + data.discountPercent + "% (" + data.discountAmount + "đ)");
+                // Hiển thị thông tin giảm giá
+                if (discountInfoEl) {
+                    discountInfoEl.innerText = data.discountPercent + "% (" + data.discountAmount + "đ)";
+                }
 
-						// Hiển thị tổng sau giảm
-						if (totalAfterDiscountEl) {
-							totalAfterDiscountEl.innerText = data.totalFormatted + " đ";
-						}
-					} else {
-						alert(data.message || "Mã giảm giá không hợp lệ hoặc đã hết hạn.");
+                // Hiển thị tổng sau giảm
+                if (totalAfterDiscountEl) {
+                    totalAfterDiscountEl.innerText = data.totalFormatted + " đ";
+                }
+            } else {
+                alert(data.message || "Mã giảm giá không hợp lệ hoặc đã hết hạn.");
 
-						// Không có giảm giá → lấy giá tạm tính làm tổng sau giảm
-						if (discountInfoEl) {
-							discountInfoEl.innerText = "";
-						}
-						if (totalAfterDiscountEl && cartCartPriceEl) {
-							totalAfterDiscountEl.innerText = cartCartPriceEl.innerText;
-						}
-					}
-				})
-				.catch(err => console.error(err));
-		});
-	</script>
+                // Không có giảm giá → lấy giá tạm tính làm tổng sau giảm
+                if (discountInfoEl) {
+                    discountInfoEl.innerText = "";
+                }
+                if (totalAfterDiscountEl && cartCartPriceEl) {
+                    totalAfterDiscountEl.innerText = cartCartPriceEl.innerText;
+                }
+            }
+        })
+        .catch(err => console.error(err));
+});
+</script>
 </body>
 </html>

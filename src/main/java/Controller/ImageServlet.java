@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package Controller;
+
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,9 +16,10 @@ import java.io.OutputStream;
 
 @WebServlet("/Images/*")
 public class ImageServlet extends HttpServlet {
-    //  private final String BASE_DIR = "D:/Document/PhuongAnhStore/Images"; // đường dẫn thư mục ảnh khi chạy local
+    // private final String BASE_IR = "D:/Document/PhuongAnhStore/Images"; // đường dẫn thư mục ảnh khi chạy local
 
-   private final String BASE_DIR = "/var/www/phuonganhstore/Images"; // đường dẫn thư mục ảnh khi chạy VPS
+    private final String BASE_DIR = "/var/www/phuonganhstore/Images"; // đường
+    // dẫn thư mục ảnh khi chạy VPS
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -35,12 +37,13 @@ public class ImageServlet extends HttpServlet {
         }
 
         String mime = request.getServletContext().getMimeType(imageFile.getName());
-        if (mime == null) mime = "application/octet-stream";
+        if (mime == null)
+            mime = "application/octet-stream";
         response.setContentType(mime);
         response.setContentLength((int) imageFile.length());
 
         try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(imageFile));
-             OutputStream out = response.getOutputStream()) {
+                OutputStream out = response.getOutputStream()) {
 
             byte[] buffer = new byte[4096];
             int bytesRead;
