@@ -568,16 +568,16 @@
                                                     <label for="brand-3">Hoco</label>
                                                 </div>
                                                 <div class="filter-item">
-                                                    <input type="checkbox" name="brand" value="Wiwu" id="brand-3">
-                                                    <label for="brand-3">Wiwu</label>
+                                                    <input type="checkbox" name="brand" value="Wiwu" id="brand-4">
+                                                    <label for="brand-4">Wiwu</label>
                                                 </div>
                                                 <div class="filter-item">
-                                                    <input type="checkbox" name="brand" value="KingKong" id="brand-3">
-                                                    <label for="brand-3">KingKong</label>
+                                                    <input type="checkbox" name="brand" value="KingKong" id="brand-5">
+                                                    <label for="brand-5">KingKong</label>
                                                 </div>
                                                 <div class="filter-item">
-                                                    <input type="checkbox" name="brand" value="Remax" id="brand-3">
-                                                    <label for="brand-3">Remax</label>
+                                                    <input type="checkbox" name="brand" value="Remax" id="brand-6">
+                                                    <label for="brand-6">Remax</label>
                                                 </div>
                                             </div>
 
