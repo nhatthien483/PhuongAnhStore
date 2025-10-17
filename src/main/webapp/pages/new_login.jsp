@@ -50,14 +50,14 @@
 					<span class="login100-form-title p-b-53">
 						Đăng Nhập
 					</span>
-					<a href="#" class="btn-face m-b-20">
+					<%-- <a href="#" class="btn-face m-b-20">
 						<i class="fa fa-facebook-official"></i>
 						Facebook
 					</a>
 					<a href="#" class="btn-google m-b-20">
 						<img src="${pageContext.request.contextPath}/assets/login_assets/images/icons/icon-google.png" alt="GOOGLE">
 						Google
-					</a>
+					</a> --%>
 					
 					<div class="p-t-31 p-b-9">
 						<span class="txt1">

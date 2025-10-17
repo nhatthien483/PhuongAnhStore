@@ -47,8 +47,16 @@
 
                                 <div class="mb-3">
                                     <label class="form-label">Số điện thoại</label>
-                                    <input type="text" name="phone" class="form-control" required />
+                                    <input 
+                                        type="text" 
+                                        name="phone" 
+                                        class="form-control" 
+                                        required 
+                                        pattern="^0\d{9}$" 
+                                        title="Số điện thoại phải bắt đầu bằng 0 và gồm 10 chữ số."
+                                    />
                                 </div>
+
 
                                 <div class="mb-3">
                                     <label class="form-label">Địa chỉ</label>

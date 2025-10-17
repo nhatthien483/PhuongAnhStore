@@ -48,7 +48,6 @@ public class QrGenServlet extends HttpServlet {
         // Nội dung chuyển khoản
         String addInfo = "Thanh toan don hang " + System.currentTimeMillis();
         session.setAttribute("paymentId", addInfo);
-        session.setAttribute("qrBankingFlag", "qrBankingFlag");
         // Encode account name và nội dung
         String encodedAccountName = java.net.URLEncoder.encode(ACCOUNT_NAME, "UTF-8");
         String encodedInfo = java.net.URLEncoder.encode(addInfo, "UTF-8");

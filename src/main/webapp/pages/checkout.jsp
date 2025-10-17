@@ -136,7 +136,7 @@
                                                     </div>
                                                     <div id="collapse-2" class="collapse" aria-labelledby="heading-2" data-parent="#accordion-payment">
                                                         <div class="card-body" style="text-align:center;">
-                                                            <p>Quý khách chuyển khoản xong vui lòng đợi từ 5-15 phút (giờ làm việc) để đơn hàng được xử lý.<br>Nếu có sự cố vui lòng liên hệ hotline: 0901050697</p>
+                                                            <p>Quý khách chuyển khoản xong vui lòng đợi từ 10-30 phút (giờ làm việc) để đơn hàng được xử lý.<br>Nếu có sự cố vui lòng liên hệ hotline: 0901050697</p>
                                                             <div id="qr-container" style="display:none;">
                                                                 <img id="qr-image" src="" alt="QR Code" style="max-width:200px;">
                                                             </div>

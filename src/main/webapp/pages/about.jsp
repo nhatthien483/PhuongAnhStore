@@ -315,9 +315,10 @@
              <li><span class="highlight">Liên hệ chúng tôi qua:</span>
                 <ul>
                     <li>Địa chỉ: 163N, Nguyễn Văn Cừ, Phường Tân An, Thành Phố Cần Thơ</li>
-                    <li>SĐT / Zalo: 0901050697</li>
+                    <li>SĐT/Zalo: 0901050697</li>
+                    <li>Facebook: https://www.facebook.com/share/1BJkgip4ob/</li>
                     <li>Fanpage / Website: phuonganhstore.vn</li>
-                    <li>Email CSKH (nếu có): pkphuonganhstore@gmail.com</li>
+                    <li>Email CSKH: pkphuonganhstore@gmail.com</li>
                 </ul>
             </li>
         </ol>
