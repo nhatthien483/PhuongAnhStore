@@ -48,16 +48,16 @@
                         <div class="stats-card-content">
                             <div class="stats-info">
                                 <div class="stats-header">
-                                    <h5>Tổng Số Sản Phẩm</h5>
+                                    <h5>Tổng Số Sản Phẩm Hiển Thị</h5>
                                     <div class="stats-icon">
                                         <i class="fas fa-product"></i>
                                     </div>
                                 </div>
                                 <div class="stats-data">
-                                    <h3>${productCount}</h3>
+                                    <h3>${productCountEnable}/${productCount}</h3>
                                     <div class="stats-trend positive">
                                         <i class="fas fa-arrow-up"></i>
-                                        <span>3.48%</span>
+                                        <span>%</span>
                                         <span class="trend-label">so với tháng trước</span>
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@
                                     <h3>${totalOrders}</h3>
                                     <div class="stats-trend negative">
                                         <i class="fas fa-arrow-down"></i>
-                                        <span>1.08%</span>
+                                        <span>%</span>
                                         <span class="trend-label">so với tháng trước</span>
                                     </div>
                                 </div>
@@ -123,7 +123,7 @@
                                     <h3><c:out value="${totalRevenue}" />VNĐ</h3>
                                     <div class="stats-trend positive">
                                         <i class="fas fa-arrow-up"></i>
-                                        <span>8.32%</span>
+                                        <span>%</span>
                                         <span class="trend-label">so với tháng trước</span>
                                     </div>
                                 </div>

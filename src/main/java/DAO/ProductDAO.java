@@ -36,6 +36,18 @@ public class ProductDAO extends DBContext {
         }
         return 0;
     }
+    public int countEnable() {
+        String sql = "SELECT COUNT(*) FROM product WHERE product_status = 1";
+        Connection conn = this.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+            if (rs.next())
+                return rs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
     public List<Product> getProductsByPageAdmin(int page, int pageSize) {
         List<Product> list = new ArrayList<>();

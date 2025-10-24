@@ -40,8 +40,9 @@ public class DashBoardServlet extends HttpServlet {
 
         int userCount = userDAO.countAll();
         int productCount = productDAO.countAll();
-        
+        int productCountEnabled = productDAO.countEnable();
         request.setAttribute("userCount", userCount);
+        request.setAttribute("productCountEnable", productCountEnabled);
         request.setAttribute("productCount", productCount);
         request.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(request, response);
     }
