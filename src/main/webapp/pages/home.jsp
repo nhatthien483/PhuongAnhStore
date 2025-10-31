@@ -60,7 +60,7 @@
                      "autoplayHoverPause": false
                      }'>
                     <div class="intro-slide" style="background-image: url('${pageContext.request.contextPath}/assets/images/slider/banner3_remake.png');"></div>
-                    <div class="intro-slide" style="background-image: url('${pageContext.request.contextPath}/assets/images/slider/banner4.png');"></div>
+                    <div class="intro-slide" style="background-image: url('${pageContext.request.contextPath}/assets/images/slider/banner4_remake.png');"></div>
                     <div class="intro-slide" style="background-image: url('${pageContext.request.contextPath}/assets/images/slider/slide-2.png');"></div>
                 </div>
             </div>
