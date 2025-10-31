@@ -56,9 +56,10 @@
                      "nav": false,
                      "dots": false,
                      "autoplay": true,
-                     "autoplayTimeout": 3000,
+                     "autoplayTimeout": 5000,
                      "autoplayHoverPause": false
                      }'>
+                    <div class="intro-slide" style="background-image: url('${pageContext.request.contextPath}/assets/images/slider/banner-3.png');"></div>
                     <div class="intro-slide" style="background-image: url('${pageContext.request.contextPath}/assets/images/slider/slide-1.png');"></div>
                     <div class="intro-slide" style="background-image: url('${pageContext.request.contextPath}/assets/images/slider/slide-2.png');"></div>
                 </div>
