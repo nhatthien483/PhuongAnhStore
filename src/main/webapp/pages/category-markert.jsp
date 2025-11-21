@@ -480,7 +480,7 @@
                                                             Phụ Kiện Chơi Game
                                                         </a>
                                                     </h5>
-                                                    <div id="collapse-3" class="collapse" data-parent="#widget-cat-acc">
+                                                    <div id="collapse-8" class="collapse" data-parent="#widget-cat-acc">
                                                         <div class="collapse-wrap">
                                                             <ul>
                                                                 <li><a href="${pageContext.request.contextPath}/list-all-product?action=sortByCategoryName&type=PhuKienChoiGame">Tất Cả</a></li>
@@ -519,7 +519,7 @@
                                                             Phụ Kiện Khác
                                                         </a>
                                                     </h5>
-                                                    <div id="collapse-3" class="collapse" data-parent="#widget-cat-acc">
+                                                    <div id="collapse-10" class="collapse" data-parent="#widget-cat-acc">
                                                         <div class="collapse-wrap">
                                                             <ul>                                                             
                                                                 <li><a href="${pageContext.request.contextPath}/list-all-product?action=sortByCategoryName&type=PhuKienKhac">Khác</a></li>
