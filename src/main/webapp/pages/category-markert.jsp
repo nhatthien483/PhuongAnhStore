@@ -381,7 +381,7 @@
                                                         <div class="collapse-wrap">
                                                             <ul>
                                                                 <li><a href="${pageContext.request.contextPath}/list-all-product?action=sortByCategoryNameAndCategoryTypeName&categoryName=ThietBiAmThanh&categoryTypeName=LoaKhongDay">Loa Không Dây</a></li>
-                                                                <li><a href="${pageContext.request.contextPath}/list-all-product?action=sortByCategoryNameAndCategoryTypeName&categoryName=ThietBiAmThanh&categoryTypeName=LoaKhongDay">Tai Nghe Có Dây</a></li>
+                                                                <li><a href="${pageContext.request.contextPath}/list-all-product?action=sortByCategoryNameAndCategoryTypeName&categoryName=ThietBiAmThanh&categoryTypeName=TaiNgheCoDay">Tai Nghe Có Dây</a></li>
                                                                 <li><a href="${pageContext.request.contextPath}/list-all-product?action=sortByCategoryNameAndCategoryTypeName&categoryName=ThietBiAmThanh&categoryTypeName=TaiNgheKhongDay">Tai Nghe Không Dây</a></li>
                                                                 <li><a href="${pageContext.request.contextPath}/list-all-product?action=sortByCategoryNameAndCategoryTypeName&categoryName=ThietBiAmThanh&categoryTypeName=LoaViTinh">Loa Vi Tính</a></li>
                                                                 <li><a href="${pageContext.request.contextPath}/list-all-product?action=sortByCategoryNameAndCategoryTypeName&categoryName=ThietBiAmThanh&categoryTypeName=LoaKaraoke">Loa Karaoke</a></li>
@@ -480,21 +480,13 @@
                                                             Phụ Kiện Chơi Game
                                                         </a>
                                                     </h5>
-                                                    <%-- <div id="collapse-3" class="collapse" data-parent="#widget-cat-acc">
+                                                    <div id="collapse-3" class="collapse" data-parent="#widget-cat-acc">
                                                         <div class="collapse-wrap">
                                                             <ul>
-                                                                <li><a href="#">Cáp Chuyển Đổi</a></li>
-                                                                <li><a href="#">HUB - Bộ Chuyển Đổi</a></li>
-                                                                <li><a href="#">Cáp Nối Dài</a></li>
-                                                                <li><a href="#">Đầu Đọc Thẻ</a></li>
-                                                                <li><a href="#">OTG</a></li>
-                                                                <li><a href="#">USB</a></li>
-                                                                <li><a href="#">Ổ Cứng</a></li>
-                                                                <li><a href="#">Thẻ Nhớ</a></li>
-                                                                <li><a href="#">Khác</a></li>
+                                                                <li><a href="${pageContext.request.contextPath}/list-all-product?action=sortByCategoryName&type=PhuKienChoiGame">Tất Cả</a></li>
                                                             </ul>
                                                         </div><!-- End .collapse-wrap -->
-                                                    </div><!-- End .collapse --> --%>
+                                                    </div><!-- End .collapse -->
                                                 </div><!-- End .acc-item -->
 
                                                 <div class="acc-item">
@@ -527,20 +519,13 @@
                                                             Phụ Kiện Khác
                                                         </a>
                                                     </h5>
-                                                    <%-- <div id="collapse-3" class="collapse" data-parent="#widget-cat-acc">
+                                                    <div id="collapse-3" class="collapse" data-parent="#widget-cat-acc">
                                                         <div class="collapse-wrap">
-                                                            <ul>
-                                                                <li><a href="#">Ốp Lưng Điện Thoại</a></li>
-                                                                <li><a href="#">Ốp Lưng Ipad - Tablet</a></li>
-                                                                <li><a href="#">Cường Lực Điện Thoại</a></li>
-                                                                <li><a href="#">Cường Lực Ipad - Tablet</a></li>
-                                                                <li><a href="#">Case Airpod</a></li>
-                                                                <li><a href="#">PPF - Nano</a></li>
-                                                                <li><a href="#">Bảo Vệ Camera</a></li>
-                                                                <li><a href="#">Khác</a></li>
+                                                            <ul>                                                             
+                                                                <li><a href="${pageContext.request.contextPath}/list-all-product?action=sortByCategoryName&type=PhuKienKhac">Khác</a></li>
                                                             </ul>
                                                         </div><!-- End .collapse-wrap -->
-                                                    </div><!-- End .collapse --> --%>
+                                                    </div><!-- End .collapse -->
                                                 </div><!-- End .acc-item -->
 
 
