@@ -154,7 +154,7 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="banner banner-overlay banner-overlay-light">
                             <a href="${pageContext.request.contextPath}/list-all-product?action=sortByCategoryName&type=PhuKienSac">
-                                <img src="${pageContext.request.contextPath}/assets/images/banner/cu-sac-banner.png" alt="Banner">
+                                <img src="${pageContext.request.contextPath}/assets/images/banner/SacTet.png" alt="Banner">
                             </a>
 
                             <%-- <div class="banner-content">
@@ -168,7 +168,7 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="banner banner-overlay banner-overlay-light">
                             <a href="${pageContext.request.contextPath}/list-all-product?action=sortByCategoryNameAndCategoryTypeName&categoryName=PhuKienSac&categoryTypeName=SacDuPhong">
-                                <img src="${pageContext.request.contextPath}/assets/images/banner/sac-du-phong-banner.png" alt="Banner">
+                                <img src="${pageContext.request.contextPath}/assets/images/banner/SacDuPhongTet.png" alt="Banner">
                             </a>
 
                             <%-- <div class="banner-content">
@@ -182,7 +182,7 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="banner banner-overlay banner-overlay-light">
                             <a href="${pageContext.request.contextPath}/list-all-product?action=sortByCategoryNameAndCategoryTypeName&categoryName=ThietBiAmThanh&categoryTypeName=TaiNgheKhongDay">
-                                <img src="${pageContext.request.contextPath}/assets/images/banner/tai-nghe-banner.png" alt="Banner">
+                                <img src="${pageContext.request.contextPath}/assets/images/banner/TaiNgheTet.png" alt="Banner">
                             </a>
 
                             <%-- <div class="banner-content">
