@@ -243,23 +243,27 @@
                      }
                      }'>
                     <a href="${pageContext.request.contextPath}/list-all-product?action=sortByBrand&brandName=Baseus" class="brand">
-                        <img src="${pageContext.request.contextPath}/assets/images/brands/baseus-logo.png" alt="Brand Name">
+                        <img src="${pageContext.request.contextPath}/assets/images/brands/baseus-logo.png" alt="Baseus">
                     </a>
 
                     <a href="${pageContext.request.contextPath}/list-all-product?action=sortByBrand&brandName=Wiwu" class="brand">
-                        <img src="${pageContext.request.contextPath}/assets/images/brands/wiwu-logo.png" alt="Brand Name">
+                        <img src="${pageContext.request.contextPath}/assets/images/brands/wiwu-logo.png" alt="Wiwu">
                     </a>
 
                     <a href="${pageContext.request.contextPath}/list-all-product?action=sortByBrand&brandName=Hoco" class="brand">
-                        <img src="${pageContext.request.contextPath}/assets/images/brands/hoco-logo.png" alt="Brand Name">
+                        <img src="${pageContext.request.contextPath}/assets/images/brands/hoco-logo.png" alt="Hoco">
                     </a>
 
                     <a href="${pageContext.request.contextPath}/list-all-product?action=sortByBrand&brandName=Remax" class="brand">
-                        <img src="${pageContext.request.contextPath}/assets/images/brands/remax-logo.png" alt="Brand Name">
+                        <img src="${pageContext.request.contextPath}/assets/images/brands/remax-logo.png" alt="Remax">
                     </a>
 
                     <a href="${pageContext.request.contextPath}/list-all-product?action=sortByBrand&brandName=Anker" class="brand">
-                        <img src="${pageContext.request.contextPath}/assets/images/brands/anker-logo.png" alt="Brand Name">
+                        <img src="${pageContext.request.contextPath}/assets/images/brands/anker-logo.png" alt="Anker">
+                    </a>
+
+                    <a href="${pageContext.request.contextPath}/list-all-product?action=sortByBrand&brandName=Ugreen" class="brand">
+                        <img src="${pageContext.request.contextPath}/assets/images/brands/ugreen-logo.png" alt="Ugreen">
                     </a>
                 </div><!-- End .owl-carousel -->
             </div><!-- End .container -->
