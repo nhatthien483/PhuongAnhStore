@@ -59,10 +59,10 @@
                      "autoplayTimeout": 5000,
                      "autoplayHoverPause": false
                      }'>
-                    <div class="intro-slide" style="background-image: url('${pageContext.request.contextPath}/assets/images/slider/BannerTet.png');"></div>
-                    <div class="intro-slide" style="background-image: url('${pageContext.request.contextPath}/assets/images/slider/banner3_remake.png');"></div>
-                    <div class="intro-slide" style="background-image: url('${pageContext.request.contextPath}/assets/images/slider/banner4_remake.png');"></div>
-                    <div class="intro-slide" style="background-image: url('${pageContext.request.contextPath}/assets/images/slider/slide-2.png');"></div>
+                    <div class="intro-slide" style="background-image: url('${pageContext.request.contextPath}/assets/images/slider/1.png');"></div>
+                    <div class="intro-slide" style="background-image: url('${pageContext.request.contextPath}/assets/images/slider/2.png');"></div>
+                    <div class="intro-slide" style="background-image: url('${pageContext.request.contextPath}/assets/images/slider/3.png');"></div>
+                    <div class="intro-slide" style="background-image: url('${pageContext.request.contextPath}/assets/images/slider/4.png');"></div>
                 </div>
             </div>
 

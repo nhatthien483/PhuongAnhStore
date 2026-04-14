@@ -21,33 +21,25 @@ body, html {
 .intro-slider-container {
     width: 100%;
     overflow: hidden;
+    aspect-ratio: 16 / 9;
+}
+
+.intro-slider-container .intro-slider,
+.intro-slider-container .owl-stage-outer,
+.intro-slider-container .owl-stage,
+.intro-slider-container .owl-item {
+    height: 100%;
 }
 
 /* Slide từng ảnh */
 .intro-slide {
     width: 100%;
-    height: 760px;
+    height: 100%;
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
 }
-@media (max-width: 992px) {
-    .intro-slide {
-        height: 370px;
-    }
-}
 
-@media (max-width: 768px) {
-    .intro-slide {
-        height: 270px;
-    }
-}
-
-@media (max-width: 480px) {
-    .intro-slide {
-        height: 200px;
-    }
-}
 
 .intro-subtitle {
     margin-bottom: .5rem

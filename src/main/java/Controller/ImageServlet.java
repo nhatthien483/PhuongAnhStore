@@ -4,22 +4,24 @@
  */
 package Controller;
 
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 @WebServlet("/Images/*")
 public class ImageServlet extends HttpServlet {
-    // private final String BASE_DIR = "D:/Document/PhuongAnhStore/Images"; // đường dẫn thư mục ảnh khi chạy local
+    // private final String BASE_DIR = "D:/Document/PhuongAnhStore/Images"; // đường
+    // dẫn thư mục ảnh khi chạy locals
 
-    private final String BASE_DIR = "/var/www/phuonganhstore/Images"; // đường
-    // dẫn thư mục ảnh khi chạy VPS
+    private final String BASE_DIR = "/var/www/phuonganhstore/Images";
+    // đường dẫn thư mục ảnh khi chạy VPS
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

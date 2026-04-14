@@ -1,20 +1,30 @@
 package Controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.nio.file.Paths;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import DAO.ProductDAO;
 import Model.Category;
 import Model.CategoryType;
 import Model.Product;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
-
-import java.io.*;
-import java.math.BigDecimal;
-import java.nio.file.Paths;
-import java.sql.SQLException;
-import java.util.*;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 
 @WebServlet("/admin/productManagement")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1MB
@@ -46,7 +56,8 @@ public class ProductManagementServlet extends HttpServlet {
                     productDAO.deleteProduct(id);
                     request.getSession().setAttribute("notification", "Xóa sản phẩm thành công!");
                 } catch (Exception e) {
-                    request.getSession().setAttribute("notification", "Không thể xóa sản phẩm! Có thể sản phẩm đang nằm trong giỏ hàng hoặc đơn hàng.");
+                    request.getSession().setAttribute("notification",
+                            "Không thể xóa sản phẩm! Có thể sản phẩm đang nằm trong giỏ hàng hoặc đơn hàng.");
                     response.sendRedirect(request.getContextPath() + "/admin/productManagement");
                     return;
                 }
